@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $offers = Offer::orderBy('id','desc')->get();
+        $offers = Offer::orderBy('id','asc')->get();
 
         return view('admin.addproduct', compact('offers'));
     }
@@ -95,9 +95,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::where('product_id', $id)->first();
-        $offers = Offer::orderBy('id','desc')->get();
 
-        return view('admin/updateproduct', compact('product', 'offers'));        
+        return view('admin/updateproduct', compact('product'));        
     }
 
     public function update($id, Request $request)
