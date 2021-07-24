@@ -66,6 +66,10 @@
                     <a class="nav-link active" aria-current="page" href="/manageuser">User</a>
                 </li>
                 @endif
+				
+				<li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/customer-support">Customer Support</a>
+                </li>
             </ul>
 
             {{-- right element --}}
