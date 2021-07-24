@@ -17,7 +17,7 @@ Sales Report
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group">
             <!-- Button trigger modal exportProgram -->
-            <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exportProgram">
+            <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exportProgram">
               <i class="bi bi-download pr-2"></i>Export Buyer
             </button>
             <!-- Modal -->
@@ -34,33 +34,35 @@ Sales Report
                   @csrf
                   
                     <div class='col-md-12 px-4'>
-                      <p>Please choose data that you want to export :</p>
+                      <p>Please choose the data that you want to export :</p>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                        <input class="form-check-input" type="radio" name="filter_export" id="exampleRadios2" value="success_payment">
                         <label class="form-check-label" for="exampleRadios2">
                           Success Payment Only
                         </label>
-                      </div><div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="filter_export" id="exampleRadios2" value="updated_participant">
                         <label class="form-check-label" for="exampleRadios2">
-                          Updated Participant Only
+                          Updated Participant Form Only
                         </label>
-                      </div><div class="form-check">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="filter_export" id="exampleRadios2" value="all_buyer">
                         <label class="form-check-label" for="exampleRadios2">
                           All Buyer
                         </label>
                       </div>
                     </div>
 
-                    <div class='col-md-12 text-right px-4'>
-                        <button type='submit' class='btn btn-success'> <i class="bi bi-save pr-2"></i>Save</button>
+                    <div class='col-md-12 text-right px-4 pb-4'>
+                      <button type='submit' class='btn btn-success'> <i class="bi bi-download pr-2"></i>Export</button>
                     </div>
                   </form>
                 </div>
               </div>
             </div>
-            <a class="btn btn-sm btn-outline-warning" href="{{ url('exportProgram') }}/{{ $product->product_id }}"><i class="bi bi-download pr-2"></i>Export Buyer</a>
+
             <a class="btn btn-sm btn-outline-warning" href="{{ url('export-participant') }}/{{ $product->product_id }}"><i class="bi bi-download pr-2"></i>Export Participant</a>
           </div>
         </div>
