@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Mail\TestMail;
 use App\Http\Controllers\PDFController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\StudentAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -341,6 +342,15 @@ Route::get("/smsblast/edit/{id}", 'SmsBulk@edit');
 Route::put("/smsblast/edit/{id}", 'SmsBulk@update');
 Route::get("/smsblast/delete/{id}", 'SmsBulk@del');
 Route::delete("/smsblast/delete/{id}", 'SmsBulk@remove');
+
+Route::prefix('student')->group(function() {
+    Route::get('/login','StudentAuthController@showLoginForm')->name('student.login');
+    Route::post('/login', 'StudentAuthController@login')->name('student.login.submit');
+    Route::get('logout/', 'StudentAuthController@logout')->name('student.logout');
+    Route::get('/', 'StudentController@index')->name('student.dashboard');
+   }) ;
+
+
 
 
 

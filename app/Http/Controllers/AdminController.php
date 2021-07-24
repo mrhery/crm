@@ -32,7 +32,7 @@ class AdminController extends Controller
 
     /*-- Dashboard --------------------------------------------------------*/
     public function dashboard(Request $request){      
-        
+
         // get date and time
         $date_today = Carbon::now('Asia/Kuala_Lumpur')->format('d-m-Y');
         $current_time = Carbon::now('Asia/Kuala_Lumpur')->format('h:i a');
