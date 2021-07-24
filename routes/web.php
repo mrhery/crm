@@ -188,8 +188,9 @@ Route::get('verification/{product_id}/{package_id}', 'HomeController@detailsic')
 |--------------------------------------------------------------------------
 */
 
-Route::get('customer_profiles', 'ExistCustomerController@customerProfiles');
-Route::get('customer_profiles/{id}', 'ExistCustomerController@customerProfile');
+Route::get('customer_profiles', 'customerProfileController@customerProfiles');
+Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile');
+Route::get('customer_profiles/{id}/{event_id}', 'customerProfileController@customerPayment');
 // Route::get('customers', 'ExistCustomerController@customers');
 
 // Newstudent
