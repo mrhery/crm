@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\SMSBulkModel;
 use App\SMSTemplateModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 use Auth;
 
@@ -26,9 +27,11 @@ class SmsBulk extends Controller
 			
 			if($t->count() > 0){
 				$d->title = $t->first()->title;
-				
-				$data[] = $d;
+			}else{
+				$d->title = "NIL";
 			}
+			
+			$data[] = $d;
 		}
 		
 		$x = $data;
@@ -43,23 +46,25 @@ class SmsBulk extends Controller
      */
     public function create(Request $request)
     {
-        $t = SMSTemplateModel::where("id", $request->template);
+		Http::get('http://cloudsms.trio-mobile.com/index.php/api/bulk_mt?api_key='. env("TRIO_KEY") .'&action=send&to='. $request->phone .'&msg='. $request->message .'&sender_id=CLOUDSMS&content_type=1&mode=shortcode');
 		
-		if($t->count() > 0){
-			$t = $t->first();
+		SMSBulkModel::create([
+			"phone"		=> $request->phone,
+			"message"	=> $request->message,
+			"user_id"	=> Auth::user()->id,
+			"template_id" => 0
+		]);
+		
+		return redirect("smsblast")->with('success', 'Message has been sent to '. $request->phone .'.');
+        // $t = SMSTemplateModel::where("id", $request->template);
+		
+		// if($t->count() > 0){
+			// $t = $t->first();
 			
-			//NUC130101000036249535fb5accab169524b40e5468bd1de5
 			
-			SMSBulkModel::create([
-				"phone"		=> $request->phone,
-				"template_id"	=> $t->id,
-				"user_id"	=> Auth::user()->id
-			]);
-			
-			return redirect("smsblast")->with('success', 'Message has been sent to '. $request->template .'.');
-		}else{
-			return redirect("smsblast")->with('error', 'Selected template is not available.');
-		}
+		// }else{
+			// return redirect("smsblast")->with('error', 'Selected template is not available.');
+		// }
     }
 	
 	public function create_bulk(Request $request)
