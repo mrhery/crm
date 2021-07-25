@@ -48,7 +48,7 @@ Customer Profiles
         </form>
         
         <table class="table table-hover">
-            <thead class="table-dark">
+            <thead class="">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
@@ -78,7 +78,6 @@ Customer Profiles
                 </tr>
                 @empty
                 <tr>
-                    
                     <td colspan="5" class="text-center">No result founds for query {{ request()->query('search') }}</td>
                 </tr>
                 @endforelse
