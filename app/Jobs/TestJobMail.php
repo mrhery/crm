@@ -13,16 +13,16 @@ use Mail;
 class TestJobMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $email, $names;
+    protected $email, $rows;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email, $names)
+    public function __construct($rows, $email)
     {
+        $this->rows = $rows;
         $this->email = $email;
-        $this->names = $names;
     }
 
     /**
@@ -33,12 +33,12 @@ class TestJobMail implements ShouldQueue
     public function handle()
     {
         // Mail::to($this->email)->send(new Testmail("ttt"));
-
+        $rows = $this->rows;
         $email = $this->email;
-        $names = $this->names;
 
-        foreach(array_keys($email) as $i){
-            Mail::to($email[$i])->send(new Testmail($names[$i]));
+        foreach($rows as $row){
+            
+            Mail::to($row["email"])->send(new Testmail($row["name"], $email));
         }
     }
 }
