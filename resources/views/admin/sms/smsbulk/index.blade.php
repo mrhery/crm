@@ -52,7 +52,8 @@
 						<th>#</th>
 						<th>Date</th>
 						<th>Phone</th>
-						<th>Title</th>
+						<th>Template Title</th>
+						<th>Message</th>
 					</tr>
 				</thead>
 				
@@ -72,6 +73,10 @@
 						
 						<td>
 							{{ $t->title }}
+						</td>
+						
+						<td>
+							{{ $t->message }}
 						</td>
 					</tr>
 				@endforeach
@@ -95,12 +100,8 @@
 			<div class="modal-body">
 				<form action="{{ url('smsblast/send') }}" method="POST"> 
 					@csrf
-					Template:
-					<select class="form-control" name="template">
-					@foreach ($y as $k => $t)
-						<option value="{{ $t->id }}">{{ $t->title }}</option>
-					@endforeach
-					</select><br />
+					Message:
+					<textarea class="form-control" name="message" placeholder="Avoid using '&' in this message."></textarea><br />
 					
 					Phone Number:
 					<textarea class="form-control" name="phone" placeholder="seperated by comma ','"></textarea><br />

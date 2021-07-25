@@ -9,6 +9,6 @@ class SMSBulkModel extends Model
     protected $table = 'smsbulk';
 	
 	protected $fillable = [
-        'phone', 'template_id', 'user_id'
+        'phone', 'template_id', 'user_id', 'message'
     ];
 }

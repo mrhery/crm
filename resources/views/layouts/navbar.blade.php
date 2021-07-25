@@ -34,7 +34,7 @@
                         
                         @if(Auth::user()->role_id == 'ROD003' || Auth::user()->role_id == 'ROD004')
                         @else   
-                        <li><a class="dropdown-item" href=""><i class="bi bi-chat-left-text pr-2"></i>SMS Blasting</a></li>
+                        <li><a class="dropdown-item" href="/smsblast"><i class="bi bi-chat-left-text pr-2"></i>SMS Blasting</a></li>
 						<li><a class="dropdown-item" href="/smstemplate"><i class="bi bi-chat-left-text pr-2"></i>SMS Template</a></li>
                         @endif
                     </ul>
@@ -66,6 +66,10 @@
                     <a class="nav-link active" aria-current="page" href="/manageuser">User</a>
                 </li>
                 @endif
+				
+				<li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/customer-support">Customer Support</a>
+                </li>
             </ul>
 
             {{-- right element --}}

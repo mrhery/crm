@@ -190,9 +190,9 @@ Route::get('verification/{product_id}/{package_id}', 'HomeController@detailsic')
 */
 
 Route::get('customer_profiles', 'customerProfileController@customerProfiles');
-Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile');
-Route::get('customer_profiles/{id}/{event_id}', 'customerProfileController@customerPayment');
-// Route::get('customers', 'ExistCustomerController@customers');
+Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile')->name('customerProfile');
+Route::post('update_cust/{id}', 'customerProfileController@customerUpdate');
+Route::post('add_comment/{id}', 'customerProfileController@customerAddComment');
 
 // Newstudent
 Route::get('maklumat-pembeli/{product_id}/{package_id}/{get_ic}', 'NewCustomerController@createStepOne');
@@ -345,12 +345,14 @@ Route::get("/smsblast/delete/{id}", 'SmsBulk@del');
 Route::delete("/smsblast/delete/{id}", 'SmsBulk@remove');
 
 Route::prefix('student')->group(function() {
-    Route::get('/login','StudentAuthController@showLoginForm')->name('student.login');
-    Route::post('/login', 'StudentAuthController@login')->name('student.login.submit');
-    Route::get('logout/', 'StudentAuthController@logout')->name('student.logout');
-    Route::get('/', 'StudentController@index')->name('student.dashboard');
-   }) ;
+	Route::get('/login','StudentAuthController@showLoginForm')->name('student.login');
+	Route::post('/login', 'StudentAuthController@login')->name('student.login.submit');
+	Route::get('logout/', 'StudentAuthController@logout')->name('student.logout');
+	Route::get('/', 'StudentController@index')->name('student.dashboard');
+});
 
+
+Route::get("customer-support", 'CustomerSupport@index');
 
 
 
