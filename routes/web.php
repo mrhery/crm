@@ -191,7 +191,6 @@ Route::get('verification/{product_id}/{package_id}', 'HomeController@detailsic')
 
 Route::get('customer_profiles', 'customerProfileController@customerProfiles');
 Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile')->name('customerProfile');
-// Route::get('customer_profiles/{id}/{event_id}', 'customerProfileController@customerPayment');
 Route::post('update_cust/{id}', 'customerProfileController@customerUpdate');
 Route::post('add_comment/{id}', 'customerProfileController@customerAddComment');
 
