@@ -33,14 +33,14 @@
 		@if (session('success'))
 		<div class="alert alert-success alert-block">
 			<button type="button" class="close" data-bs-dismiss="alert">×</button>	
-			<strong>{{ $message }}</strong>
+			<strong>{{ session('success') }}</strong>
 		</div>
 		@endif
 		
 		@if (session('error'))
 		<div class="alert alert-danger alert-block">
 			<button type="button" class="close" data-bs-dismiss="alert">×</button>	
-			<strong>{{ $message }}</strong>
+			<strong>{{ session('error') }}</strong>
 		</div>
 		@endif
 		
@@ -138,12 +138,12 @@
 					@endforeach
 					</select><br />
 					
-					Excel Phone:
-					<input type="file" /><br />
+					Excel Data:
+					<input type="file" name="file" /><br />
 					
 					<div class='col-md-12 text-right px-4'>
 						<button type='submit' class='btn btn-success'> 
-							<i class="fas fa-save pr-1"></i> Save 
+							<i class="fas fa-paper-plane pr-1"></i> Save 
 						</button>
 					</div>
 				</form>

@@ -5,6 +5,8 @@ use App\SMSBulkModel;
 use App\SMSTemplateModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\SMSBulkImport;
 
 use Auth;
 
@@ -56,38 +58,35 @@ class SmsBulk extends Controller
 		]);
 		
 		return redirect("smsblast")->with('success', 'Message has been sent to '. $request->phone .'.');
-        // $t = SMSTemplateModel::where("id", $request->template);
-		
-		// if($t->count() > 0){
-			// $t = $t->first();
-			
-			
-		// }else{
-			// return redirect("smsblast")->with('error', 'Selected template is not available.');
-		// }
     }
 	
 	public function create_bulk(Request $request)
     {
-        // $t = SMSTemplateModel::where("id", $request->template);
+        $t = SMSTemplateModel::where("id", $request->template);
 		
-		// if($t->count() > 0){
-			// $t = $t->first();
+		if($t->count() > 0){
+			$t = $t->first();
 			
-			// //NUC130101000036249535fb5accab169524b40e5468bd1de5
+			preg_match_all("/(?<={).*?(?=})/", $t->content, $m);
 			
-			// SMSBulkModel::create([
-				// "phone"		=> $request->phone,
-				// "template_id"	=> $t->id,
-				// "user_id"	=> Auth::user()->id
-			// ]);
+			if(count($m) > 0){
+				if(count($m[0]) > 0){
+					$m = $m[0];
+				}else{
+					$m = [];
+				}
+			}else{
+				$m = [];
+			}
 			
-			// return redirect("smsblast")->with('success', 'Message has been sent to '. $request->template .'.');
-		// }else{
-			// return redirect("smsblast")->with('error', 'Selected template is not available.');
-		// }
+			$x = Excel::import(new SMSBulkImport($t->id, $m), request()->file('file'));
+			
+			return redirect("smsblast")->with('success', 'Messages has been qued for sending with template '. $t->title .'.');
+		}else{
+			return redirect("smsblast")->with('error', 'Selected template is not available.');
+		}
 		
-		return redirect("smsblast")->with('error', 'SMS Bulk services is not enable yet.');
+		// return redirect("smsblast")->with('error', 'SMS Bulk services is not enable yet.');
     }
 
     /**
