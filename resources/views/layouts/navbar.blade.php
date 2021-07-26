@@ -68,7 +68,10 @@
                 @endif
 				
 				<li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/customer-support">Customer Support</a>
+                    <a class="nav-link active" aria-current="page" href="/customer-support">
+						Customer Support 
+						<span class="fas fa-circle text-dark"></span>
+					</a>
                 </li>
             </ul>
 
@@ -108,6 +111,35 @@
         </div>
     </div>
 </nav>
+
+<script>
+var wsn = new WebSocket("ws://{{ env('CS_WS_Server') }}/notify");
+
+wsn.onopen = function(){
+	console.log("Server Open");
+	
+	wsn.onmessage = function(m){
+		var data = m.data;
+		
+		switch(data.action){
+			case "notify":
+				
+			break;
+		}
+	};
+	
+	
+};
+
+wsn.onclose = function(){
+	console.log("Connection to websocket server closed.");
+};
+
+wsn.onerror = function(e){
+	console.log("Connection to websocket server error: ", e);
+};
+</script>
+
 @endif
 <!-- Modal -->
 {{-- <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

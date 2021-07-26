@@ -13,7 +13,9 @@ class CustomerSupport extends Controller
      */
     public function index()
     {
-        //
+        $maintenance = true;
+		
+		return view("admin.customer_support", compact("maintenance"));
     }
 
     /**
