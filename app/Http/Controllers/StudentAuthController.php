@@ -52,6 +52,13 @@ class StudentAuthController extends Controller
         // if unsuccessful, then redirect back to the login with the form data
         return redirect()->back()->withInput($request->only('email', 'remember'));
    
+        // $credentials = $request->only('email', 'password');
+        // if (Auth::attempt($credentials)) {
+        //     return redirect()->intended('auth.students.dashboard')
+        //                 ->withSuccess('Signed in');
+        // }
+  
+        // return redirect("/student/login")->withSuccess('Login details are not valid');
     }
 
 
