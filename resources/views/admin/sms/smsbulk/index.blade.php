@@ -84,11 +84,11 @@
 				
 				<tbody>
 				@php
-				$no = 1;
+				$no = (10 * ($x->currentPage() - 1));
 				@endphp
 				@foreach ($x as $k => $t)
 					<tr>
-						<td>{{ $no++ }}</td>
+						<td>{{ ++$no }}</td>
 						
 						<td>{{ $t->created_at }}</td>
 						
@@ -97,16 +97,22 @@
 						</td>
 						
 						<td>
-							{{ $t->title }}
+							@if ($t->template->title == "")
+								NIL
+							@else
+								{{ $t->template->title }}
+							@endif
 						</td>
 						
 						<td>
 							{{ $t->message }}
 						</td>
 					</tr>
+					
 				@endforeach
 				</tbody>
 			</table>
+			{{ $x->links() }}
 		</div> 
 	</div>
 </div>

@@ -11,4 +11,9 @@ class SMSBulkModel extends Model
 	protected $fillable = [
         'phone', 'template_id', 'user_id', 'message'
     ];
+
+    public function template()
+    {
+        return $this->belongsTo(SMSTemplateModel::class);
+    }
 }

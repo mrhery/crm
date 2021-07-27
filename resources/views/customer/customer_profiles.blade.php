@@ -58,9 +58,12 @@ Customer Profiles
                 </tr>
             </thead>
             <tbody>
+                @php
+				    $no = (10 * ($customers->currentPage() - 1));
+				@endphp
                 @forelse ($customers as $key => $customer)
                 <tr>
-                    <th scope="row">{{ ++$key }}</th>
+                    <th scope="row">{{ ++$no }}</th>
                     <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
                     <td>{{ $customer->ic }}</td>
                     <td>

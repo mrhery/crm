@@ -35,40 +35,10 @@ class SmsBulk extends Controller
 				->paginate(10);
 			}
             
-			$data = [];
-			
-			foreach($x as $d){
-				$t = SMSTemplateModel::where("id", $d->template_id);
-				
-				if($t->count() > 0){
-					$d->title = $t->first()->title;
-				}else{
-					$d->title = "NIL";
-				}
-				
-				$data[] = $d;
-			}
-			
-			$x = $data;
-			
 			return view("admin.sms.smsbulk.index", compact("x", "y"));
         }else {
-			$x = SMSBulkModel::orderBy("id", "desc")->paginate(10);
-			$data = [];
-			
-			foreach($x as $d){
-				$t = SMSTemplateModel::where("id", $d->template_id);
-				
-				if($t->count() > 0){
-					$d->title = $t->first()->title;
-				}else{
-					$d->title = "NIL";
-				}
-				
-				$data[] = $d;
-			}
-			
-			$x = $data;
+
+            $x = SMSBulkModel::orderBy("id", "desc")->paginate(10);
 			
 			return view("admin.sms.smsbulk.index", compact("x", "y"));
 		}
