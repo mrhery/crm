@@ -71,8 +71,8 @@ class customerProfileController extends Controller
         ->get();
         $member_lvl = Membership_Level::where('level_id', $customer->level_id)->first()->name;
         $comment = Comment::where('stud_id', $customer['stud_id'])->get();
-
-        $author_name = [];
+		
+		$ncomment = [];
 
         if(count($comment) != 0) {
             foreach($comment as $c) {
@@ -80,8 +80,12 @@ class customerProfileController extends Controller
 
                 if($name->count() > 0) {
                     $name = $name->first();
-                    $author_name[] = $name->name;
-                }
+                    $c->author = $name->name;
+                }else{
+					$c->author = "";
+				}
+				
+				$ncomment[] = $c;
             }
         }
 
@@ -130,7 +134,7 @@ class customerProfileController extends Controller
             }
         }
         
-        return view('customer.customer_profile', compact('customer', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'comment', 'author_name'));
+        return view('customer.customer_profile', compact('customer', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'ncomment'));
     }
     
     /**

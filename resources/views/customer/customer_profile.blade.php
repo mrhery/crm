@@ -338,11 +338,11 @@ Customer Profiles
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($comment as $key => $c)
+                                        @forelse ($ncomment as $key => $c)
                                             <tr>
                                                 <th scope="row">{{ $key+1 }}</th>
                                                 <td>{{ $c->comment }}</td>
-                                                <td>{{ $author_name[$key] }}</td>
+                                                <td>{{ $c->author }}</td>
                                                 <td>{{ date('d/m/Y', strtotime($c->created_at)) }}</td>
                                             </tr>
                                         @empty
@@ -355,7 +355,7 @@ Customer Profiles
                             </div>
 
                             {{-- <div class="col-md-12 overflow-auto" style="height: 230px;">
-                                @forelse ($comment as $key => $c)
+                                @forelse ($ncomment as $key => $c)
                                     <div class="form-group">
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" disabled>{{ $c->comment }}</textarea>
                                     </div>
@@ -406,7 +406,7 @@ Customer Profiles
                         </div>
             
                         <div class="card-body">
-                            <div class="col-md-12 pt-3 table-responsive" id="content" class="overflow-auto" style="height: 600px;">
+                            <div class="col-md-12 pt-3 table-responsive" id="content" class="overflow-auto" style="height: 400px;">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -444,7 +444,7 @@ Customer Profiles
                                     <strong>Timeline</strong>
                                 </div>
                                 <div class="card-body">
-                                    <div id="content" class="overflow-auto" style="height: 600px;">
+                                    <div id="content" class="overflow-auto" style="height: 400px;">
                                         <ul class="timeline">
                                             @foreach ($data as $key => $d)
                                                 <li class="event" data-date="{{ $d->date_from }}">
