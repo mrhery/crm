@@ -34,7 +34,21 @@ class ImportExcelController extends Controller
             'email' => 'required',
         ]);
      
-        $email = $request->input('email');
+        $email_id = $request->input('email');
+
+        $email = Email::where('id', $email_id)->first();
+
+        preg_match_all("/(?<={).*?(?=})/", $email->content, $regex_content);
+			
+        if(count($regex_content) > 0){
+            if(count($regex_content[0]) > 0){
+                $regex_content = $regex_content[0];
+            }else{
+                $regex_content = [];
+            }
+        }else{
+            $regex_content = [];
+        }
         
         $product = Product::where('product_id', $product_id)->first();
         $package = Package::where('package_id', $package_id)->first();
@@ -42,7 +56,7 @@ class ImportExcelController extends Controller
         $prd_id = $product->product_id;
         $pkd_id = $package->package_id;
 
-        Excel::import(new StudentImport($prd_id, $pkd_id, $email), request()->file('file'));
+        Excel::import(new StudentImport($prd_id, $pkd_id, $email_id, $regex_content), request()->file('file'));
 
         return redirect('view/buyer/'.$product_id.'/'.$package_id)->with('importsuccess', 'The file has been inserted to queue, it may take a while to successfully import.');
     }

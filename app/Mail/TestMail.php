@@ -11,37 +11,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $name, $email;
+    protected $message;
 
     // public $data;
 
-    public function __construct($name, $email)
+    public function __construct($message)
     {
-        $this->name = $name;
-        $this->email = $email;
+        $this->message = $message;
     }
 
     public function build()
     {
-        $address = 'noreply@momentuminternet.my';
-        $subject = 'This is a demo!';
-        $name = $this->name;
-        $test = 'cuba test';
-
-        $emails = Email::where('id', $this->email)->first();
-
-        //regex name
-        $contentOri = $emails->content;
-        $patternName = "/\{name\}/";
-        $contentNameReplaced = preg_replace($patternName, $name, $contentOri);
-
-        // dd($contentNameReplaced);
         return $this->view('test')
-                    ->from($address, $name)
-                    ->cc($address, $name)
-                    ->bcc($address, $name)
-                    ->replyTo($address, $name)
-                    ->subject($subject)
-                    ->with([ 'content' => $contentNameReplaced ]);
+                    ->with([ 'content' => $this->message ]);
     }
 }
