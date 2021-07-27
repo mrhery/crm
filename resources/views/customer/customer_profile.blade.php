@@ -406,7 +406,7 @@ Customer Profiles
                         </div>
             
                         <div class="card-body">
-                            <div class="col-md-12 pt-3 table-responsive" id="content" class="overflow-auto" style="max-height: 600px;">
+                            <div class="col-md-12 pt-3 table-responsive" id="content" class="overflow-auto" style="height: 600px;">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -444,7 +444,7 @@ Customer Profiles
                                     <strong>Timeline</strong>
                                 </div>
                                 <div class="card-body">
-                                    <div id="content" class="overflow-auto" style="max-height: 600px;">
+                                    <div id="content" class="overflow-auto" style="height: 600px;">
                                         <ul class="timeline">
                                             @foreach ($data as $key => $d)
                                                 <li class="event" data-date="{{ $d->date_from }}">
