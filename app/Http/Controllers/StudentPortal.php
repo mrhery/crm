@@ -13,7 +13,11 @@ class StudentPortal extends Controller
      */
     public function index()
     {
-        //
+        if(Session::get('student_login_id')){
+			return view("studentportal.dashboard");
+		}else{
+			return view("studentportal.login");
+		}
     }
 
     /**
@@ -21,9 +25,14 @@ class StudentPortal extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function login(Request $r)
     {
-        //
+        if($loginsuccess){
+			Session::put("student_login_id", "student_id_here");
+			return redirect("studentportal.dashboard");
+		}else{
+			return redirect("studentportal.login")->with('error', 'Login fail. Username or password are incorrect.');
+		}
     }
 
     /**
