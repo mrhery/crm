@@ -11,6 +11,8 @@ use App\Ticket;
 use App\Membership_Level;
 use App\Comment;
 use Carbon\Carbon;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class customerProfileController extends Controller
 {
@@ -21,9 +23,11 @@ class customerProfileController extends Controller
 
     public function customerAddComment($cust_id, Request $request) {
         $customer = Student::where('id', $cust_id)->first();
+        
         $comment = Comment::create([
             'stud_id' => $customer['stud_id'],
-            'comment' => $request->comment
+            'comment' => $request->comment,
+            'add_user' => Auth::user()->user_id
         ]);
         
         if($comment) {
@@ -42,16 +46,6 @@ class customerProfileController extends Controller
             return redirect('customer_profiles/'.$cust_id)->with('subsError','There is a problem on updating customer subscribe!');
         }
     }
-
-    // public function customerPayment($id, $event_id, Request $request) {
-    //     $customer = Student::where('id', $id)->first();
-    //     $ticket = Ticket::where('ic', $customer['ic'])->get();
-    //     $product = Product::where('product_id', $event_id)->first();
-    //     $payment = Payment::where('product_id', $event_id)
-    //     ->where('stud_id', $customer['stud_id'])->get();
-
-    //     return view('customer.customer_payment', compact('payment', 'ticket', 'product'));
-    // }
 	
 	public function customerProfiles(Request $request) {
         $search = $request->query('search');
@@ -77,6 +71,20 @@ class customerProfileController extends Controller
         ->get();
         $member_lvl = Membership_Level::where('level_id', $customer->level_id)->first()->name;
         $comment = Comment::where('stud_id', $customer['stud_id'])->get();
+
+        $author_name = [];
+
+        if(count($comment) != 0) {
+            foreach($comment as $c) {
+                $name = User::where('user_id', $c->add_user);
+
+                if($name->count() > 0) {
+                    $name = $name->first();
+                    $author_name[] = $name->name;
+                }
+            }
+        }
+
         $paymentMonth = Payment::where('stud_id', $customer['stud_id'])
         ->whereYear('created_at', Carbon::now()->year)
         ->whereMonth('created_at', Carbon::now()->month)
@@ -122,7 +130,7 @@ class customerProfileController extends Controller
             }
         }
         
-        return view('customer.customer_profile', compact('customer', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'comment'));
+        return view('customer.customer_profile', compact('customer', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'comment', 'author_name'));
     }
     
     /**

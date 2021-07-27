@@ -9,6 +9,6 @@ class Comment extends Model
     protected $table = 'comments';
 
     protected $fillable = [
-        'stud_id', 'comment'
+        'stud_id', 'comment', 'add_user'
     ];
 }

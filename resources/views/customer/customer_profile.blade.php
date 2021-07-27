@@ -327,7 +327,34 @@ Customer Profiles
                             <strong>Comment</strong>
                         </div>
                         <div class="card-body">
-                            <div class="col-md-12 overflow-auto" style="height: 230px;">
+                            <div class="col-md-12 pt-3 table-responsive" id="content" class="overflow-auto" style="height: 230px;">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Comments</th>
+                                            <th scope="col">Author</th>
+                                            <th scope="col">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($comment as $key => $c)
+                                            <tr>
+                                                <th scope="row">{{ $key+1 }}</th>
+                                                <td>{{ $c->comment }}</td>
+                                                <td>{{ $author_name[$key] }}</td>
+                                                <td>{{ date('d/m/Y', strtotime($c->created_at)) }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center">No result founds</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {{-- <div class="col-md-12 overflow-auto" style="height: 230px;">
                                 @forelse ($comment as $key => $c)
                                     <div class="form-group">
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" disabled>{{ $c->comment }}</textarea>
@@ -337,7 +364,7 @@ Customer Profiles
                                     <p class="text-center mx-auto">No Comments Found</p>
                                 </div>
                                 @endforelse
-                            </div>
+                            </div> --}}
                             <hr>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Comment</button>
 
@@ -379,7 +406,7 @@ Customer Profiles
                         </div>
             
                         <div class="card-body">
-                            <div class="col-md-12 pt-3 table-responsive">
+                            <div class="col-md-12 pt-3 table-responsive" id="content" class="overflow-auto" style="max-height: 600px;">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -417,7 +444,7 @@ Customer Profiles
                                     <strong>Timeline</strong>
                                 </div>
                                 <div class="card-body">
-                                    <div id="content" class="overflow-auto" style="height: 264px;max-height: 264px;">
+                                    <div id="content" class="overflow-auto" style="max-height: 600px;">
                                         <ul class="timeline">
                                             @foreach ($data as $key => $d)
                                                 <li class="event" data-date="{{ $d->date_from }}">
