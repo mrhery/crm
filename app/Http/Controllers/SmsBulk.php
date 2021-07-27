@@ -17,28 +17,61 @@ class SmsBulk extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $x = SMSBulkModel::orderBy("id", "desc")->get();
-        $y = SMSTemplateModel::orderBy("id", "desc")->get();
+		$y = SMSTemplateModel::orderBy("id", "desc")->get();
 		
-		$data = [];
+		$search = $request->query('search');
 		
-		foreach($x as $d){
-			$t = SMSTemplateModel::where("id", $d->template_id);
-			
-			if($t->count() > 0){
-				$d->title = $t->first()->title;
+		if($search) {
+			if($request->query("search_template") !== "0"){
+				$x = SMSBulkModel::where('phone', 'LIKE', '%'.$search.'%')
+				->orWhere('message', 'LIKE', '%'.$search.'%')
+				->where('template_id', '=', $request->query("search_template"))
+				->paginate(10);
 			}else{
-				$d->title = "NIL";
+				$x = SMSBulkModel::where('phone', 'LIKE', '%'.$search.'%')
+				->orWhere('message', 'LIKE', '%'.$search.'%')
+				->paginate(10);
+			}
+            
+			$data = [];
+			
+			foreach($x as $d){
+				$t = SMSTemplateModel::where("id", $d->template_id);
+				
+				if($t->count() > 0){
+					$d->title = $t->first()->title;
+				}else{
+					$d->title = "NIL";
+				}
+				
+				$data[] = $d;
 			}
 			
-			$data[] = $d;
+			$x = $data;
+			
+			return view("admin.sms.smsbulk.index", compact("x", "y"));
+        }else {
+			$x = SMSBulkModel::orderBy("id", "desc")->paginate(10);
+			$data = [];
+			
+			foreach($x as $d){
+				$t = SMSTemplateModel::where("id", $d->template_id);
+				
+				if($t->count() > 0){
+					$d->title = $t->first()->title;
+				}else{
+					$d->title = "NIL";
+				}
+				
+				$data[] = $d;
+			}
+			
+			$x = $data;
+			
+			return view("admin.sms.smsbulk.index", compact("x", "y"));
 		}
-		
-		$x = $data;
-		
-		return view("admin.sms.smsbulk.index", compact("x", "y"));
     }
 
     /**

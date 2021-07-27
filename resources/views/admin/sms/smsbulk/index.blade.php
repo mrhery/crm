@@ -27,7 +27,32 @@
 			</div>
 		</div>
 		
-		<input type="text" class="form-control" placeholder="Please Enter Event Name" title="Type in a name">
+		
+		<form action="{{ url('smsblast') }}" method="GET">
+			<div class="row">
+				<div class="col-md-8">
+					<input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search keyword">
+				</div>
+				
+				<div class="col-md-3">
+					<select class="form-control" name="search_template">
+						<option value="0">All Template</option>
+					@foreach($y as $t)
+						<option value="{{ $t->id }}" {{ request()->query('search_template') == $t->id ? 'selected' : '' }}>
+							{{ $t->title }}
+						</option>
+					@endforeach
+					</select>
+				</div>
+				
+				<div class="col-md-1">
+					<button class="btn btn-block btn-outline-dark btn-lg">
+						<span class="fas fa-search"></span>
+					</button>
+				</div>
+			</div>
+            
+        </form>
 		<br>
 			
 		@if (session('success'))
@@ -81,7 +106,7 @@
 					</tr>
 				@endforeach
 				</tbody>
-			</table>   
+			</table>
 		</div> 
 	</div>
 </div>

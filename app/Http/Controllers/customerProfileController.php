@@ -38,7 +38,7 @@ class customerProfileController extends Controller
 
         if($customer) {
             return redirect('customer_profiles/'.$cust_id)->with('subsSuccess','Customer Subscribe Updated!');
-        }else {
+        } else {
             return redirect('customer_profiles/'.$cust_id)->with('subsError','There is a problem on updating customer subscribe!');
         }
     }

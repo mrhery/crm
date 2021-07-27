@@ -354,6 +354,7 @@ Route::prefix('student')->group(function() {
 
 Route::get("customer-support", 'CustomerSupport@index');
 
+//Route::get("studentportal", 'StudentPortal@index');
 
 
 

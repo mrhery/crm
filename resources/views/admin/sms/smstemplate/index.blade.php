@@ -23,7 +23,6 @@
 			</div>
 		</div>
 		
-		<input type="text" class="form-control" placeholder="Please Enter Event Name" title="Type in a name">
 		<br>
 			
 		@if (session('success'))
