@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Facades\Crypt;
 
 class StudentImport implements ToCollection, WithChunkReading, WithHeadingRow
 {
@@ -61,6 +62,7 @@ class StudentImport implements ToCollection, WithChunkReading, WithHeadingRow
                     'ic'         => $row['ic'],
                     'email'      => $row['email'],
                     'phoneno'    => '+' . $row['phoneno'],
+                    'student_passowrd' => Crypt::encryptString($row['email']),
                 ]);
 
                 $payment_id = 'OD' . uniqid();

@@ -339,10 +339,10 @@ Route::get("/smsblast/delete/{id}", 'SmsBulk@del');
 Route::delete("/smsblast/delete/{id}", 'SmsBulk@remove');
 
 Route::prefix('student')->group(function() {
-	Route::get('/login','StudentAuthController@showLoginForm')->name('student.login');
-	Route::post('/login', 'StudentAuthController@login')->name('student.login.submit');
-	Route::get('logout/', 'StudentAuthController@logout')->name('student.logout');
-	Route::get('/', 'StudentController@index')->name('student.dashboard');
+	Route::get('/login','StudentPortal@loginForm')->name('student.login');
+	Route::post('/login', 'StudentPortal@login')->name('student.login.submit');
+	Route::get('/logout', 'StudentPortal@logout')->name('student.logout');
+	Route::get('/dashboard/{student}', 'StudentPortal@show')->name('student.dashboard');
 });
 
 Route::prefix('staff')->group(function() {
