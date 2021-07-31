@@ -110,7 +110,12 @@
     </style>
   </head>
   <body class="bg-light pb-3"> 
-    @include('layouts.navbar')
+    @if (Session::has('role_id'))
+      @include('staff.navbar')
+    @else
+      @include('layouts.navbar')
+    @endif
+    
     <div class='container-fluid px-3 py-3'>
       @yield('content')
     </div>

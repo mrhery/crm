@@ -49,6 +49,7 @@ Route::get('delete-member/{membership_id}/{level_id}/{student_id}', 'MembershipC
 | Sales Report
 |--------------------------------------------------------------------------
 */
+
 Route::get('trackprogram', 'ReportsController@trackprogram');
 Route::get('trackpackage/{product_id}', 'ReportsController@trackpackage');
 
@@ -78,8 +79,6 @@ Route::get('delete/ticket/{ticket_id}/{product_id}/{package_id}', 'ReportsContro
 Route::get('export-participant/{product_id}', 'ReportsController@exportParticipant');
 Route::get('participant/search/{product_id}/{package_id}', 'ReportsController@search_participant');
 
-
-
 // Route::get('free-ticket/search/{product_id}/{package_id}', 'ReportsController@search_free');
 // Route::get('export-paid/{product_id}/{package_id}', 'ReportsController@export_paid');
 // Route::get('paid-ticket/view/{product_id}/{package_id}/{ticket_id}', 'ReportsController@track_paid');
@@ -89,13 +88,12 @@ Route::get('participant/search/{product_id}/{package_id}', 'ReportsController@se
 // Route::get('free-ticket/view/{product_id}/{package_id}/{ticket_id}', 'ReportsController@track_free');
 // Route::post('free-ticket/update/{product_id}/{package_id}/{payment_id}/{student_id}', 'ReportsController@update_free');
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Blasting Email
 |--------------------------------------------------------------------------
 */
+
 Route::get('emailblast', 'BlastingController@emailblast');
 Route::get('view/{product_id}', 'BlastingController@package');
 Route::get('view-event/{product_id}/{package_id}', 'BlastingController@show');
@@ -112,6 +110,7 @@ Route::post('update-participant-mail/{product_id}/{package_id}/{payment_id}/{stu
 | Manage event
 |--------------------------------------------------------------------------
 */
+
 Route::get('product', 'ProductController@viewproduct');
 Route::get('addproduct', 'ProductController@create');
 Route::post('new-product/save', 'ProductController@store');
@@ -168,7 +167,6 @@ Route::post('adduser', 'AdminController@adduser');
 Route::get('update/{id}', 'AdminController@update');
 Route::post('updateuser/{id}', 'AdminController@updateuser');
 Route::get('deleteuser/{id}', 'AdminController@destroy');
-
 
 //---------------------------------------------- Customer Part -------------------------------------------------//
 
@@ -299,10 +297,6 @@ Route::get('certificate/{product_id}/{stud_id}', 'CertController@extract_cert');
 */
 Route::get('logout', 'Auth\LoginController@logout');
 
-
-
-
-
 //---------------------------------------------- Testing Part -------------------------------------------------//
 Route::get('try-export', 'TestController@export');
 Route::get('sendbasicemail','TestController@basic_email');
@@ -351,38 +345,13 @@ Route::prefix('student')->group(function() {
 	Route::get('/', 'StudentController@index')->name('student.dashboard');
 });
 
+Route::prefix('staff')->group(function() {
+	Route::get('/login','UserPortalController@showLoginForm')->name('staff.login');
+	Route::post('/login', 'UserPortalController@login')->name('staff.login.submit');
+	Route::post('/logout', 'UserPortalController@logout')->name('staff.logout');
+	Route::get('/dashboard', 'UserPortalController@index')->name('staff.dashboard');
+});
 
 Route::get("customer-support", 'CustomerSupport@index');
 
 //Route::get("studentportal", 'StudentPortal@index');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
