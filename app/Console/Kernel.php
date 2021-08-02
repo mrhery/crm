@@ -28,6 +28,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('emel:pengesahan')
             ->everyMinute();
+
+        // $schedule->command('invoice:cron')->monthlyOn(4, '15:00');
+        $schedule->command('invoice:cron')->everyMinute();
     }
 
     /**
