@@ -350,6 +350,11 @@ Route::prefix('staff')->group(function() {
 	Route::post('/login', 'UserPortalController@login')->name('staff.login.submit');
 	Route::post('/logout', 'UserPortalController@logout')->name('staff.logout');
 	Route::get('/dashboard', 'UserPortalController@index')->name('staff.dashboard');
+	// Route::get('/link', 'UserPortalController@getLink')->name('staff.link');
+});
+
+Route::prefix('invite')->group(function() {
+	Route::get('/{id}', 'UserPortalController@invite');
 });
 
 Route::get("customer-support", 'CustomerSupport@index');

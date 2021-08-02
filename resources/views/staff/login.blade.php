@@ -1,5 +1,5 @@
 
-@extends('layouts.app')
+@extends('staff.app')
 
 @section('title')
     Login

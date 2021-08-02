@@ -6,7 +6,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\User;
+use App\Payment;
+use App\Student;
 use Hash;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Factory;
 
 class UserPortalController extends Controller
 {
@@ -61,13 +67,51 @@ class UserPortalController extends Controller
 
     public function index() {
         $this->checkRole();
+        $payment = Payment::where('user_invite', Session::get('user_id'))->get();
+        // $pay = Payment::where('user_invite', Session::get('user_id'))->paginate(2);
         
-        return view('staff.dashboard');
+        // dd($pay);
+        $payment_detail = [];
+
+        if(count($payment) != 0) {
+            foreach($payment as $p) {
+                $user = Student::where('stud_id', $p->stud_id);
+
+                if($user->count() > 0) {
+                    $user = $user->first();
+                    $name = $user->first_name . " " . $user->last_name;
+                    $p->name = $name;
+                }else {
+                    $p->name = "";
+                }
+
+                $payment_detail[] = $p;
+            }
+        }
+        
+        $data = $this->paginate($payment_detail, 10);
+        $data->setPath('dashboard');
+        $data_count = count($data);
+
+        return view('staff.dashboard', compact('data', 'data_count'));
+    }
+
+    public function paginate($items, $perPage, $page = null, $options = []){
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     public function logout() {
         Session::flush();
 
         return redirect("staff/login");
+    }
+
+    public function invite($id, Request $request) {
+        $user_details = User::where('user_id', $id)->first();
+
+        return view('staff.invite', compact('user_details'));
     }
 }

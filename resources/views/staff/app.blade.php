@@ -110,8 +110,8 @@
     </style>
   </head>
   <body class="bg-light pb-3"> 
-    @include('layouts.navbar')
-    
+    @include('staff.navbar')
+   
     <div class='container-fluid px-3 py-3'>
       @yield('content')
     </div>
@@ -120,5 +120,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
   <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script> --}}
   <script src="{{ asset('js/dashboard.js') }}"></script>
 </html>

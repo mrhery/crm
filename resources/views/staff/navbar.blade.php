@@ -11,33 +11,26 @@
             {{-- left element --}}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="/dashboard">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{{ route('staff.dashboard') }}">Home</a>
                 </li>
 
-                <li class="nav-item dropdown">
+                {{-- <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="{{ route('staff.link') }}">Staff Link</a>
+                </li> --}}
+
+                {{-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Customer
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                         <li><a class="dropdown-item" href="/customer_profiles"><i class="bi bi-person-lines-fill pr-2"></i>Customer Profile</a></li>
-                        
-                        {{-- @if(Auth::user()->role_id == 'ROD001' || Auth::user()->role_id == 'ROD002')
-                        <li><a class="dropdown-item" href="/membership"><i class="bi bi-person-badge pr-2"></i>Membership Programme</a></li>
-                        
-                        @endif --}}
                         <li><a class="dropdown-item" href="/trackprogram"><i class="bi bi-graph-up pr-2"></i>Sales Report</a></li>
 
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/emailblast"><i class="bi bi-envelope pr-2"></i>Email Blasting</a></li>
 						<li><a class="dropdown-item" href="/emailtemplate"><i class="bi bi-envelope pr-2"></i>Email Template</a></li>
-                        
-                        {{-- @if(Auth::user()->role_id == 'ROD001' || Auth::user()->role_id == 'ROD002')
-                        <li><a class="dropdown-item" href="/smsblast"><i class="bi bi-chat-left-text pr-2"></i>SMS Blasting</a></li>
-						<li><a class="dropdown-item" href="/smstemplate"><i class="bi bi-chat-left-text pr-2"></i>SMS Template</a></li>
-                        
-                        @endif --}}
                     </ul>
-                </li>
+                </li> --}}
                 
                 {{-- @if(Auth::user()->role_id == 'ROD001' || Auth::user()->role_id == 'ROD002')
                 <li class="nav-item dropdown">
@@ -65,12 +58,12 @@
                 </li>
                 @endif --}}
 				
-				<li class="nav-item">
+				{{-- <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/customer-support">
 						Customer Support 
 						<span class="fas fa-circle text-dark"></span>
 					</a>
-                </li>
+                </li> --}}
             </ul>
 
             {{-- right element --}}
