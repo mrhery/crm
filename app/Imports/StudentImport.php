@@ -6,6 +6,7 @@ use App\Student;
 use App\Payment;
 use App\Ticket;
 use App\Membership_Level;
+use Illuminate\Support\Facades\Hash;
 use App\Jobs\TestJobMail;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -27,14 +28,6 @@ class StudentImport implements ToCollection, WithChunkReading, WithHeadingRow
 
     public function collection(Collection $rows)
     {
-        // $student_ids = Payment::where('pay_price', '!=', 0)->orWhere('pay_price', '!=', null)->get();
-
-        // $stud = $student_ids->unique('stud_id');
-        // $stud = Membership_Level::whereNotIn('name',['null not', 'null'])->get()->unique('level_id');
-        // $stud = $student_ids->unique('stud_id')->get();
-        dd($stud);
-
-        
         
         foreach ($rows as $row) 
         {
@@ -71,7 +64,7 @@ class StudentImport implements ToCollection, WithChunkReading, WithHeadingRow
                     'ic'         => $row['ic'],
                     'email'      => $row['email'],
                     'phoneno'    => '+' . $row['phoneno'],
-                    'student_passowrd' => Crypt::encryptString($row['email']),
+                    'student_password' => Hash::make($row['email']),
                 ]);
 
                 $payment_id = 'OD' . uniqid();
