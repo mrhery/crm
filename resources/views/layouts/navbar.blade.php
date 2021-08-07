@@ -35,7 +35,7 @@
                         @if(Auth::user()->role_id == 'ROD001' || Auth::user()->role_id == 'ROD002')
                         <li><a class="dropdown-item" href="/smsblast"><i class="bi bi-chat-left-text pr-2"></i>SMS Blasting</a></li>
 						<li><a class="dropdown-item" href="/smstemplate"><i class="bi bi-chat-left-text pr-2"></i>SMS Template</a></li>
-                        <li><a class="dropdown-item" href="/zoom"><i class="bi bi-chat-left-text pr-2"></i>Zoom Meeting</a></li>
+                        <li><a class="dropdown-item" href="/zoom"><i class="bi bi-camera-reels pr-2"></i>Zoom Meeting</a></li>
                         @endif
                     </ul>
                 </li>

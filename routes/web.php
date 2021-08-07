@@ -357,6 +357,15 @@ Route::prefix('invite')->group(function() {
 	Route::get('/{id}', 'UserPortalController@invite');
 });
 
-Route::get("customer-support", 'CustomerSupport@index');
+Route::get('customer-support', 'CustomerSupport@index');
+
+Route::get('/zoom', 'ZoomController@index');
+Route::get('/zoom/add', 'ZoomController@create');
+Route::post('/zoom/add', 'ZoomController@store');
+Route::get('/zoom/{id}', 'ZoomController@showParticipants');
+Route::get('/zoom/edit/{id}', 'ZoomController@edit');
+Route::put('/zoom/edit/{id}', 'ZoomController@update');
+Route::get('/zoom/delete/{id}', 'ZoomController@del');
+Route::delete('/zoom/delete/{id}', 'ZoomController@remove');
 
 //Route::get("studentportal", 'StudentPortal@index');
