@@ -8,7 +8,7 @@ Sales Report
 @section('content')
 <div class="col-md-12 pt-3">     
     <div class="card-header py-2" style="border: 1px solid rgb(233, 233, 233); border-radius: 5px;">
-      <a href="/trackprogram"><i class="bi bi-arrow-left"></i></a> &nbsp; <a href="/dashboard">Dashboard</a> / <a href="/trackprogram">Customer</a> / <b>{{ $product->name }}</b>
+      <a href="/trackprogram"><i class="bi bi-arrow-left"></i></a> &nbsp; <a href="/dashboard">Dashboard</a> / <a href="/trackprogram">Sales Report</a> / <b>{{ $product->name }}</b>
     </div>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -34,6 +34,7 @@ Sales Report
                   @csrf
                   
                     <div class='col-md-12 px-4'>
+                      
                       <p>Please choose the data that you want to export :</p>
                       <div class="form-check">
                         <input class="form-check-input" type="radio" name="filter_export" id="exampleRadios2" value="success_payment">
@@ -53,6 +54,15 @@ Sales Report
                           All Buyer
                         </label>
                       </div>
+
+                      <br>
+
+                      <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Send to</label>
+                        <div class="col-sm-10">
+                          <input type="email" name="receipient_mail" placeholder="Receipient email address" value="{{ Auth::user()->email }}" class="form-control form-control-sm" required>
+                        </div>
+                      </div>
                     </div>
 
                     <div class='col-md-12 text-right px-4 pb-4'>
@@ -63,7 +73,43 @@ Sales Report
               </div>
             </div>
 
-            <a class="btn btn-sm btn-outline-warning" href="{{ url('export-participant') }}/{{ $product->product_id }}"><i class="bi bi-download pr-2"></i>Export Participant</a>
+            <!-- Button trigger modal export participant -->
+            <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exportParticipant">
+              <i class="bi bi-download pr-2"></i>Export Participant
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exportParticipant" tabindex="-1" role="dialog" aria-labelledby="exportParticipantLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="exampleModalLabel">Export Participan</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form action="{{ url('export-participant') }}/{{ $product->product_id }}" method="get"> 
+                  @csrf
+                  
+                    <div class='col-md-12 px-4'>
+                      
+                      <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Send to</label>
+                        <div class="col-sm-10">
+                          <input type="email" name="receipient_mail" placeholder="Receipient email address" value="{{ Auth::user()->email }}" class="form-control form-control-sm" required>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class='col-md-12 text-right px-4 pb-4'>
+                      <button type='submit' class='btn btn-success'> <i class="bi bi-download pr-2"></i>Export</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            {{-- <a class="btn btn-sm btn-outline-warning" href="{{ url('export-participant') }}/{{ $product->product_id }}"><i class="bi bi-download pr-2"></i>Export Participant</a> --}}
           </div>
         </div>
     </div>        

@@ -25,7 +25,8 @@ Sales Report
 
         <h5 class="py-3">Import Customer</h5>
 
-        <div class="row">
+        {{-- <div class="row-fluid"> --}}
+            @if(Auth::user()->user_id == 'UID001')
             <div class="col-md-6">
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -40,7 +41,10 @@ Sales Report
                 </div>
                 <em class="pl-3">Choose email template</em>
             </div>
-            <div class="col-md-6">
+            @else
+            @endif
+            
+            <div class="col-md-12">
                 <div class="input-group">
                     <input type="file" name="file" class="form-control" required>
                 </div>
@@ -49,11 +53,11 @@ Sales Report
 
             <div class="col-md-12">
                 <div class="row-fluid float-right">
-                    <button class="btn btn-small btn-dark"><i class="bi bi-upload pr-2"></i>Upload</button>
+                    <button type="submit" class="btn btn-small btn-dark"><i class="bi bi-upload pr-2"></i>Upload</button>
                 </div>
             </div>
             
-        </div>
+        {{-- </div> --}}
     </form>
         
     <div class="panel panel-default">
@@ -78,7 +82,6 @@ Sales Report
                             <th>Pay Method</th>
                             {{-- <th>Ticket Type</th> --}}
                             <th>Offer ID</th>
-                            <th>User ID</th>
                         </tr>
                         <tr>
                             <td>John</td>
@@ -92,7 +95,6 @@ Sales Report
                             <td>FPX</td>
                             {{-- <td>free</td> --}}
                             <td>OFF001</td>
-                            <td>UID001</td>
                         </tr>
                     </table>
                 </div>

@@ -7,9 +7,10 @@ Upgrade Pakej
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12 px-3 pt-5 pb-3 text-center border-bottom">
+        <div class="col-md-12 pt-5 pb-3 text-center">
             <img src="/assets/images/logo.png" style="max-width:150px">
-            <h1 class="display-4 text-dark px-4 pt-3">{{ $product->name }}</h1>
+            <h1 class="display-5 text-dark px-3 pt-4">{{ $product->name }}</h1>
+        
             <h6>Hai {{ $student->first_name }}! Sila buat pilihan di bawah untuk naik taraf pakej.</h6>
         </div>
 
@@ -20,7 +21,7 @@ Upgrade Pakej
                 <div class="container text-center">
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-10 pb-4 d-block mx-auto">
-                            <div class="pricing-item bg-white py-4 px-2" style=" box-shadow: 0px 0px 30px -7px rgba(0,0,0,0.29); border-radius: 5px;">
+                            <div class="pricing-item bg-white shadow rounded-3 py-4 px-2">
                                 <div class="pb-2" style="letter-spacing: 2px">
                                     <h4>{{ $current_package->name }}</h4>
                                 </div>
@@ -51,7 +52,7 @@ Upgrade Pakej
                         @if($current_package->price >= $packages->price)
                         @else
                         <div class="col-lg-4 col-md-6 col-sm-10 pb-4 d-block mx-auto">
-                            <div class="pricing-item py-4">
+                            <div class="pricing-item py-4 border border-secondary rounded-3">
                                 <input type="hidden" value="{{ $product->product_id }}" class="form-control" name="product_id" readonly/>
                                 
                                 <div class="pb-2" style="letter-spacing: 2px">

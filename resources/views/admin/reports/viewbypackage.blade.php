@@ -9,7 +9,7 @@ Sales Report
 <div class="col-md-12 pt-3">     
     <div class="card-header py-2" style="border: 1px solid rgb(233, 233, 233); border-radius: 5px;">
       <a href="{{ url('trackpackage') }}/{{ $product->product_id }}"><i class="bi bi-arrow-left"></i></a> &nbsp; <a href="/dashboard">...</a>
-      / <a href="/trackprogram">Customer</a> / <a href="{{ url('trackpackage') }}/{{ $product->product_id }}"> {{ $product->name }} </a> 
+      / <a href="/trackprogram">Sales Report</a> / <a href="{{ url('trackpackage') }}/{{ $product->product_id }}"> {{ $product->name }} </a> 
       / <b>{{ $package->name }}</b>
     </div>
 
@@ -97,15 +97,15 @@ Sales Report
                   <div class="col-sm-8">
                     <select name="offer_id" class="form-select" required>
                       <option value="" disabled selected>-- Please Choose --</option>
-                      <option value="OFF001">No Offer</option>
-                      <option value="OFF002">Buy 1 Free 1 (Same Ticket)</option>
-                      <option value="OFF003">Bulk Offer</option>
+                      @foreach($offer as $offers)
+                      <option value="{{ $offers->offer_id }}">{{ $offers->name }}</option>
+                      @endforeach
                     </select>
                   </div>
                 </div>
 
-                <div class='col-md-12 text-right px-4'>
-                    <button type='submit' class='btn btn-success'> <i class="bi bi-save pr-2"></i>Save</button>
+                <div class='col-md-12 text-right px-4 pb-4'>
+                  <button type='submit' class='btn btn-success'> <i class="bi bi-save pr-2"></i>Save</button>
                 </div>
               </form>
             </div>
@@ -209,9 +209,9 @@ Sales Report
           </thead>
           <tbody> 
             @foreach ($student as $students) 
-            @foreach ($payment as $key => $payments)  
-            @if ($payments->stud_id == $students->stud_id)
-            @if ($payments->product_id == $product->product_id)  
+            @foreach ($payment as $payments)  
+            @if ($students->stud_id == $payments->stud_id)
+            {{-- @if ($payments->product_id == $product->product_id)   --}}
             <tr>
                 <td>{{ $count++ }}</td>
                 <td>{{ $students->ic }}</td>
@@ -239,7 +239,7 @@ Sales Report
                   <a class="btn btn-dark" href="{{ url('viewpayment') }}/{{ $product->product_id }}/{{ $payments->package_id }}/{{ $payments->payment_id }}/{{ $payments->stud_id }}"><i class="bi bi-chevron-right"></i></a>
                 </td>
             </tr>
-            @endif
+            {{-- @endif --}}
             @endif
             @endforeach
             @endforeach
@@ -263,9 +263,9 @@ Sales Report
         </thead>
         <tbody> 
           @foreach ($student as $students)   
-          @foreach ($payment as $key => $payments)
-          @if ($payments->stud_id == $students->stud_id)
-          @if ($payments->product_id == $product->product_id)  
+          @foreach ($payment as $payments)
+          @if (($students->stud_id == $payments->stud_id))
+          {{-- @if ($payments->product_id == $product->product_id)   --}}
           <tr>
               <td>{{ $count++ }}</td>
               <td>{{ $students->ic }}</td>
@@ -284,7 +284,7 @@ Sales Report
                 <a class="btn btn-dark" href="{{ url('viewpayment') }}/{{ $product->product_id }}/{{ $payments->package_id }}/{{ $payments->payment_id }}/{{ $payments->stud_id }}"><i class="bi bi-chevron-right"></i></a>
               </td>
           </tr>
-          @endif
+          {{-- @endif --}}
           @endif
           @endforeach
           @endforeach

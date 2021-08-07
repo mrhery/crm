@@ -9,7 +9,7 @@
 <div class="col-md-12 pt-3">
         <div class="card-header py-2" style="border: 1px solid rgb(233, 233, 233); border-radius: 5px;">
           <a href="{{ url('trackpackage') }}/{{ $product->product_id }}"><i class="bi bi-arrow-left"></i></a> &nbsp; <a href="/dashboard">...</a> 
-          / <a href="/trackprogram">Customer</a> / <a href="{{ url('trackpackage') }}/{{ $product->product_id }}"> {{ $product->name }} </a> / <b>{{ $package->name }}</b>
+          / <a href="/trackprogram">Sales Report</a> / <a href="{{ url('trackpackage') }}/{{ $product->product_id }}"> {{ $product->name }} </a> / <b>{{ $package->name }}</b>
         </div>
   
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -75,8 +75,8 @@
                         </select>
                         </div>
                     </div>
-                    <div class='col-md-12 text-right px-4'>
-                        <button type='submit' class='btn btn-success'> <i class="bi bi-save pr-2"></i> Save </button>
+                    <div class='col-md-12 text-right px-4 pb-4'>
+                      <button type='submit' class='btn btn-success'> <i class="bi bi-save pr-2"></i> Save </button>
                     </div>
                   </form>
                 </div>
