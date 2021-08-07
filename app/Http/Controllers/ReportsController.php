@@ -8,6 +8,7 @@ use App\Product;
 use App\Package;
 use App\Payment;
 use App\Ticket;
+use App\Offer;
 use App\Imports\ParticipantImport;
 // use App\Exports\ProgramExport;
 use App\Exports\ParticipantFormat;
@@ -72,6 +73,7 @@ class ReportsController extends Controller
         $package = Package::where('product_id', $product_id)->get();
       
         $filter = $request->filter_export;
+        $receipient_mail = $request->receipient_mail;
 
         if($filter == 'success_payment') {
 
@@ -256,11 +258,11 @@ class ReportsController extends Controller
                 
         Mail::send('emails.export_mail', [], function($message) use ($fileName)
         {
-            $message->to(Auth::user()->email)->subject('ATTACHMENT OF BUYER DETAILS');
+            $message->to(request()->receipient_mail)->subject('ATTACHMENT OF BUYER DETAILS');
             $message->attach(public_path('export/') . $fileName);
         });
 
-        return redirect('trackpackage/'.$product_id)->with('export-buyer','The registration details will be sent to your email. It may take a few minutes to successfully received.');
+        return redirect('trackpackage/'.$product_id)->with('export-buyer','The registration details has been successfully sent to the email given.');
 
     }
 
@@ -319,11 +321,11 @@ class ReportsController extends Controller
         
         Mail::send('emails.export_mail', [], function($message) use ($fileName)
         {
-            $message->to(Auth::user()->email)->subject('ATTACHMENT OF PARTICIPANT DETAILS');
+            $message->to(request()->receipient_mail)->subject('ATTACHMENT OF PARTICIPANT DETAILS');
             $message->attach(public_path('export/') . $fileName);
         });
 
-        return redirect('trackpackage/'.$product_id)->with('export-participant','The data will be sent to your email. It may take a few minutes to successfully received.');
+        return redirect('trackpackage/'.$product_id)->with('export-participant','The participant details has been successfully sent to the email given.');
 
     }
 
@@ -335,6 +337,7 @@ class ReportsController extends Controller
         $payment = Payment::orderBy('id','desc')->where('product_id', $product_id)->where('package_id', $package_id)->paginate(15);
         $product = Product::where('product_id', $product_id)->first();
         $package = Package::where('package_id', $package_id)->first();
+        $offer = Offer::orderBy('id','desc')->get();
         $student = Student::orderBy('id','desc')->get();
 
         //Count the data
@@ -345,7 +348,7 @@ class ReportsController extends Controller
         $paidticket = Ticket::where('ticket_type', 'paid')->where('product_id', $product_id)->where('package_id', $package_id)->count();
         $freeticket = Ticket::where('ticket_type', 'free')->where('product_id', $product_id)->where('package_id', $package_id)->count();
         
-        return view('admin.reports.viewbypackage', compact('ticket', 'product', 'package', 'payment', 'student', 'count', 'total', 'totalsuccess', 'totalcancel', 'paidticket', 'freeticket'));
+        return view('admin.reports.viewbypackage', compact('ticket', 'product', 'package', 'payment', 'offer', 'student', 'count', 'total', 'totalsuccess', 'totalcancel', 'paidticket', 'freeticket'));
     }
 
     public function destroy($payment_id, $product_id, $package_id) 
@@ -453,6 +456,7 @@ class ReportsController extends Controller
         $product = Product::where('product_id', $product_id)->first();
         $package = Package::where('package_id', $package_id)->first();
         $student = Student::orderBy('id','desc')->get();
+        $offer = Offer::orderBy('id','desc')->get();
 
         //Count the data
         $count = 1;
@@ -478,7 +482,7 @@ class ReportsController extends Controller
 
             if(count($payment) > 0)
             {
-                return view('admin.reports.viewbypackage', compact('product', 'package', 'payment', 'student', 'count', 'total', 'totalsuccess', 'totalcancel', 'paidticket', 'freeticket'));
+                return view('admin.reports.viewbypackage', compact('product', 'package', 'payment', 'student', 'offer', 'count', 'total', 'totalsuccess', 'totalcancel', 'paidticket', 'freeticket'));
 
             }else{
 
@@ -954,11 +958,11 @@ class ReportsController extends Controller
         $survey_form = $product->survey_form;
 
         // change email status
-        $payment->email_status = 'Sent';
+        $ticket->email_status = 'Sent';
                 
         dispatch(new TiketJob($email, $product_name, $package_name, $date_from, $date_to, $time_from, $time_to, $packageId, $productId, $student_id, $ticket_id, $survey_form));
         
-        $payment->save();
+        $ticket->save();
         
         return redirect()->back()->with('updated-sent', 'Participant confirmation email has been sent successfully') ;
     }
