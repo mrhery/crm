@@ -49,7 +49,6 @@ Route::get('delete-member/{membership_id}/{level_id}/{student_id}', 'MembershipC
 | Sales Report
 |--------------------------------------------------------------------------
 */
-
 Route::get('trackprogram', 'ReportsController@trackprogram');
 Route::get('trackpackage/{product_id}', 'ReportsController@trackpackage');
 
@@ -61,9 +60,11 @@ Route::post('importExcel/{product_id}/{package_id}','ImportExcelController@impor
 Route::get('exportExcel/{product_id}/{package_id}', 'ImportExcelController@export');
 Route::post('new-customer/save/{product_id}/{package_id}', 'ReportsController@save_customer');
 Route::get('viewpayment/{product_id}/{package_id}/{payment_id}/{student_id}', 'ReportsController@trackpayment');
+Route::get('delete/{payment_id}/{product_id}/{package_id}', 'ReportsController@destroy');
 Route::post('updatepayment/{product_id}/{package_id}/{payment_id}/{student_id}', 'ReportsController@updatepayment');
 Route::get('purchased-mail/{product_id}/{package_id}/{payment_id}/{stud_id}', 'ReportsController@purchased_mail');
-Route::get('exportProgram/{product_id}', 'ReportsController@exportProgram');
+Route::post('exportProgram/{product_id}', 'ReportsController@exportProgram');
+// Route::get('exportProgram/{product_id}', 'ReportsController@exportProgram');
 Route::get('customer/search/{product_id}/{package_id}', 'ReportsController@search');
 
 //participant
@@ -79,6 +80,8 @@ Route::get('delete/ticket/{ticket_id}/{product_id}/{package_id}', 'ReportsContro
 Route::get('export-participant/{product_id}', 'ReportsController@exportParticipant');
 Route::get('participant/search/{product_id}/{package_id}', 'ReportsController@search_participant');
 
+
+
 // Route::get('free-ticket/search/{product_id}/{package_id}', 'ReportsController@search_free');
 // Route::get('export-paid/{product_id}/{package_id}', 'ReportsController@export_paid');
 // Route::get('paid-ticket/view/{product_id}/{package_id}/{ticket_id}', 'ReportsController@track_paid');
@@ -88,12 +91,13 @@ Route::get('participant/search/{product_id}/{package_id}', 'ReportsController@se
 // Route::get('free-ticket/view/{product_id}/{package_id}/{ticket_id}', 'ReportsController@track_free');
 // Route::post('free-ticket/update/{product_id}/{package_id}/{payment_id}/{student_id}', 'ReportsController@update_free');
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Blasting Email
 |--------------------------------------------------------------------------
 */
-
 Route::get('emailblast', 'BlastingController@emailblast');
 Route::get('view/{product_id}', 'BlastingController@package');
 Route::get('view-event/{product_id}/{package_id}', 'BlastingController@show');
@@ -110,7 +114,6 @@ Route::post('update-participant-mail/{product_id}/{package_id}/{payment_id}/{stu
 | Manage event
 |--------------------------------------------------------------------------
 */
-
 Route::get('product', 'ProductController@viewproduct');
 Route::get('addproduct', 'ProductController@create');
 Route::post('new-product/save', 'ProductController@store');
@@ -168,6 +171,7 @@ Route::get('update/{id}', 'AdminController@update');
 Route::post('updateuser/{id}', 'AdminController@updateuser');
 Route::get('deleteuser/{id}', 'AdminController@destroy');
 
+
 //---------------------------------------------- Customer Part -------------------------------------------------//
 
 /*
@@ -187,6 +191,9 @@ Route::get('verification/{product_id}/{package_id}', 'HomeController@detailsic')
 |--------------------------------------------------------------------------
 */
 
+Route::get('customer_profiles', 'ExistCustomerController@customerProfiles');
+Route::get('customer_profiles/{id}', 'ExistCustomerController@customerProfile');
+// Route::get('customers', 'ExistCustomerController@customers');
 Route::get('customer_profiles', 'customerProfileController@customerProfiles');
 Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile')->name('customerProfile');
 Route::post('update_cust/{id}', 'customerProfileController@customerUpdate');
@@ -297,6 +304,10 @@ Route::get('certificate/{product_id}/{stud_id}', 'CertController@extract_cert');
 */
 Route::get('logout', 'Auth\LoginController@logout');
 
+
+
+
+
 //---------------------------------------------- Testing Part -------------------------------------------------//
 Route::get('try-export', 'TestController@export');
 Route::get('sendbasicemail','TestController@basic_email');
@@ -357,7 +368,9 @@ Route::prefix('invite')->group(function() {
 	Route::get('/{id}', 'UserPortalController@invite');
 });
 
-Route::get('customer-support', 'CustomerSupport@index');
+Route::get("customer-support", 'CustomerSupport@index');
+
+//Route::get("studentportal", 'StudentPortal@index');
 
 Route::get('/zoom', 'ZoomController@index');
 Route::get('/zoom/add', 'ZoomController@create');
@@ -368,4 +381,31 @@ Route::put('/zoom/edit/{id}', 'ZoomController@update');
 Route::get('/zoom/delete/{id}', 'ZoomController@del');
 Route::delete('/zoom/delete/{id}', 'ZoomController@remove');
 
-//Route::get("studentportal", 'StudentPortal@index');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
