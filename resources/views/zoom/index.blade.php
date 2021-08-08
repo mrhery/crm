@@ -62,7 +62,7 @@
                         <td class="text-center">{{$webinar -> topic}}</td>
                         <td class="text-center">{{$webinar -> password}}</td>
                         <td class="text-center">
-                        {{date( "Y-m-d H:i:s", strtotime($webinar -> start_time))}}
+                            {{date( "Y-m-d H:i:s", strtotime($webinar -> start_time))}}
                         </td>
                         <td class="text-center">
                             {{date( "Y-m-d H:i:s", strtotime($webinar -> end_time))}}

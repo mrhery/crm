@@ -375,11 +375,11 @@ Route::get("customer-support", 'CustomerSupport@index');
 Route::get('/zoom', 'ZoomController@index');
 Route::get('/zoom/add', 'ZoomController@create');
 Route::post('/zoom/add', 'ZoomController@store');
-Route::get('/zoom/{id}', 'ZoomController@showParticipants');
-Route::get('/zoom/edit/{id}', 'ZoomController@edit');
-Route::put('/zoom/edit/{id}', 'ZoomController@update');
-Route::get('/zoom/delete/{id}', 'ZoomController@del');
-Route::delete('/zoom/delete/{id}', 'ZoomController@remove');
+Route::get('/zoom/{zoom}', 'ZoomController@showParticipants');
+Route::get('/zoom/edit/{zoom}', 'ZoomController@edit');
+Route::put('/zoom/edit/{zoom}', 'ZoomController@update');
+Route::get('/zoom/delete/{zoom}', 'ZoomController@del');
+Route::delete('/zoom/delete/{zoom}', 'ZoomController@destroy');
 
 
 
