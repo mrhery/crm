@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Zoom;
+use App\Student;
 use Illuminate\Http\Request;
 use App\Services\ZoomService;
 
@@ -44,7 +45,6 @@ class ZoomController extends Controller
             'start' => 'required|min:3',
             'end' => 'required|min:3',
             'password' => 'required|min:3',
-            'duration' => 'required'
         ]);
 
         $webinarDetails = ZoomService::createWebinar($request);
@@ -62,7 +62,6 @@ class ZoomController extends Controller
         $webinar->start_time = $validated['start'];
         $webinar->end_time = $validated['end'];
         $webinar->password = $validated['password'];
-        $webinar->duration = $validated['duration'];
         $webinar->webinar_id = $webinar_id;
         $webinar->start_url = $start_url;
         $webinar->join_url = $join_url;
@@ -80,10 +79,13 @@ class ZoomController extends Controller
      */
     public function showParticipants($webinarId)
     {
+        $students = Student::all();
         // dd($webinarId);
         $webinarDetails = ZoomService::getListRegistree($webinarId);
 
         $participants = $webinarDetails->registrants;
+
+        dd($participants);
 
         return view('zoom.participants', compact('participants'));
     }
@@ -96,7 +98,7 @@ class ZoomController extends Controller
      */
     public function edit(Zoom $zoom)
     {
-        //
+        return view('zoom.edit', compact('zoom'));
     }
 
     /**
@@ -108,7 +110,20 @@ class ZoomController extends Controller
      */
     public function update(Request $request, Zoom $zoom)
     {
-        //
+        $webinarDetails = ZoomService::updateWebinar($request, $zoom->webinar_id);
+
+        $zoom->topic = $request->topic;
+        $zoom->start_time = $request->start;
+        $zoom->end_time = $request->end;
+        $zoom->password = $request->password;
+        $zoom->save();
+
+        return redirect('/zoom');
+    }
+
+    public function del(Zoom $zoom)
+    {	
+		return view("zoom.delete", compact("zoom"));
     }
 
     /**
@@ -119,6 +134,9 @@ class ZoomController extends Controller
      */
     public function destroy(Zoom $zoom)
     {
-        //
+        ZoomService::destroyWebinar($zoom->webinar_id);
+        $zoom->delete();
+
+        return redirect("zoom")->with('success', 'Zoom webinar has been deleted successfully.');
     }
 }

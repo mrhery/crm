@@ -36,20 +36,11 @@
             <div class='row my-3'>
                 <div class='col-md-6'>
                     <div class="form-group">
-                        <label for="name">Duration(In Minutes)</label>
-                        <input name="duration" type="text" class="form-control" required>
-                    </div>
-                </div>
-
-                <div class='col-md-6'>
-                    <div class="form-group">
                         <label for="name">Start Time</label>
                         <input name="start" type="datetime-local" class="form-control" required>
                     </div>
                 </div>
-            </div>
 
-            <div class='row my-3'>
                 <div class='col-md-6'>
                     <div class="form-group">
                         <label for="name">End Time</label>
