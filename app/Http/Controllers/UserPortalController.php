@@ -110,6 +110,7 @@ class UserPortalController extends Controller
     }
 
     public function invite($id, Request $request) {
+        Session::put('staff_invite_id', $id);
         $user_details = User::where('user_id', $id)->first();
 
         return view('staff.invite', compact('user_details'));
