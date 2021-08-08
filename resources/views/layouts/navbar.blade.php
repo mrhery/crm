@@ -71,7 +71,7 @@
 				<li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/customer-support">
 						Customer Support 
-						<span class="fas fa-circle text-dark"></span>
+						<span class="fas fa-circle" id="noti-indicator"></span>
 					</a>
                 </li>
             </ul>
@@ -124,20 +124,18 @@ wsn.onopen = function(){
 		
 		switch(data.action){
 			case "notify":
-				
+				$("#noti-indicator").addClass("text-success");
 			break;
 		}
-	};
-	
-	
+	};	
 };
 
 wsn.onclose = function(){
-	console.log("Connection to websocket server closed.");
+	//console.log("Connection to websocket server closed.");
 };
 
 wsn.onerror = function(e){
-	console.log("Connection to websocket server error: ", e);
+	//console.log("Connection to websocket server error: ", e);
 };
 </script>
 
