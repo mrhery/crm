@@ -53,13 +53,16 @@ html, body {
 			<div class="alert alert-danger alert-block">	
 				<strong>This page is currently closed for while due to constrcution in progress.</strong>
 			</div>
+		@elseif($error)
+			<div class="alert alert-danger alert-block">	
+				<strong>Fail creating your chat communication channel. Please try again</strong>
+			</div>
 		@else
-		
 		<div class="row h-m-100">
 			<div class="col-md-4 h-100">
 				<div class="card h-100">
 					<div class="card-header">
-						<span class="fas fa-list"></span> Issues Listing
+						<span class="fas fa-list"></span> Issues Listing ({{ $uc->channel }})
 					</div>
 					
 					<div class="card-body p-0" id="subject-list">
@@ -129,11 +132,14 @@ html, body {
 
 <script>
 var ws = null;
+var current_issue = null;
+
 
 $(document).ready(function(){
 	console.log("JQuery is ready now!");
 	
-	load_list();
+	//load_list();
+	run_ws_client()
 });
 
 $(document).on("click", ".subject-row", function(){
@@ -174,7 +180,49 @@ function load_list(){
 }
 
 function run_ws_client(){
-	ws = new WebSocket("ws://{{ env('CS_WS_Server') }}/admin/");
+	ws = new WebSocket("ws://{{ env('CS_WS_Server') }}/admin/{{ $uc->channel }}");
+	
+	ws.onopen = function(){
+		console.log("WebSocket connection is open.");
+		
+		ws.onmessage = function(m){
+			var d = m.data;
+			
+			switch(d.action){
+				case "chat":
+					
+				break;
+				
+				case "issue":
+					switch(d.type){
+						case "new":
+						
+						break;
+						
+						case "taken":
+						
+						break;
+						
+						case "closed":
+						
+						break;
+					}
+				break;
+			}
+		}
+	};
+	
+	ws.onerror = function(e){
+		setTimeout(function(){
+			console.log(e);
+		}, 5000);
+	};
+	
+	ws.onclose = function(){
+		setTimeout(function(){
+			console.log("Connection to WS Server closed.");
+		}, 5000);
+	};
 }
 </script>
 
