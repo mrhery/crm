@@ -129,7 +129,7 @@ html, body {
 		@endif
 	</div>
 </div>
-
+{{ csrf_token() }}
 <script>
 var ws = null;
 var current_issue = null;
@@ -138,7 +138,7 @@ var current_issue = null;
 $(document).ready(function(){
 	console.log("JQuery is ready now!");
 	
-	//load_list();
+	load_list();
 	run_ws_client()
 });
 
@@ -159,23 +159,24 @@ $("#chat-send").on("click", function(){
 
 function load_list(){
 	$.ajax({
-		method: "POST",
-		url: "{{ url('ajax') }}",
+		method: "GET",
+		url: "{{ url('api/user') }}",
 		data: {
-			action: "list_topic",
-			_token: "{{ csrf_token() }}"	
+			action: "list_topicx",
+			//_token: "{{ csrf_token() }}"	
 		},
-		dataType: "json"
+		dataType: "text"
 	}).done(function(res){
-		if(res.status == "success"){
-			var data = res.data;
+		console.log(res);
+		// if(res.status == "success"){
+			// var data = res.data;
 			
-			data.forEach(function(d){
+			// data.forEach(function(d){
 				
-			});
-		}else{
-			alert("Fail fetching listing data from API server.");
-		}
+			// });
+		// }else{
+			// alert("Fail fetching listing data from API server.");
+		// }
 	});
 }
 
@@ -195,6 +196,10 @@ function run_ws_client(){
 				
 				case "issue":
 					switch(d.type){
+						case "list":
+						
+						break;
+						
 						case "new":
 						
 						break;
@@ -207,6 +212,10 @@ function run_ws_client(){
 						
 						break;
 					}
+				break;
+				
+				case "alert":
+					alert(d.message);
 				break;
 			}
 		}
