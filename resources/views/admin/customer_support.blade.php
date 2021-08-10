@@ -131,6 +131,20 @@ html, body {
 </div>
 {{ csrf_token() }}
 <script>
+function base64_encode(str) {
+	return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+		function toSolidBytes(match, p1) {
+			return String.fromCharCode('0x' + p1);
+		}
+	));
+}
+
+function base64_decode(str) {
+	return decodeURIComponent(atob(str).split('').map(function(c) {
+		return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	}).join(''));
+}
+	
 var ws = null;
 var current_issue = null;
 
@@ -138,7 +152,7 @@ var current_issue = null;
 $(document).ready(function(){
 	console.log("JQuery is ready now!");
 	
-	load_list();
+	//load_list();
 	run_ws_client()
 });
 
@@ -197,19 +211,19 @@ function run_ws_client(){
 				case "issue":
 					switch(d.type){
 						case "list":
-						
+							
 						break;
 						
 						case "new":
-						
+							
 						break;
 						
 						case "taken":
-						
+							
 						break;
 						
 						case "closed":
-						
+							
 						break;
 					}
 				break;
