@@ -384,6 +384,8 @@ Route::delete('/zoom/delete/{zoom}', 'ZoomController@destroy');
 
 Route::post("/ajax", 'ChatAPI@index');
 
+Route::get("/sample-client", 'SampleChat@index');
+
 
 
 

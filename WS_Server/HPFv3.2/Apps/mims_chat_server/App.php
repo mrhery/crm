@@ -2,8 +2,6 @@
 header("Content-Type: text/plain");
 include_once(__DIR__ . "/Addons/vendor/autoload.php");
 
-
-
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Server\IoServer;
@@ -11,51 +9,74 @@ use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
 class MyChat implements MessageComponentInterface {
-    protected $clients;
-	private $rooms = [];
+	private $users = [];
 	
     public function __construct(){
 		echo "Server Called on " .  gethostbyname(gethostname()) . "\n";
-        $this->clients = new \SplObjectStorage;
     }
 
-    public function onOpen(ConnectionInterface $conn){		
-		$url = str_replace("/echo/", "", $conn->httpRequest->getUri()->getPath());
+    public function onOpen(ConnectionInterface $conn){
+		$us = explode("/", ltrim($conn->httpRequest->getUri()->getPath(), "/"));
+		$error = true;
 		
-		$us = explode("/", $url);
+		print_r($us);
 		
-		if(count($us) == 2){
-			$this->rooms[$us[0]][$us[1]] = $conn; 
+		if(count($us) > 1){
+			switch($us[0]){
+				case "admin":
+					if(isset($us[1])){
+						$uc = user_chat::getBy([
+							"channel"	=> $us[1]
+						]);
+						
+						if(count($uc)){
+							$error = false;
+							$uc = $uc[0];
+							
+							$this->users[$us[1]] = $conn;
+							echo "admin logged in\n";
+						}
+					}
+				break;
+				
+				case "client":
+				
+				break;
+			}
+		}
+		
+		if($error){
+			$conn->close();
 		}
     }
 
     public function onMessage(ConnectionInterface $from, $msg){
-		$url = str_replace("/echo/", "", $from->httpRequest->getUri()->getPath());
-		$us = explode("/", $url);
+		$us = explode("/", $from->httpRequest->getUri()->getPath());
 		
-		if(count($us) == 2){
-			if(isset($this->rooms[$us[0]]) && is_array($this->rooms[$us[0]])){
-				foreach($this->rooms[$us[0]] as $user => $conn){
-					$conn->send(base64_encode(json_encode([
-						"from"		=> $us[1],
-						"message"	=> $msg
-					])));
+		print_r($msg);
+		
+		$d = json_decode(base64_decode($msg));
+		
+		if(count($us) > 1){
+			if(isset($this->users[$us[1]])){
+				switch($msg->action){
+					case "issue":
+					
+					break;
+					
+					case "chat":
+						
+					break;
 				}
+			}else{
+				$from->close();
 			}
 		}
 	}
 
     public function onClose(ConnectionInterface $conn){
-        $this->clients->detach($conn);
 		$url = str_replace("/echo/", "", $conn->httpRequest->getUri()->getPath());
-		
 		$us = explode("/", $url);
-		
-		if(count($us) == 2){
-			if(isset($this->rooms[$us[0]][$us[1]])){
-				unset($this->rooms[$us[0]][$us[1]]); 
-			}
-		}
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e){

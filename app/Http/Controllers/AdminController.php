@@ -160,8 +160,12 @@ class AdminController extends Controller
             $greetings = "Good Evening!";
 
         } else {
-
-            $duration = "undefined";
+			$from = date('Y-m-d 15:00:00');
+            $to = date('Y-m-d 15:59:59');
+            $duration = "11 pm - 12 am";
+            $greetings = "Good Evening!";
+			
+            //$duration = "undefined";
 
         }
 
