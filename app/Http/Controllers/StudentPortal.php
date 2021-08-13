@@ -41,6 +41,15 @@ class StudentPortal extends Controller
         return view("studentportal.login");
     }
 
+    public function registerForm(Request $request) {
+        $student_id = Session::get("student_login_id");
+        return view("studentportal.bussiness-form", compact('student_id'));
+    }
+
+    public function bussinessForm(Request $request) {
+        
+    }
+
     public function login(Request $request)
     {
 
