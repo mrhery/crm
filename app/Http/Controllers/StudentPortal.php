@@ -12,6 +12,7 @@ use App\Membership_Level;
 use App\Comment;
 use Carbon\Carbon;
 use App\User;
+use App\BussinessEventDetails;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -47,12 +48,15 @@ class StudentPortal extends Controller
     }
 
     public function bussinessForm(Request $request) {
-        
+        if($request->filled('income') && $request->filled('bussiness')) {
+            //part database tak buat lagi
+        }else {
+            return redirect()->route('student.regForm')->with('error','Problem on inserting data.');
+        }
     }
 
     public function login(Request $request)
     {
-
         $validatedData = $request->validate([
             'email' => 'required',
             'password' => 'required',

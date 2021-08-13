@@ -53,22 +53,30 @@
             </div>
         </div> --}}
         <div class="container h-50">
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-block">
+                <button type="button" class="close" data-bs-dismiss="alert">×</button>	
+                <strong>{{ $message }}</strong>
+            </div>
+            @endif
             <div class="row h-100 justify-content-center align-items-center">
               <div class="card">
                   <div class="card-body">
                     <form class="col-12" action="{{ url('student/bussiness-form') }}" method="post">
+                        @csrf
                         <h5 class="card-title">Insert Your Bussiness Details</h5>
                         <hr>
                         <div class="form-group">
                           <label for="formGroupExampleInput">Bussiness Type</label>
-                          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Bussiness type">
+                          <input type="text" name="bussiness" class="form-control" id="formGroupExampleInput" placeholder="Bussiness type" required>
                           <small id="emailHelp" class="form-text text-muted">Bussiness type such as bauty product, food supplier and etc.</small>
                         </div>
                         <div class="form-group">
                           <label for="formGroupExampleInput2">Monthly income</label>
-                          <input type="number" class="form-control" min="0" id="formGroupExampleInput2" placeholder="Monthly income" onkeypress="return isNumber(event)">
+                          <input type="number" name="income" class="form-control" min="0" id="formGroupExampleInput2" placeholder="Monthly income" onkeypress="return isNumber(event)" required>
                         </div>
-                      </form>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save pr-2"></i>Submit</button>
+                    </form>
                   </div>
               </div>
             </div>

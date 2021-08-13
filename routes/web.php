@@ -354,8 +354,8 @@ Route::prefix('student')->group(function() {
 	Route::post('/login', 'StudentPortal@login')->name('student.login.submit');
 	Route::get('/logout', 'StudentPortal@logout')->name('student.logout');
 	Route::get('/dashboard/{student}', 'StudentPortal@show')->name('student.dashboard');
-	Route::get('/register-form/{student}', 'StudentPortal@registerForm')->name('student.regForm');
-	Route::post('/bussiness-form', 'StudentPortal@bussinessForm')->name('student.bussinessForm');
+	Route::get('/bussiness-event-details', 'StudentPortal@registerForm')->name('student.regForm');
+	Route::post('/bussiness-form', 'StudentPortal@bussinessForm');
 });
 
 Route::prefix('staff')->group(function() {

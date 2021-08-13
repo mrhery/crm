@@ -315,7 +315,7 @@ Customer Profiles
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary"><i class="bi bi-save pr-2"></i>Save  Changes</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-save pr-2"></i>Save Changes</button>
                             </form>
                         </div>
                     </div>
