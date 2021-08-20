@@ -108,7 +108,7 @@ Route::post('update-mail/{product_id}/{package_id}/{payment_id}/{stud_id}', 'Bla
 Route::get('send-mail/{product_id}/{package_id}/{payment_id}/{stud_id}', 'BlastingController@send_mail');
 Route::get('participant-mail/{product_id}/{package_id}/{payment_id}/{stud_id}', 'BlastingController@participant_mail');
 Route::post('update-participant-mail/{product_id}/{package_id}/{payment_id}/{stud_id}', 'BlastingController@update_participant_mail');
-
+Route::post('bulk-email-blast', 'BlastingController@blastBulkEmail')->name('email-bulk-blast');;
 /*
 |--------------------------------------------------------------------------
 | Manage event
@@ -353,6 +353,7 @@ Route::prefix('student')->group(function() {
 	Route::get('/login','StudentPortal@loginForm')->name('student.login');
 	Route::post('/login', 'StudentPortal@login')->name('student.login.submit');
 	Route::get('/logout', 'StudentPortal@logout')->name('student.logout');
+	Route::post('/reset-password', 'StudentPortal@resetPassword')->name('student_resetPassword');
 	Route::get('/dashboard/{student}', 'StudentPortal@show')->name('student.dashboard');
 	Route::get('/bussiness-event-details', 'StudentPortal@registerForm')->name('student.regForm');
 	Route::post('/bussiness-form', 'StudentPortal@bussinessForm');

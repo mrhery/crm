@@ -62,6 +62,8 @@ class StudentPortal extends Controller
             'password' => 'required',
         ]);
 
+        // dd(Hash::make('password'));
+
         $student_detail = Student::where('email', '=',$validatedData['email'])->first();
 
         if($student_detail == (null || "")){
@@ -74,6 +76,7 @@ class StudentPortal extends Controller
             $stud_id = $student_detail->stud_id;
 
             if (Hash::check($validatedData['password'], $student_detail->student_password)) {
+
 
                 Session::put("student_login_id", $stud_id);
 

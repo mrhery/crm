@@ -23,9 +23,9 @@ class ImportExcelController extends Controller
         $product = Product::where('product_id', $product_id)->first();
         $package = Package::where('package_id', $package_id)->first();
         $data = Student::orderBy('id','desc')->paginate(15);
-        $emails = Email::all();
+        
 
-        return view('admin.reports.importexcel', compact('data', 'product', 'package', 'emails'));
+        return view('admin.reports.importexcel', compact('data', 'product', 'package'));
     }
 
     public function import(Request $request, $product_id, $package_id )

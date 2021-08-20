@@ -46,6 +46,17 @@
                                 {{ csrf_field() }}
                             </form>
                         </li>
+                        <li class="nav-item">
+                            <a class="dropdown-item" href="/student/reset-password"
+                                onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                                <i class="bi bi-box-arrow-right pr-2"></i> Logout
+                            </a>
+    
+                            <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
