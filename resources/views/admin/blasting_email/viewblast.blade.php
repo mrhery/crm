@@ -62,7 +62,7 @@
 
         <div class="col-md-3">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary" id="bt-get-email" value="create">Save changes</button>
+            <button type="submit" class="btn btn-primary" id="bt-get-email" value="create">Send emails</button>
           </div>
         </div>
       </div>
