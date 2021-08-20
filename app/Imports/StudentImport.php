@@ -86,8 +86,6 @@ class StudentImport implements ToCollection, WithChunkReading, WithHeadingRow
 
             }
         }
-
-        dispatch(new TestJobMail($rows, $this->email_id, $this->regex_content));
         
     }
 
