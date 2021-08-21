@@ -26,7 +26,7 @@ class StudentPortal extends Controller
     public function index()
     {
         if(Session::get('student_login_id')){
-			return view("studentportal.dashboard");
+			return redirect("studentportal.dashboard");
 		}else{
 			return view("studentportal.login");
 		}
@@ -77,16 +77,17 @@ class StudentPortal extends Controller
 
             if (Hash::check($validatedData['password'], $student_detail->student_password)) {
 
-
                 Session::put("student_login_id", $stud_id);
 
                 Session::forget('student_login');
+                Session::save();
                 
                 return redirect('/student/dashboard/'.$stud_id);
 
             }else{
-                
-                return view("studentportal.login")->with('error', 'Login fail. Username or password are incorrect.');
+                Session::put("student_login", "fail");
+
+                return view("studentportal.login");
             }
         }
         
@@ -102,7 +103,7 @@ class StudentPortal extends Controller
     {
         $request->session()->flush();
 
-        return view("studentportal.login");
+        return redirect("student/login");
     }
 
     /**
@@ -111,17 +112,19 @@ class StudentPortal extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($stud_id)
+    public function show()
     {
+        Session::forget('successful_reset');
+        Session::save();
         $student_authenticated = session('student_login_id');
 
         if($student_authenticated == (null||"")){
             return view("studentportal.login");
 
         }else{
-            $student_detail = Student::where('stud_id', $stud_id)->firstOrFail();
+            $student_detail = Student::where('stud_id', $student_authenticated)->firstOrFail();
 
-            $payment = Payment::where('stud_id', $stud_id)
+            $payment = Payment::where('stud_id', $student_authenticated)
             ->orderBy('created_at', 'DESC')
             ->get();
     
@@ -132,7 +135,7 @@ class StudentPortal extends Controller
                 $member_name = $member_lvl->name;
             }
     
-            $comment = Comment::where('stud_id', $stud_id)->get();
+            $comment = Comment::where('stud_id', $student_authenticated)->get();
             
             $ncomment = [];
     
@@ -151,7 +154,7 @@ class StudentPortal extends Controller
                 }
             }
     
-            $paymentMonth = Payment::where('stud_id', $stud_id)
+            $paymentMonth = Payment::where('stud_id', $student_authenticated)
             ->whereYear('created_at', Carbon::now()->year)
             ->whereMonth('created_at', Carbon::now()->month)
             ->get();
@@ -200,6 +203,74 @@ class StudentPortal extends Controller
            
         }
          // return view('studentportal.dashboard');
+    }
+
+    public function showCheckPassword()
+    {
+        return view("studentportal.checkCurrentPassword");
+    }
+
+    public function checkCurrentPassword(Request $request)
+    {
+        // dd($request->password);
+        $validatedData = $request->validate([
+            'password' => 'required',
+        ]);
+
+        $stud_id = Session::get('student_login_id');
+
+        $student_detail = Student::where('stud_id', '=',$stud_id)->first();
+
+        if (Hash::check($validatedData['password'], $student_detail->student_password)) {
+            
+            Session::forget('check_current_password');
+            Session::save();
+
+            return redirect('/student/form-reset-password');
+
+        }else{
+            
+            Session::put("check_current_password", "fail");
+            
+            return view("studentportal.checkCurrentPassword");
+        }
+    }
+
+    public function showResetPassword()
+    {
+        return view("studentportal.formResetPassword");
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $stud_id = Session::get('student_login_id');
+
+        $student_detail = Student::where('stud_id', '=',$stud_id)->first();
+
+        $validatedData = $request->validate([
+            'new_password' => 'required',
+            'confirm_password' => 'required',
+        ]);
+
+        if (Hash::check($validatedData['new_password'], $student_detail->student_password)) {
+            
+            Session::put("same_password", "fail");
+
+            return redirect('/student/form-reset-password');
+
+        }else{
+            $student_detail->student_password = Hash::make($validatedData['new_password']);
+            $student_detail->save();
+
+            Session::forget('same_password');
+            Session::save();
+            Session::forget('success_check');
+            Session::save();
+            Session::put("successful_reset", "success");
+            
+            return redirect('/student/form-reset-password');
+        }
+        
     }
 
     /**

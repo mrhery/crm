@@ -10,15 +10,9 @@
             {{-- left element --}}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item ">
-                    <a class="nav-link active" aria-current="page" href="/dashboard">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/student/dashboard">Home</a>
                 </li>
 				
-				<li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/customer-support">
-						Customer Support 
-						<span class="fas fa-circle text-dark"></span>
-					</a>
-                </li>
             </ul>
 
             {{-- right element --}}
@@ -36,10 +30,8 @@
                             <a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#passwordModal"><i class="fas fa-address-card pr-3"></i> Change Password</a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="dropdown-item" href="/student/logout"
-                                onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                <i class="bi bi-box-arrow-right pr-2"></i> Logout
+                            <a class="dropdown-item" href="/student/form-current-password">
+                                <i class="bi bi-key pr-2"></i> Reset Password
                             </a>
     
                             <form id="logout-form" action="/logout" method="POST" style="display: none;">
@@ -47,10 +39,8 @@
                             </form>
                         </li>
                         <li class="nav-item">
-                            <a class="dropdown-item" href="/student/reset-password"
-                                onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                <i class="bi bi-box-arrow-right pr-2"></i> Logout
+                            <a class="dropdown-item" href="/student/logout">
+                                 <i class="bi bi-box-arrow-right pr-2"></i> Logout
                             </a>
     
                             <form id="logout-form" action="/logout" method="POST" style="display: none;">

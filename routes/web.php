@@ -353,8 +353,11 @@ Route::prefix('student')->group(function() {
 	Route::get('/login','StudentPortal@loginForm')->name('student.login');
 	Route::post('/login', 'StudentPortal@login')->name('student.login.submit');
 	Route::get('/logout', 'StudentPortal@logout')->name('student.logout');
-	Route::post('/reset-password', 'StudentPortal@resetPassword')->name('student_resetPassword');
-	Route::get('/dashboard/{student}', 'StudentPortal@show')->name('student.dashboard');
+	Route::get('/form-current-password', 'StudentPortal@showCheckPassword')->name('form_check_password');
+	Route::post('/check-current-password', 'StudentPortal@checkCurrentPassword')->name('check-current-password');
+	Route::get('/form-reset-password', 'StudentPortal@showResetPassword')->name('form_reset_password');
+	Route::post('/reset-password', 'StudentPortal@resetPassword')->name('reset-password');
+	Route::get('/dashboard', 'StudentPortal@show')->name('student.dashboard');
 	Route::get('/bussiness-event-details', 'StudentPortal@registerForm')->name('student.regForm');
 	Route::post('/bussiness-form', 'StudentPortal@bussinessForm');
 });
