@@ -10,6 +10,7 @@ use Ratchet\WebSocket\WsServer;
 
 class MyChat implements MessageComponentInterface {
 	private $users = [];
+	private $customers = [], $admin = [];
 	
     public function __construct(){
 		echo "Server Called on " .  gethostbyname(gethostname()) . "\n";
@@ -34,13 +35,15 @@ class MyChat implements MessageComponentInterface {
 							$uc = $uc[0];
 							
 							$this->users[$us[1]] = $conn;
+							
+							$this->admin[] = $us[1];
 							echo "admin logged in\n";
 						}
 					}
 				break;
 				
 				case "client":
-				
+					
 				break;
 			}
 		}
@@ -61,11 +64,31 @@ class MyChat implements MessageComponentInterface {
 			if(isset($this->users[$us[1]])){
 				switch($msg->action){
 					case "issue":
-					
+						switch($msg->type){
+							case "list":
+							
+							break;
+							
+							case "create":
+							
+							break;
+							
+							case "update":
+							
+							break;
+						}
 					break;
 					
 					case "chat":
-						
+						switch($msg->type){
+							case "load":
+							
+							break;
+							
+							case "send":
+								
+							break;
+						}
 					break;
 				}
 			}else{
