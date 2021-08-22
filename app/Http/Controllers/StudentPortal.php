@@ -12,7 +12,7 @@ use App\Membership_Level;
 use App\Comment;
 use Carbon\Carbon;
 use App\User;
-use App\BussinessEventDetails;
+use App\BussinessDetail;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -49,7 +49,20 @@ class StudentPortal extends Controller
 
     public function bussinessForm(Request $request) {
         if($request->filled('income') && $request->filled('bussiness')) {
-            //part database tak buat lagi
+            
+            $bussInsert = BussinessDetail::create([
+                'student_id' => Session::get("student_login_id"),
+                'training_course_id' => 'TEST123',
+                'bussiness_type' => $request->bussiness,
+                'monthly_income' => $request->income
+            ]);
+
+            if($bussInsert) {
+                return redirect()->route('student.regForm')->with('success','Success.');
+            }else {
+                return redirect()->route('student.regForm')->with('error','Problem on inserting data.');
+            }
+
         }else {
             return redirect()->route('student.regForm')->with('error','Problem on inserting data.');
         }
@@ -82,7 +95,7 @@ class StudentPortal extends Controller
                 Session::forget('student_login');
                 Session::save();
                 
-                return redirect('/student/dashboard/'.$stud_id);
+                return redirect('/student/dashboard/');
 
             }else{
                 Session::put("student_login", "fail");
