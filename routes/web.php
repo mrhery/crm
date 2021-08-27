@@ -182,7 +182,7 @@ Route::get('deleteuser/{id}', 'AdminController@destroy');
 
 Route::get('/', 'HomeController@viewproduct');
 Route::get('showpackage/{id}', 'HomeController@view');
-Route::get('pendaftaran/{product_id}/{package_id}', 'HomeController@register');
+Route::get('pendaftaran/{product_id}/{package_id}/{user_invite}', 'HomeController@register');
 Route::get('verification/{product_id}/{package_id}', 'HomeController@detailsic');
 
 /*
@@ -230,6 +230,7 @@ Route::get('redirect-billplz/{product_id}/{package_id}', 'ExistCustomerControlle
 // Thank you page
 Route::get('pendaftaran-berjaya','HomeController@thankyou');
 Route::get('pendaftaran-tidak-berjaya','HomeController@failed_payment');
+
 
 
 /*
@@ -367,6 +368,8 @@ Route::prefix('staff')->group(function() {
 	Route::post('/login', 'UserPortalController@login')->name('staff.login.submit');
 	Route::post('/logout', 'UserPortalController@logout')->name('staff.logout');
 	Route::get('/dashboard', 'UserPortalController@index')->name('staff.dashboard');
+	Route::get('/event-link', 'UserPortalController@showLink')->name('staff.link');
+	Route::get('/link-detail/{product_id}', 'UserPortalController@linkDetail')->name('staff.link_detail');
 	// Route::get('/link', 'UserPortalController@getLink')->name('staff.link');
 });
 
@@ -387,6 +390,7 @@ Route::put('/zoom/edit/{zoom}', 'ZoomController@update');
 Route::get('/zoom/delete/{zoom}', 'ZoomController@del');
 Route::delete('/zoom/delete/{zoom}', 'ZoomController@destroy');
 
+// kaji selidik/ticket_id
 
 Route::post("/ajax", 'ChatAPI@index');
 

@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Payment;
 use App\Student;
+use App\Offer;
+use App\Product;
+use App\Package;
 use Hash;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -29,6 +32,25 @@ class UserPortalController extends Controller
             // return view('staff.login');
             return redirect()->route('staff.login');
         }
+    }
+
+    public function showLink() {
+        $this->checkRole();
+        $offers = Offer::orderBy('id','desc')->get();
+        $product = Product::orderBy('id','desc')->paginate(15);
+
+        return view('staff.event_links', compact('offers', 'product'));
+    }
+
+    public function linkDetail(Request $request, $product_id) {
+        $this->checkRole();
+        
+        $product = Product::where('product_id', $product_id)->first();
+        $package = Package::where('product_id', $product_id)->paginate(15);
+        
+        $link = request()->getSchemeAndHttpHost().'/pendaftaran/'. $product->product_id . '/';
+
+        return view('staff.link_detail', compact('product', 'package', 'link'));   
     }
 
     public function login(Request $request) {

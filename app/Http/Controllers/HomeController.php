@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\TiketJob;
@@ -43,8 +44,10 @@ class HomeController extends Controller
     }
 
     /*-- Buyer Registration -----------------------------------------------*/
-    public function register($product_id,$package_id)
+    public function register($product_id,$package_id, $user_invite)
     {
+        Session::put('user_invite', $user_invite);
+        
         $package = Package::where('package_id', $package_id)->first();
         $product = Product::where('product_id', $product_id)->first();
 
