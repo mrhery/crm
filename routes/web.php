@@ -390,14 +390,16 @@ Route::put('/zoom/edit/{zoom}', 'ZoomController@update');
 Route::get('/zoom/delete/{zoom}', 'ZoomController@del');
 Route::delete('/zoom/delete/{zoom}', 'ZoomController@destroy');
 
-// kaji selidik/ticket_id
-
 Route::post("/ajax", 'ChatAPI@index');
 
 Route::get("/sample-client", 'SampleChat@index');
 
-
-
+// Bussiness Details
+Route::get('business_details/{ticket_id}', 'HomeController@showIC');
+Route::post('ticket-verification/{ticket_id}', 'HomeController@ICValidation');
+Route::get('next-details/{ticket_id}', 'HomeController@businessForm');
+Route::post('save-business-details/{ticket_id}', 'HomeController@saveBusinessDetails');
+Route::get('pendaftaran-berjaya-ticket','HomeController@thankyouTicket');
 
 
 

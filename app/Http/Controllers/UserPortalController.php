@@ -28,7 +28,7 @@ class UserPortalController extends Controller
     }
 
     public function checkRole() {
-        if(Session::get('role_id') != 'ROD005') {
+        if(!Session::has('role_id') || Session::get('role_id') != 'ROD005') {
             // return view('staff.login');
             return redirect()->route('staff.login');
         }

@@ -93,6 +93,7 @@ class ExistCustomerController extends Controller
 
     public function saveStepTwo($product_id, $package_id, $stud_id, Request $request)
     {
+
         $validatedData = $request->validate([
             'payment_id' => 'required',
             'pay_price'=> 'required|numeric',
@@ -318,15 +319,15 @@ class ExistCustomerController extends Controller
     {
         $student = $request->session()->get('student');
         $payment = $request->session()->get('payment');
-
+        
         $billplz = Client::make(env('BILLPLZ_API_KEY', '3f78dfad-7997-45e0-8428-9280ba537215'), env('BILLPLZ_X_SIGNATURE', 'S-jtSalzkEawdSZ0Mb0sqmgA'));
-
-        //get the bill
+        
+        // get the bill
         $bill = $billplz->bill();
         $response = $bill->get($payment->billplz_id);
         $pay_data = $response->toArray();
 
-        //update to database
+        // update to database
         $addData = array(
             'status' => $pay_data['state']
         );
