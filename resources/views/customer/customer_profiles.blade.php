@@ -42,7 +42,6 @@ Customer Profiles
     </nav>
 
     <div class="col-md-12 pt-3 table-responsive">
-        
         <form action="{{ url('customer_profiles') }}" class="input-group" method="GET">
             <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
         </form>

@@ -30,21 +30,26 @@ class HomeController extends Controller
     public function saveBusinessDetails(Request $request, $ticket_id) {
         
         if(Session::get('validatedIC')) {
-            $validatedData = $request->validate([
-                'business' => 'required',
-                'income'=> 'required|numeric',
-                'role' => 'required'
-            ]);
-            
-            $bussInsert = BusinessDetail::create([
-                'ticket_id' => $ticket_id,
-                'business_role' => $request->role,
-                'business_type' => $request->business,
-                'business_amount' => $request->income
-            ]);
-
-            if($bussInsert) {
-                return redirect('pendaftaran-berjaya-ticket');
+            if(!BusinessDetail::where('ticket_id', $ticket_id)->exists()) {
+                $validatedData = $request->validate([
+                    'business' => 'required',
+                    'income'=> 'required|numeric',
+                    'role' => 'required'
+                ]);
+                
+                $bussInsert = BusinessDetail::create([
+                    'ticket_id' => $ticket_id,
+                    'business_role' => $request->role,
+                    'business_type' => $request->business,
+                    'business_amount' => $request->income
+                ]);
+    
+                if($bussInsert) {
+                    Session::forget('validatedIC');
+                    return redirect('pendaftaran-berjaya-ticket');
+                }
+            }else {
+                return redirect('business_details/'. $ticket_id);
             }
         }else {
             return redirect('business_details/'. $ticket_id);

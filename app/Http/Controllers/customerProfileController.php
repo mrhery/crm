@@ -12,6 +12,7 @@ use App\Membership_Level;
 use App\Comment;
 use Carbon\Carbon;
 use App\User;
+use App\BusinessDetail;
 use Illuminate\Support\Facades\Auth;
 
 class customerProfileController extends Controller
@@ -19,6 +20,19 @@ class customerProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function customerDetails(Request $request) {
+        $search = $request->query('search');
+        $price = $request->query('price');
+        if($search && $price) {
+            $customers = BusinessDetail::where('business_role', 'LIKE', '%'.$search.'%')
+            ->where('business_type', 'LIKE', '%'.$search.'%')
+            ->orWhere('business_amount', '<', $price)
+            ->paginate(10);
+            dd($customers);
+        }
+        return view('customer.business_details');
     }
 
     public function customerAddComment($cust_id, Request $request) {
@@ -51,12 +65,12 @@ class customerProfileController extends Controller
         $search = $request->query('search');
 
         if($search) {
-            $customers = Student::where('first_name', 'LIKE', '%'.$search.'%')
-            ->whereNotNull('membership_id')
-            ->orWhere('last_name', 'LIKE', '%'.$search.'%')
-            ->orWhere('ic', 'LIKE', '%'.$search.'%')
-            ->paginate(10);
-
+            $customers = Student::whereNotNull('membership_id')
+            ->where(function($query) use ($search){
+                $query->where('first_name', 'LIKE', '%'.$search.'%')
+                ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+                ->orWhere('ic', 'LIKE', '%'.$search.'%');
+            })->paginate(10);
         }else {
             $customers = Student::whereNotNull('membership_id')->paginate(10);
         }
@@ -70,7 +84,7 @@ class customerProfileController extends Controller
         $payment = Payment::where('stud_id', $customer['stud_id'])
         ->orderBy('created_at', 'DESC')
         ->get();
-
+        
         $member_lvl = Membership_Level::where('level_id', $customer->level_id)->first()->name;
         $comment = Comment::where('stud_id', $customer['stud_id'])->get();
 		
