@@ -43,11 +43,20 @@
             </ol>
         </nav>
 
-        <div class="">
+        {{-- <script>
+          $(document).ready( function() {
+          $('.dropdown-toggle').dropdown();
+          });
+        </script> --}}
+        <div class="col-md-12 pt-3 table-responsive">
+          {{-- <form action="{{ url('customer_details') }}" class="input-group" method="GET">
+              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
+          </form> --}}
+          
           <div class="input-group mb-3">
             <form action="{{ url('customer_details') }}" class="input-group" method="GET">
               {{-- <input type="text" class="form-control" aria-label="Text input with segmented dropdown button"> --}}
-              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
+              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search role and name">
               <div class="input-group-append">
                 <select class="custom-select" id="inputGroupSelect02" name="price">
                   <option selected value="">Price</option>
@@ -63,112 +72,41 @@
               </div>
             </form>
           </div>
-        </div>
 
-        {{-- <script>
-          $(document).ready( function() {
-          $('.dropdown-toggle').dropdown();
-          });
-        </script> --}}
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Business Role</th>
+                <th scope="col">Business Type</th>
+                <th scope="col">Business Amount</th>
+                <th scope="col">Class</th>
+              </tr>
+            </thead>
 
-        {{-- <div class="wrapper">
-            <div class="search_box">
-                <div class="dropdown">
-                    <div class="default_option">All</div>  
-                    <ul>
-                      <li>All</li>
-                      <li>Recent</li>
-                      <li>Popular</li>
-                    </ul>
-                </div>
-                <div class="search_field">
-                  <input type="text" class="input" placeholder="Search">
-                  <i class="fas fa-search"></i>
-              </div>
-            </div>
-        </div> --}}
+            <tbody>
+              @php
+                  $no = (10 * ($data->currentPage() - 1));
+              @endphp
 
-        {{-- <div class="">
-          <div class="row searchFilter" >
-     <div class="col-sm-12" >
-      <div class="input-group" >
-       <input id="table_filter" type="text" class="form-control" aria-label="Text input with segmented button dropdown" >
-       <div class="input-group-btn" >
-        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >Category</span> <span class="caret" >&nbsp;</span></button>
-        <div class="dropdown-menu dropdown-menu-right" >
-           <ul class="category_filters" >
-            <li >
-             <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="" ><label for="all" >All</label>
-            </li>
-
-            <li >
-             <input type="radio" name="radios" id="Design" value="Design" ><label class="category-label" for="Design" >Design</label>
-            </li>
-
-            <li >
-             <input type="radio" name="radios" id="Marketing" value="Marketing" ><label class="category-label" for="Marketing" >Marketing</label>
-            </li>
-
-            <li >
-             <input type="radio" name="radios" id="Programming" value="Programming" ><label class="category-label" for="Programming" >Programming</label>
-            </li>
-
-            <li >
-             <input type="radio" name="radios" id="Sales" value="Sales" ><label class="category-label" for="Sales" >Sales</label>
-            </li>
-
-            <li >
-             <input type="radio" name="radios" id="Support" value="Support" ><label class="category-label" for="Support" >Support</label>
-            </li>
-           </ul>
-        </div>
-        <button id="searchBtn" type="button" class="btn btn-secondary btn-search" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
-       </div>
-      </div>
-     </div>
-  </div>
-        </div> --}}
-
-        {{-- <div class="input-group">
-          <form action="{{ url('customer_details') }}" class="input-group" method="GET">
-            <select class="selectpicker">
-              <option>Mustard</option>
-              <option>Ketchup</option>
-              <option>Barbecue</option>
-            </select>
-            <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
-            <div class="input-group-append">
-              <button class="btn btn-secondary" type="button">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          </form>
-        </div> --}}
-
-
-        {{-- <div class="main">
-          <div class="input-group">
-            <form action="{{ url('customer_details') }}" class="input-group" method="GET">
-              <select class="selectpicker">
-                <option>Mustard</option>
-                <option>Ketchup</option>
-                <option>Relish</option>
-              </select>
-              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
-              <div class="input-group-append">
-                <button class="btn btn-secondary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div> --}}
-        
-
-        <div class="col-md-12 pt-3 table-responsive">
-          {{-- <form action="{{ url('customer_details') }}" class="input-group" method="GET">
-              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
-          </form> --}}
+              @forelse ($data as $key => $k)
+                  <tr>
+                    <th scope="row">{{ ++$no }}</th>
+                    <td>{{ $k->name }}</td>
+                    <td>{{ $k->business_role }}</td>
+                    <td>{{ $k->business_type }}</td>
+                    <td>RM{{ $k->business_amount }}</td>
+                    <td>{{ $k->class }}</td>
+                  </tr>
+              @empty
+                <tr>
+                  <td colspan="5" class="text-center">No result founds for query</td>
+                </tr>
+              @endforelse
+            </tbody>
+          </table>
+          {{ $data->links() }}
         </div>
     </div>
 @endsection
