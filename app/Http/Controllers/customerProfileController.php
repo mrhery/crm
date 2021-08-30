@@ -26,11 +26,40 @@ class customerProfileController extends Controller
     }
 
     public function customerDetails(Request $request) {
-        $search = $request->query('search');
-        $price = $request->query('price');
-        if($search || $price) {
+        $search = (is_null($request->query('search')) ? "" : $request->query('search'));
+        $price = (is_null($request->query('price')) ? "" : $request->query('price'));
+
+        if($search && $price) {
+            $customers = BusinessDetail::where('business_amount', '<', $price)
+            ->where(function($query) use($search){
+                $query->where('business_role', 'LIKE', '%'.$search.'%')
+                      ->orWhere('business_type', 'LIKE', '%'.$search.'%');
+            })->get();
+            
+            $business_details = [];
+
+            if(count($customers) != 0) {
+                foreach($customers as $c) {
+                    $ticketname = Ticket::where('ticket_id', $c->ticket_id);
+                    
+                    if($ticketname->count() > 0) {
+                        $ticketname = $ticketname->first();
+                        
+                        $productname = Product::where('product_id', $ticketname->product_id)->first();
+                        $user = Student::where('ic', $ticketname->ic)->first();
+                        
+                        $c->class = $productname->name;
+                        $c->name = $user->first_name . " " . $user->last_name;
+                    }else {
+                        $c->class = '';
+                        $c->name = '';
+                    }
+                    $business_details[] = $c;
+                }
+            }
+        }elseif($search || $price) {
             $customers = BusinessDetail::where('business_role', 'LIKE', '%'.$search.'%')
-            ->where('business_type', 'LIKE', '%'.$search.'%')
+            ->orWhere('business_type', 'LIKE', '%'.$search.'%')
             ->orWhere('business_amount', '<', $price)
             ->get();
             
