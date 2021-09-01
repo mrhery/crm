@@ -8,9 +8,11 @@ use App\Product;
 use App\Package;
 use App\Payment;
 use App\Ticket;
+use App\Membership;
 use App\Membership_Level;
 use App\Comment;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use App\User;
 use App\BussinessEventDetails;
 use Illuminate\Support\Facades\Hash;
@@ -77,12 +79,13 @@ class StudentPortal extends Controller
 
             if (Hash::check($validatedData['password'], $student_detail->student_password)) {
 
-                Session::put("student_login_id", $stud_id);
+                Session::put('student_login_id', $stud_id);
+                Session::put('student_detail', $student_detail);
 
                 Session::forget('student_login');
                 Session::save();
                 
-                return redirect('/student/dashboard/'.$stud_id);
+                return redirect('/student/dashboard');
 
             }else{
                 Session::put("student_login", "fail");
@@ -199,7 +202,7 @@ class StudentPortal extends Controller
                 }
             }
     
-            return view('studentportal.dashboard', compact('student_detail', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'ncomment'));
+            return view('studentportal.dashboard', compact('student_detail', 'payment', 'data', 'total_paid', 'total_event', 'member_name', 'total_paid_month', 'payment_data', 'ncomment'));
            
         }
          // return view('studentportal.dashboard');
@@ -271,6 +274,36 @@ class StudentPortal extends Controller
             return redirect('/student/form-reset-password');
         }
         
+    }
+
+    public function listInvoice(){
+        $stud_id = Session::get('student_login_id');
+        $stud_detail = Session::get('student_detail');
+
+        if($stud_id== (null||"")){
+            return view("studentportal.login");
+        }else{
+
+            //dapatkan membership_id student
+            $membership_lvl_id = $stud_detail->level_id;
+
+            //dapatkan membership detail
+            $membership_level = Membership_Level::where('level_id', $membership_lvl_id)->first();
+
+            //payment yang dah bayar
+            $paid_payment = Payment::where('stud_id', $stud_id)->get()->sortByDesc('created_at')->first();
+
+            $latest_payment = $paid_payment->created_at;
+
+            foreach (CarbonPeriod::create($latest_payment, '1 month', Carbon::today()) as $month) {
+                $months[$month->format('m-Y')] = $month->format('F Y');
+            }
+
+            //bulan tak bayar
+            // dd($months);
+
+            return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'months'));
+        }
     }
 
     /**

@@ -193,6 +193,7 @@ Customer Profiles
         
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Customer Information</h1>
+            <a href="list-invoice" class="btn btn-success mr-3">Pay Now</a>
         </div>
 
         <div class="col-md-12">

@@ -43,7 +43,8 @@ Route::get('members-format/{membership_id}/{level_id}','MembershipController@exp
 Route::post('store-import/{membership_id}/{level_id}','MembershipController@store_import');
 Route::post('store-members/{membership_id}/{level_id}','MembershipController@store_members');
 Route::get('delete-member/{membership_id}/{level_id}/{student_id}', 'MembershipController@destroy');
-
+Route::get('membership/test-payment','MembershipController@testPayment');
+Route::get('membership/check-payment/{bill}','MembershipController@checkPayment');
 /*
 |--------------------------------------------------------------------------
 | Sales Report
@@ -360,6 +361,7 @@ Route::prefix('student')->group(function() {
 	Route::get('/dashboard', 'StudentPortal@show')->name('student.dashboard');
 	Route::get('/bussiness-event-details', 'StudentPortal@registerForm')->name('student.regForm');
 	Route::post('/bussiness-form', 'StudentPortal@bussinessForm');
+	Route::get('/list-invoice', 'StudentPortal@listInvoice')->name('student.listInvoice');
 });
 
 Route::prefix('staff')->group(function() {

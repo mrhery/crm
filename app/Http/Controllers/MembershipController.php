@@ -13,6 +13,7 @@ use App\Exports\MembersFormat;
 use Maatwebsite\Excel\Facades\Excel;
 use Mail;
 use Auth;
+use App\Services\Billplz;
 
 class MembershipController extends Controller
 {
@@ -284,5 +285,25 @@ class MembershipController extends Controller
 
         return redirect('membership/level/'.$membership_id.'/'.$level_id)->with('addsuccess', 'Customer successfully added');
 
+    }
+
+    public function testPayment(){
+        $webinarDetails = Billplz::test_create_bill();
+
+        // dd($webinarDetails->);
+        $url = $webinarDetails->url;
+        // return $webinarDetails;  
+        return redirect($url);      
+    }
+
+    public function checkPayment(Request $request){
+       
+        dd($request);
+        $flag = $request['billplz']['paid'];
+        
+        if($flag){
+
+        }
+        
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('studentportal.app')
 
 @section('title')
     Login

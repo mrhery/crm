@@ -44,11 +44,10 @@ class InvoiceCron extends Command
         //M1981113016705iqbal1
         
         //the real one
-        $student_ids = Payment::whereNotIn('pay_price',[0, null])->get()->unique('stud_id');
+        $student_ids = Payment::where('pay_price', '!=', 0)->where('pay_price', '!=', null)->get()->unique('stud_id');
 
         //testing purpose
         // $student_ids = Payment::whereIn('stud_id',['M1981113016705iqbal1', 'M1981113016705iqbal2'])->get();
-        
 
         dispatch(new InvoiceJobMail($student_ids));
     }

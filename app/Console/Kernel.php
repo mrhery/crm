@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command('invoice:cron')->monthlyOn(4, '15:00');
         $schedule->command('invoice:cron')->everyMinute();
+        // $schedule->command('invoice:cron')->monthlyOn(28, '00:00');
     }
 
     /**
