@@ -10,11 +10,11 @@
 <div class="col-md-12 px-4 py-4">   
 
   <div class="card-header py-2" style="border: 1px solid rgb(233, 233, 233); border-radius: 5px;">
-    <a href="/dashboard"><i class="bi bi-arrow-left"></i></a> &nbsp; <a href="/dashboard">Dashboard</a> / <b>Sales Report</b>
+    <a href="/dashboard"><i class="bi bi-arrow-left"></i></a> &nbsp; <a href="/dashboard">Dashboard</a> / <b>List Invoices</b>
   </div> 
      
   <div class="flex-md-nowrap pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Sales Report</h1>
+      <h1 class="h2">List Invoices</h1>
   </div> 
   
   <div class="row">
@@ -23,7 +23,7 @@
       <!-- Search box ---------------------------------------------------------->
       <input type="text" id="myInput" class="form-control" onkeyup="myFunction()" placeholder="Please Enter Event Name" title="Type in a name">
       
-      <div class="float-right pt-3">{{$product->links()}}</div>
+      <div class="float-right pt-3"></div>
       <br>
       
         <!-- View event details in table ----------------------------------------->
@@ -32,19 +32,29 @@
             <thead>
               <tr>
                 <th>#</th>
+                <th>Membership</th>
                 <th>Date</th>
-                <th>Event</th>
+                <th>Price</th>
                 <th class="text-center"><i class="fas fa-cogs"></i></th>
               </tr>
             </thead>
-            <tbody> 
+            <tbody>
               @foreach ($months as $month)
               <tr>
-                <td>{{$month}}</td>
-                <td></td>
                 <td>
+                  {{$no++}}
+                </td>
+                <td>
+                  {{$membership_level->name}}
+                </td>
+                <td>
+                  {{$month}}
+                </td>
+                <td>
+                {{$membership_level->price}}
                 </td>
                 <td class="text-center">
+                  <a href="" class="btn btn-success">Pay Now</a>
                 </td>
               </tr>
               @endforeach

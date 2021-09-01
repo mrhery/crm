@@ -14,7 +14,7 @@ use App\Comment;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\User;
-use App\BussinessEventDetails;
+use App\BussinessDetail;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -51,7 +51,20 @@ class StudentPortal extends Controller
 
     public function bussinessForm(Request $request) {
         if($request->filled('income') && $request->filled('bussiness')) {
-            //part database tak buat lagi
+            
+            $bussInsert = BussinessDetail::create([
+                'student_id' => Session::get("student_login_id"),
+                'training_course_id' => 'TEST123',
+                'bussiness_type' => $request->bussiness,
+                'monthly_income' => $request->income
+            ]);
+
+            if($bussInsert) {
+                return redirect()->route('student.regForm')->with('success','Success.');
+            }else {
+                return redirect()->route('student.regForm')->with('error','Problem on inserting data.');
+            }
+
         }else {
             return redirect()->route('student.regForm')->with('error','Problem on inserting data.');
         }
@@ -127,16 +140,11 @@ class StudentPortal extends Controller
         }else{
             $student_detail = Student::where('stud_id', $student_authenticated)->firstOrFail();
 
-            $payment = Payment::where('stud_id', $student_authenticated)
+            $payment = Payment::where('stud_id', $student_authenticated)->where('status', 'paid')
             ->orderBy('created_at', 'DESC')
             ->get();
     
-            $member_lvl = Membership_Level::where('level_id', $student_detail->level_id)->first();
-            $member_name;
-    
-            if($member_lvl != null){
-                $member_name = $member_lvl->name;
-            }
+            $member_lvl = Membership_Level::where('level_id', $student_detail->level_id)->first()->name;
     
             $comment = Comment::where('stud_id', $student_authenticated)->get();
             
@@ -202,7 +210,7 @@ class StudentPortal extends Controller
                 }
             }
     
-            return view('studentportal.dashboard', compact('student_detail', 'payment', 'data', 'total_paid', 'total_event', 'member_name', 'total_paid_month', 'payment_data', 'ncomment'));
+            return view('studentportal.dashboard', compact('student_detail', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'ncomment'));
            
         }
          // return view('studentportal.dashboard');
@@ -299,11 +307,17 @@ class StudentPortal extends Controller
                 $months[$month->format('m-Y')] = $month->format('F Y');
             }
 
+            $no = 1;
             //bulan tak bayar
             // dd($months);
 
-            return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'months'));
+            return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'months', 'no'));
         }
+    }
+
+    public function link_bill($student, $level){
+
+        
     }
 
     /**

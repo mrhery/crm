@@ -55,44 +55,44 @@ class Billplz{
         return $id;
     }
 
-    public static function create_bill(){
+    // public static function create_bill(){
 
-        $billplz = new Billplz();
+    //     $billplz = new Billplz();
 
-        $collection_id = $billplz->create_collection();
+    //     $collection_id = $billplz->create_collection();
 
-        $curl = curl_init();
+    //     $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://www.billplz.com/api/v3/bills',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array(
-                'collection_id' => $collection_id,
-                'email' => 'iqbalkisas6@gmail.com',
-                'mobile' => '0187944550',
-                'name' => 'iqbal',
-                'amount' => '100',
-                'description' => 'dawda',
-                'callback_url' => 'cuba',
-                'redirect_url' => 'http://127.0.0.1:8000/response-payment'
-            ),
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic M2Y3OGRmYWQtNzk5Ny00NWUwLTg0MjgtOTI4MGJhNTM3MjE1Og=='
-            ),
-        ));
+    //     curl_setopt_array($curl, array(
+    //         CURLOPT_URL => 'https://www.billplz.com/api/v3/bills',
+    //         CURLOPT_RETURNTRANSFER => true,
+    //         CURLOPT_ENCODING => '',
+    //         CURLOPT_MAXREDIRS => 10,
+    //         CURLOPT_TIMEOUT => 0,
+    //         CURLOPT_FOLLOWLOCATION => true,
+    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //         CURLOPT_CUSTOMREQUEST => 'POST',
+    //         CURLOPT_POSTFIELDS => array(
+    //             'collection_id' => $collection_id,
+    //             'email' => 'iqbalkisas6@gmail.com',
+    //             'mobile' => '0187944550',
+    //             'name' => 'iqbal',
+    //             'amount' => '100',
+    //             'description' => 'dawda',
+    //             'callback_url' => 'cuba',
+    //             'redirect_url' => 'http://127.0.0.1:8000/response-payment'
+    //         ),
+    //         CURLOPT_HTTPHEADER => array(
+    //             'Authorization: Basic M2Y3OGRmYWQtNzk5Ny00NWUwLTg0MjgtOTI4MGJhNTM3MjE1Og=='
+    //         ),
+    //     ));
         
-        $response = curl_exec($curl);
+    //     $response = curl_exec($curl);
         
-        curl_close($curl);
-        // echo $response;
+    //     curl_close($curl);
+    //     // echo $response;
 
-    }
+    // }
 
     public static function test_create_bill(){
 

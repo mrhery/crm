@@ -59,6 +59,12 @@
                 <strong>{{ $message }}</strong>
             </div>
             @endif
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-bs-dismiss="alert">×</button>	
+                <strong>{{ $message }}</strong>
+            </div>
+            @endif
             <div class="row h-100 justify-content-center align-items-center">
               <div class="card">
                   <div class="card-body">
@@ -73,7 +79,7 @@
                         </div>
                         <div class="form-group">
                           <label for="formGroupExampleInput2">Monthly income</label>
-                          <input type="number" name="income" class="form-control" min="0" id="formGroupExampleInput2" placeholder="Monthly income" onkeypress="return isNumber(event)" required>
+                          <input type="number" name="income" class="form-control" min="0" id="formGroupExampleInput2" placeholder="0" onkeypress="return isNumber(event)" required>
                         </div>
                         <button type="submit" class="btn btn-primary"><i class="bi bi-save pr-2"></i>Submit</button>
                     </form>
