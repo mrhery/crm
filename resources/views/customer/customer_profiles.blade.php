@@ -42,6 +42,7 @@ Customer Profiles
     </nav>
 
     <div class="col-md-12 pt-3 table-responsive">
+        
         <form action="{{ url('customer_profiles') }}" class="input-group" method="GET">
             <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search name and IC number">
         </form>
@@ -63,7 +64,7 @@ Customer Profiles
                 @forelse ($customers as $key => $customer)
                 <tr>
                     <th scope="row">{{ ++$no }}</th>
-                    <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
+                    <td>{{ ucwords(strtolower($customer->first_name)) }} {{ ucwords(strtolower($customer->last_name)) }}</td>
                     <td>{{ $customer->ic }}</td>
                     <td>
                         @if ($customer->status === "Active")

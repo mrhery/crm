@@ -43,8 +43,6 @@ Route::get('members-format/{membership_id}/{level_id}','MembershipController@exp
 Route::post('store-import/{membership_id}/{level_id}','MembershipController@store_import');
 Route::post('store-members/{membership_id}/{level_id}','MembershipController@store_members');
 Route::get('delete-member/{membership_id}/{level_id}/{student_id}', 'MembershipController@destroy');
-Route::get('membership/test-payment','MembershipController@testPayment');
-Route::get('membership/check-payment/{bill}','MembershipController@checkPayment');
 /*
 |--------------------------------------------------------------------------
 | Sales Report

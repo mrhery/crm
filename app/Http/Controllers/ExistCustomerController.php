@@ -26,6 +26,7 @@ class ExistCustomerController extends Controller
         $student = Student::where('stud_id', $stud_id)->first();
         $product = Product::where('product_id',$product_id)->first();
         $package = Package::where('package_id', $package_id)->first();
+		$count_package = Package::where('product_id', $product_id)->count();
         $stud = $request->session()->get('student');
 
         return view('customer_exist.step1', compact('student','product', 'package', 'stud'));
@@ -79,10 +80,37 @@ class ExistCustomerController extends Controller
             return view('customer_exist.step2_get1free1same',compact('student', 'payment', 'product', 'package', 'payment_id', 'package_name'));
 
         } else if($product->offer_id == 'OFF003') {
-
+			
+			//for Bulk Ticket (1,2,3)
+            if($count_package == 1){
+                
+                //if only one package for the event
+                return view('customer_exist.step2_bulkticket1',compact('student', 'payment', 'product', 'package', 'payment_id', 'package_name'));
+          
+            } else {
+          
+                //if has 3 package for the event
+                return view('customer_exist.step2_bulkticket',compact('student', 'payment', 'product', 'package', 'payment_id', 'package_name'));
+          
+            }
             //for Bulk Ticket
             return view('customer_exist.step2_bulkticket',compact('student', 'payment', 'product', 'package', 'payment_id', 'package_name'));
+		
+		} else if($product->offer_id == 'OFF004') {
 
+            //for Bulk Ticket (1,3,5)
+            if($count_package == 1){
+                
+                //if only one package for the event
+                return view('customer_exist.step2_bulkticket1',compact('student', 'payment', 'product', 'package', 'payment_id', 'package_name'));
+          
+            } else {
+          
+                //if has 3 package for the event
+                return view('customer_exist.step2_bulkticket',compact('student', 'payment', 'product', 'package', 'payment_id', 'package_name'));
+          
+            }
+            
         } else {
 
             echo 'No Such Offer';
