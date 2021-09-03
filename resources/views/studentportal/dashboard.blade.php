@@ -414,7 +414,8 @@ Customer Profiles
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Event Name</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Type</th>
                                             <th scope="col">Paid Date</th>
                                             <th scope="col">Paid Price</th>
                                         </tr>
@@ -423,9 +424,18 @@ Customer Profiles
                                         @forelse ($payment as $key => $p)
                                             <tr>
                                                 <th scope="row">{{ $key+1 }}</th>
-                                                <td>{{ $payment_data[$key]->name }}</td>
-                                                <td>{{ date('d/m/Y', strtotime($p->created_at)) }}</td>
-                                                <td>RM {{ $p->pay_price }}.00</td>
+                                                <td>
+                                                    {{ $payment_data[$key]->name }}
+                                                </td>
+                                                <td>
+                                                    {{ $type[$key]}}
+                                                </td>
+                                                <td>
+                                                    {{ date('d/m/Y', strtotime($p->created_at)) }}
+                                                </td>
+                                                <td>
+                                                    RM {{ $p->pay_price }}.00
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>

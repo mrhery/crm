@@ -54,7 +54,7 @@
                 {{$membership_level->price}}
                 </td>
                 <td class="text-center">
-                  <a href="" class="btn btn-success">Pay Now</a>
+                  <a href="/student/list-bill/{{$membership_level->level_id}}" class="btn btn-success">Pay Now</a>
                 </td>
               </tr>
               @endforeach

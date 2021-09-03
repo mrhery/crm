@@ -17,6 +17,7 @@ use App\User;
 use App\BussinessDetail;
 use Illuminate\Support\Facades\Hash;
 use Session;
+use App\Services\Billplz;
 
 class StudentPortal extends Controller
 {
@@ -187,13 +188,26 @@ class StudentPortal extends Controller
             }
             
             $payment_data = [];
+            $type = [];
     
             foreach($payment as $pt) {
-                $product1 = Product::where('product_id', $pt->product_id);
+                if($pt->product_id != (null || '')){
+                    $product1 = Product::where('product_id', $pt->product_id);
     
-                if($product1->count() > 0){
-                    $product1 = $product1->first();
-                    $payment_data[] = $product1;
+                    if($product1->count() > 0){
+                        $product1 = $product1->first();
+                        $payment_data[] = $product1;
+                        $type[] = 'Event';
+                    }
+
+                }elseif($pt->level_id != (null || '')){
+                    $level1 = Membership_Level::where('level_id', $pt->level_id);
+    
+                    if($level1->count() > 0){
+                        $level1 = $level1->first();
+                        $payment_data[] = $level1;
+                        $type[] = 'Membership';
+                    }
                 }
             }
             
@@ -210,10 +224,9 @@ class StudentPortal extends Controller
                 }
             }
     
-            return view('studentportal.dashboard', compact('student_detail', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'ncomment'));
+            return view('studentportal.dashboard', compact('student_detail', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'ncomment', 'type'));
            
         }
-         // return view('studentportal.dashboard');
     }
 
     public function showCheckPassword()
@@ -223,7 +236,7 @@ class StudentPortal extends Controller
 
     public function checkCurrentPassword(Request $request)
     {
-        // dd($request->password);
+
         $validatedData = $request->validate([
             'password' => 'required',
         ]);
@@ -285,6 +298,7 @@ class StudentPortal extends Controller
     }
 
     public function listInvoice(){
+
         $stud_id = Session::get('student_login_id');
         $stud_detail = Session::get('student_detail');
 
@@ -299,7 +313,7 @@ class StudentPortal extends Controller
             $membership_level = Membership_Level::where('level_id', $membership_lvl_id)->first();
 
             //payment yang dah bayar
-            $paid_payment = Payment::where('stud_id', $stud_id)->get()->sortByDesc('created_at')->first();
+            $paid_payment = Payment::where('stud_id', $stud_id)->where('status', 'paid')->get()->sortByDesc('created_at')->first();
 
             $latest_payment = $paid_payment->created_at;
 
@@ -308,49 +322,52 @@ class StudentPortal extends Controller
             }
 
             $no = 1;
-            //bulan tak bayar
-            // dd($months);
 
             return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'months', 'no'));
         }
     }
 
-    public function link_bill($student, $level){
+    public function linkBill($level){
 
-        
+        $stud_detail = Session::get('student_detail');
+        $lvl_detail = Membership_Level::where('level_id', $level)->first();
+        // dd($lvl_detail->price);
+        $link = Billplz::test_create_bill($stud_detail, $lvl_detail)->url;
+        // dd($link->url);
+        return redirect($link);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    public function receivePayment(Request $request, $stud, $level){
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        // dd($request, $stud, $level);
+        $billplz = $request->billplz;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // dd($billplz);
+        $stud_detail = Student::where('stud_id', $stud)->first();
+        $lvl_detail = Membership_Level::where('level_id', $level)->first();
+
+        $payment = new Payment();
+        $payment->payment_id = 'OD'.uniqid();
+        $payment->pay_price = $lvl_detail->price;
+        $payment->totalprice = $lvl_detail->price;
+        $payment->quantity = 1;
+        $payment->pay_method = 'transfer online';
+        $payment->email_status = 'sent';
+        $payment->stud_id = $stud_detail->stud_id;
+        $payment->offer_id = '';
+        $payment->membership_id = $lvl_detail->membership_id;
+        $payment->level_id = $lvl_detail->level_id;
+        $payment->billplz_id = $billplz['id'];
+
+        if($billplz['paid'] == true){
+            $payment->status = 'paid';
+            $payment->save();
+
+        }else{
+            $payment->status = 'due';
+            $payment->save();
+        }
+
+        return redirect('/student/dashboard');
     }
 }
