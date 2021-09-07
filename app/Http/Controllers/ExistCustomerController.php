@@ -334,7 +334,7 @@ class ExistCustomerController extends Controller
 
         $payment->fill($addData);
         $request->session()->put('payment', $payment);
-
+        dd();
         if ($payment->status == 'paid')
         {
             /*-- Manage Email ---------------------------------------------------*/
