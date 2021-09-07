@@ -12,6 +12,7 @@ use App\Package;
 use App\Payment;
 use App\Student;
 use App\Ticket;
+use App\Income;
 use App\BusinessDetail;
 use Illuminate\Support\Facades\Mail;
 use PDF;
@@ -33,15 +34,20 @@ class HomeController extends Controller
             if(!BusinessDetail::where('ticket_id', $ticket_id)->exists()) {
                 $validatedData = $request->validate([
                     'business' => 'required',
-                    'income'=> 'required|numeric',
+                    'income'=> 'required',
                     'role' => 'required'
                 ]);
+
+                $data = Ticket::where('ticket_id', $ticket_id)->first();
+                $dataStudent = Student::where('ic', $data->ic)->first();
+                $name = $dataStudent->first_name . ' ' . $dataStudent->last_name;
                 
                 $bussInsert = BusinessDetail::create([
                     'ticket_id' => $ticket_id,
                     'business_role' => $request->role,
                     'business_type' => $request->business,
-                    'business_amount' => $request->income
+                    'business_amount' => $request->income,
+                    'business_name' => $name
                 ]);
 
                 $student = $request->session()->get('student');
@@ -50,7 +56,7 @@ class HomeController extends Controller
                 if($bussInsert) {
                     Session::forget('validatedIC');
                     $request->session()->forget('student');
-                    
+
                     return redirect('pendaftaran-berjaya-ticket');
                 }
             }else {
@@ -116,8 +122,9 @@ class HomeController extends Controller
             $package = Package::where('package_id', $ticket->package_id)->first();
             $packageName = $package->name;
             $productName = $product->name;
+            $incomeOptions = Income::all();
 
-            return view('ticket.businessDetail', compact('productName', 'packageName', 'ticket_id'));
+            return view('ticket.businessDetail', compact('productName', 'packageName', 'ticket_id', 'incomeOptions'));
         }else {
             return redirect('business_details/'. $ticket_id);
         }

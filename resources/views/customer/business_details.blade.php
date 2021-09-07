@@ -56,15 +56,21 @@
           <div class="input-group mb-3">
             <form action="{{ url('customer_details') }}" class="input-group" method="GET">
               {{-- <input type="text" class="form-control" aria-label="Text input with segmented dropdown button"> --}}
-              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search role and name">
+              <input type="text" class="form-control" name="search" value="{{ request()->query('search') ? request()->query('search') : '' }}" placeholder="Search business type and name">
               <div class="input-group-append">
+                <select class="custom-select" id="inputGroupSelect02" name="role">
+                  <option selected value="">Role</option>
+                  <option value="Employee">Employee</option>
+                  <option value="Dropship">Dropship</option>
+                  <option value="Agent">Agent</option>
+                  <option value="Founder">Founder</option>
+                </select>
+
                 <select class="custom-select" id="inputGroupSelect02" name="price">
                   <option selected value="">Price</option>
-                  <option value="100">RM100</option>
-                  <option value="500">RM500</option>
-                  <option value="1000">RM1000</option>
-                  <option value="1500">RM1500</option>
-                  <option value="5000">RM5000</option>
+                  @foreach ($incomeOptions as $i)
+                      <option value="{{ $i->range }}">{{ $i->range }}</option>
+                  @endforeach
                 </select>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -80,7 +86,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Business Role</th>
                 <th scope="col">Business Type</th>
-                <th scope="col">Business Amount</th>
+                <th scope="col" class="text-center">Business Amount</th>
                 <th scope="col">Class</th>
               </tr>
             </thead>
@@ -96,7 +102,7 @@
                     <td>{{ $k->name }}</td>
                     <td>{{ $k->business_role }}</td>
                     <td>{{ $k->business_type }}</td>
-                    <td>RM{{ $k->business_amount }}</td>
+                    <td class="text-center">{{ $k->business_amount }}</td>
                     <td>{{ $k->class }}</td>
                   </tr>
               @empty
