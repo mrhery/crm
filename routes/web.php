@@ -403,28 +403,3 @@ Route::post('ticket-verification/{ticket_id}', 'HomeController@ICValidation');
 Route::get('next-details/{ticket_id}', 'HomeController@businessForm');
 Route::post('save-business-details/{ticket_id}', 'HomeController@saveBusinessDetails');
 Route::get('pendaftaran-berjaya-ticket','HomeController@thankyouTicket');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

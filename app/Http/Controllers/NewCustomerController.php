@@ -387,20 +387,20 @@ class NewCustomerController extends Controller
 
         $student->fill($addDataPassword);
 
-        $billplz = Client::make(env('BILLPLZ_API_KEY', '3f78dfad-7997-45e0-8428-9280ba537215'), env('BILLPLZ_X_SIGNATURE', 'S-jtSalzkEawdSZ0Mb0sqmgA'));
+        // $billplz = Client::make(env('BILLPLZ_API_KEY', '3f78dfad-7997-45e0-8428-9280ba537215'), env('BILLPLZ_X_SIGNATURE', 'S-jtSalzkEawdSZ0Mb0sqmgA'));
 
-        $bill = $billplz->bill();
-        // dd($bill);
-        $response = $bill->get($payment->billplz_id);
+        // $bill = $billplz->bill();
+        // // dd($bill);
+        // $response = $bill->get($payment->billplz_id);
         
-        $pay_data = $response->toArray();
+        // $pay_data = $response->toArray();
         
-        $addData = array(
-            'status' => $pay_data['state']
-        );
+        // $addData = array(
+        //     'status' => $pay_data['state']
+        // );
 
-        $payment->fill($addData);
-        $request->session()->put('payment', $payment);
+        // $payment->fill($addData);
+        // $request->session()->put('payment', $payment);
         
         if ($payment->status == 'paid'|| 1)
         {
