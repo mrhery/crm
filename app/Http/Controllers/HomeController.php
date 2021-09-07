@@ -43,9 +43,14 @@ class HomeController extends Controller
                     'business_type' => $request->business,
                     'business_amount' => $request->income
                 ]);
+
+                $student = $request->session()->get('student');
+                $student->save();
     
                 if($bussInsert) {
                     Session::forget('validatedIC');
+                    $request->session()->forget('student');
+                    
                     return redirect('pendaftaran-berjaya-ticket');
                 }
             }else {
@@ -58,15 +63,50 @@ class HomeController extends Controller
 
     public function ICValidation(Request $request, $ticket_id) {
         $data = Ticket::where('ticket_id', $ticket_id)->first();
-        $dataStudent = Student::where('stud_id', $data->stud_id)->first();
+        $dataStudent = Student::where('ic', $data->ic)->first();
         // dd($dataStudent->ic); // 871117065195
         if($dataStudent->ic === $request->ic) {
             Session::put('validatedIC', 1);
 
+            return redirect('user-details/'. $ticket_id);
+            // return redirect('next-details/'. $ticket_id);
+        }else {
+            return redirect('business_details/'. $ticket_id);
+        }
+    }
+
+    public function userDetails($ticket_id){
+        if(Session::get('validatedIC')) {
+            $ticket = Ticket::where('ticket_id', $ticket_id)->first();
+            $student = Student::where('ic', $ticket->ic)->first();
+            $product = Product::where('product_id', $ticket->product_id)->first();
+            
+            return view('ticket.userDetails', compact('student','product', 'ticket_id'));
+        }else {
+            return redirect('business_details/'. $ticket_id);
+        }
+    }
+
+    public function saveUserDetails(Request $request, $ticket_id) {
+        if(Session::get('validatedIC')) {
+            $validatedData = $request->validate([
+                'stud_id' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'ic' => 'required',
+                'email' => 'required',
+                'phoneno' => 'required'
+            ]);
+
+            $stud = Student::where('stud_id', $request->stud_id)->first();
+            $stud->fill($validatedData);
+            $request->session()->put('student', $stud);
+            
             return redirect('next-details/'. $ticket_id);
         }else {
             return redirect('business_details/'. $ticket_id);
         }
+        
     }
 
     public function businessForm($ticket_id) {
