@@ -13,6 +13,10 @@
                 <li class="nav-item ">
                     <a class="nav-link active" aria-current="page" href="/student/dashboard">Home</a>
                 </li>
+                {{-- shauqi add --}}
+                <li class="nav-item ">
+                    <a class="nav-link active" aria-current="page" href="{{ route('student.link') }}">Event Link</a>
+                </li>
 				
             </ul>
 

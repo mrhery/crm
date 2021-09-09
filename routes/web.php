@@ -364,6 +364,10 @@ Route::prefix('student')->group(function() {
 	Route::get('/list-invoice', 'StudentPortal@listInvoice')->name('student.listInvoice');
 	Route::get('/list-bill/{level}', 'StudentPortal@linkBill')->name('student.linkBill');
 	Route::get('/receive-payment/{stud}/{level}', 'StudentPortal@receivepayment')->name('student.receivePayment');
+
+	// shauqi add new routes
+	Route::get('/event-link', 'StudentPortal@showLink')->name('student.link');
+	Route::get('/link-detail/{product_id}', 'StudentPortal@linkDetail')->name('student.link_detail');
 });
 
 Route::prefix('staff')->group(function() {

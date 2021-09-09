@@ -7,6 +7,7 @@ use App\Student;
 use App\Product;
 use App\Package;
 use App\Payment;
+use App\Offer;
 use App\Ticket;
 use App\Membership;
 use App\Membership_Level;
@@ -369,5 +370,22 @@ class StudentPortal extends Controller
         }
 
         return redirect('/student/dashboard');
+    }
+
+    // shauqi edit
+    public function showLink() {
+        $offers = Offer::orderBy('id','desc')->get();
+        $product = Product::orderBy('id','desc')->paginate(15);
+        
+        return view('studentportal.event_links', compact('offers', 'product'));
+    }
+
+    public function linkDetail(Request $request, $product_id) {
+        $product = Product::where('product_id', $product_id)->first();
+        $package = Package::where('product_id', $product_id)->paginate(15);
+        
+        $link = request()->getSchemeAndHttpHost().'/pendaftaran/'. $product->product_id . '/';
+
+        return view('studentportal.link_detail', compact('product', 'package', 'link'));   
     }
 }
