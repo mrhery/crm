@@ -9,6 +9,7 @@ use App\Package;
 use App\Payment;
 use App\Offer;
 use App\Ticket;
+use App\Inovice;
 use App\Membership;
 use App\Membership_Level;
 use App\Comment;
@@ -19,6 +20,7 @@ use App\BussinessDetail;
 use Illuminate\Support\Facades\Hash;
 use Session;
 use App\Services\Billplz;
+use App\Invoice;
 
 class StudentPortal extends Controller
 {
@@ -94,13 +96,20 @@ class StudentPortal extends Controller
 
             if (Hash::check($validatedData['password'], $student_detail->student_password)) {
 
-                Session::put('student_login_id', $stud_id);
-                Session::put('student_detail', $student_detail);
+                if($student_detail->status != 'Deactive'){
+                    
+                    Session::put('student_login_id', $stud_id);
+                    Session::put('student_detail', $student_detail);
 
-                Session::forget('student_login');
-                Session::save();
-                
-                return redirect('/student/dashboard');
+                    Session::forget('student_login');
+                    Session::save();
+                    
+                    return redirect('/student/dashboard');
+                }else{
+                    Session::put("student_block", "fail");
+
+                    return view("studentportal.login");
+                }
 
             }else{
                 Session::put("student_login", "fail");
@@ -140,6 +149,7 @@ class StudentPortal extends Controller
             return view("studentportal.login");
 
         }else{
+            $invoices = Invoice::where('student_id', $student_authenticated)->get();
             $student_detail = Student::where('stud_id', $student_authenticated)->firstOrFail();
 
             $payment = Payment::where('stud_id', $student_authenticated)->where('status', 'paid')
@@ -307,43 +317,66 @@ class StudentPortal extends Controller
             return view("studentportal.login");
         }else{
 
+            $invoices = Invoice::where('student_id', $stud_detail->id)->where('status', 'not paid')->paginate(10);
+
             //dapatkan membership_id student
             $membership_lvl_id = $stud_detail->level_id;
 
             //dapatkan membership detail
             $membership_level = Membership_Level::where('level_id', $membership_lvl_id)->first();
 
-            //payment yang dah bayar
-            $paid_payment = Payment::where('stud_id', $stud_id)->where('status', 'paid')->get()->sortByDesc('created_at')->first();
-
-            $latest_payment = $paid_payment->created_at;
-
-            foreach (CarbonPeriod::create($latest_payment, '1 month', Carbon::today()) as $month) {
-                $months[$month->format('m-Y')] = $month->format('F Y');
-            }
-
             $no = 1;
 
-            return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'months', 'no'));
+            return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'invoices', 'no'));
         }
     }
 
-    public function linkBill($level){
+    public function searchInvoice(Request $request){
+
+        $query = $request->search;
+
+        $stud_id = Session::get('student_login_id');
+        $stud_detail = Session::get('student_detail');
+
+        if($stud_id== (null||"")){
+
+            return view("studentportal.login");
+        }else{
+
+            $invoices = Invoice::where('student_id', $stud_detail->id)
+            ->where('status', 'not paid')
+            ->where('for_date', 'LIKE','%'.$query.'%')
+            ->paginate(10);
+
+            //dapatkan membership_id student
+            $membership_lvl_id = $stud_detail->level_id;
+
+            //dapatkan membership detail
+            $membership_level = Membership_Level::where('level_id', $membership_lvl_id)->first();
+
+            $no = 1;
+
+            return view('invoice.listInvoice', compact('stud_detail', 'membership_level', 'invoices', 'no'));
+        }
+    }
+
+    public function linkBill($level, $invoice){
 
         $stud_detail = Session::get('student_detail');
         $lvl_detail = Membership_Level::where('level_id', $level)->first();
-        // dd($lvl_detail->price);
-        $link = Billplz::test_create_bill($stud_detail, $lvl_detail)->url;
-        // dd($link->url);
+
+        //test
+        $link = Billplz::test_create_bill($stud_detail, $lvl_detail, $invoice)->url;
+        
+        //real
+        // $link = Billplz::create_bill($stud_detail, $lvl_detail, $invoice)->url;
         return redirect($link);
     }
 
-    public function receivePayment(Request $request, $stud, $level){
+    public function receivePayment(Request $request, $stud, $level, $invoice){
 
-        // dd($request, $stud, $level);
         $billplz = $request->billplz;
 
-        // dd($billplz);
         $stud_detail = Student::where('stud_id', $stud)->first();
         $lvl_detail = Membership_Level::where('level_id', $level)->first();
 
@@ -359,17 +392,27 @@ class StudentPortal extends Controller
         $payment->membership_id = $lvl_detail->membership_id;
         $payment->level_id = $lvl_detail->level_id;
         $payment->billplz_id = $billplz['id'];
+        $payment->invoiceId = $invoice;
 
-        if($billplz['paid'] == true){
+        // dd($billplz['paid']);
+
+        if($billplz['paid'] == "true"){
             $payment->status = 'paid';
             $payment->save();
+
+            $invoiceDetail = Invoice::where('invoice_id',$invoice)->first();
+            $invoice = Invoice::find($invoiceDetail->id);
+            $invoice->status = 'paid';
+            $invoice->save();
+
+            return redirect('/student/success_payment');
 
         }else{
             $payment->status = 'due';
             $payment->save();
-        }
 
-        return redirect('/student/dashboard');
+            return redirect('/student/fail_payment');
+        }
     }
 
     // shauqi edit
