@@ -188,7 +188,17 @@ class HomeController extends Controller
 
     public function thankyou() 
     {
-        return view('customer/thankyou');
+        $product_link = Product::where('product_id', Session::get('product_id_session'))->first();
+        Session::forget('product_id_session');
+        
+        if(!is_null($product_link)) {
+            $product_link = $product_link->zoom_link;
+        }else {
+            $product_link = "";
+        }
+        
+        
+        return view('customer/thankyou', compact('product_link'));
     }
 
     public function failed_payment() 

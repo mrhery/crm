@@ -86,86 +86,12 @@ class customerProfileController extends Controller
             }
         }
 
-        // if($search || $price || $role) {
-        //     $customers = BusinessDetail::where('business_amount', '=', $price)
-        //     ->where('business_role', '=', $role)
-        //     ->where(function($query) use($search){
-        //         $query->where('business_name', 'LIKE', '%'.$search.'%')
-        //               ->orWhere('business_type', 'LIKE', '%'.$search.'%');
-        //     })->get();
-
-        //     if(count($customers) != 0) {
-        //         foreach($customers as $c) {
-        //             $ticketname = Ticket::where('ticket_id', $c->ticket_id);
-                    
-        //             if($ticketname->count() > 0) {
-        //                 $ticketname = $ticketname->first();
-                        
-        //                 $productname = Product::where('product_id', $ticketname->product_id)->first();
-        //                 $user = Student::where('ic', $ticketname->ic)->first();
-                        
-        //                 $c->class = $productname->name;
-        //                 $c->name = $user->first_name . " " . $user->last_name;
-        //             }else {
-        //                 $c->class = '';
-        //                 $c->name = '';
-        //             }
-        //             $business_details[] = $c;
-        //         }
-        //     }
-        // }elseif($search || $price) {
-        //     $customers = BusinessDetail::where('business_role', 'LIKE', '%'.$search.'%')
-        //     ->orWhere('business_type', 'LIKE', '%'.$search.'%')
-        //     ->orWhere('business_amount', '<', $price)
-        //     ->get();
-
-        //     if(count($customers) != 0) {
-        //         foreach($customers as $c) {
-        //             $ticketname = Ticket::where('ticket_id', $c->ticket_id);
-                    
-        //             if($ticketname->count() > 0) {
-        //                 $ticketname = $ticketname->first();
-                        
-        //                 $productname = Product::where('product_id', $ticketname->product_id)->first();
-        //                 $user = Student::where('ic', $ticketname->ic)->first();
-                        
-        //                 $c->class = $productname->name;
-        //                 $c->name = $user->first_name . " " . $user->last_name;
-        //             }else {
-        //                 $c->class = '';
-        //                 $c->name = '';
-        //             }
-        //             $business_details[] = $c;
-        //         }
-        //     }
-        // }else {
-        //     $customers = BusinessDetail::all();
-
-        //     if(count($customers) != 0) {
-        //         foreach($customers as $c) {
-        //             $ticketname = Ticket::where('ticket_id', $c->ticket_id);
-                    
-        //             if($ticketname->count() > 0) {
-        //                 $ticketname = $ticketname->first();
-                        
-        //                 $productname = Product::where('product_id', $ticketname->product_id)->first();
-        //                 $user = Student::where('ic', $ticketname->ic)->first();
-                        
-        //                 $c->class = $productname->name;
-        //                 $c->name = $user->first_name . " " . $user->last_name;
-        //             }else {
-        //                 $c->class = '';
-        //                 $c->name = '';
-        //             }
-        //             $business_details[] = $c;
-        //         }
-        //     }
-        // }
+        $role = ['Role', 'Employee', 'Dropship', 'Agent', 'Founder'];
         
         $data = $this->paginate($business_details, 10);
         $data->setPath('business_details');
 
-        return view('customer.business_details', compact('data', 'incomeOptions'));
+        return view('customer.business_details', compact('data', 'incomeOptions', 'role'));
     }
 
     public function paginate($items, $perPage, $page = null, $options = []){

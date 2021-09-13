@@ -368,6 +368,8 @@ Route::prefix('student')->group(function() {
 	Route::get('/receive-payment/{stud}/{level}', 'StudentPortal@receivepayment')->name('student.receivePayment');
 
 	// shauqi add new routes
+	
+	Route::get('/invite-list', 'StudentPortal@showList')->name('student.invite_list');
 	Route::get('/event-link', 'StudentPortal@showLink')->name('student.link');
 	Route::get('/link-detail/{product_id}', 'StudentPortal@linkDetail')->name('student.link_detail');
 	Route::get('/list-invoice/search', 'StudentPortal@searchInvoice')->name('student.searchInvoice');
