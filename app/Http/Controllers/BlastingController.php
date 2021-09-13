@@ -208,8 +208,8 @@ class BlastingController extends Controller
             $payment = Payment::where('id', $paymentIds[$i])->first();
 
             if($reqEmails[$i] != (null || "")){
-                // $payment->email_status = 'Sent';
-                // $payment->save();
+                $payment->email_status = 'Sent';
+                $payment->save();
             }
             $payment->save();
         }

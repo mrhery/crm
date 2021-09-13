@@ -365,7 +365,7 @@ Route::prefix('student')->group(function() {
 	Route::post('/bussiness-form', 'StudentPortal@bussinessForm');
 	Route::get('/list-invoice', 'StudentPortal@listInvoice')->name('student.listInvoice');
 	Route::get('/list-invoice/search', 'StudentPortal@searchInvoice')->name('student.searchInvoice');
-	Route::get('/list-bill/{level}/{invoice}', 'StudentPortal@linkBill')->name('student.linkBill');
+	Route::get('/list-bill/{level}/{invoice}/{student}', 'StudentPortal@linkBill')->name('student.linkBill');
 	Route::get('/receive-payment/{stud}/{level}/{invoice}', 'StudentPortal@receivepayment')->name('student.receivePayment');
 	Route::get('/success_payment', 'InvoiceController@success');
 	Route::get('/fail_payment', 'InvoiceController@fail');

@@ -179,6 +179,7 @@ class StudentPortal extends Controller
             $paymentMonth = Payment::where('stud_id', $student_authenticated)
             ->whereYear('created_at', Carbon::now()->year)
             ->whereMonth('created_at', Carbon::now()->month)
+            ->where('status', 'paid')
             ->get();
     
             $total_paid_month = 0;
@@ -359,9 +360,9 @@ class StudentPortal extends Controller
         }
     }
 
-    public function linkBill($level, $invoice){
+    public function linkBill($level, $invoice, $student){
 
-        $stud_detail = Session::get('student_detail');
+        $stud_detail = Student::where('stud_id', $student)->first();
         $lvl_detail = Membership_Level::where('level_id', $level)->first();
 
         //test

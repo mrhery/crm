@@ -66,7 +66,7 @@
                   {{$membership_level->price}}
                 </td>
                 <td class="text-center">
-                  <a href="/student/list-bill/{{$membership_level->level_id}}/{{$invoice->invoice_id}}" class="btn btn-success">Pay Now</a>
+                  <a href="/student/list-bill/{{$membership_level->level_id}}/{{$invoice->invoice_id}}/{{$stud_detail->stud_id}}" class="btn btn-success">Pay Now</a>
                 </td>
               </tr>
               @endforeach

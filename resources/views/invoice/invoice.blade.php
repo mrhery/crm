@@ -61,7 +61,7 @@
 			}
 
 			.invoice-box table tr td:nth-child(2) {
-				text-align: right;
+				/* text-align: right; */
 			}
 
 			.invoice-box table tr.top table td {
@@ -128,7 +128,7 @@
 									<img src="https://mims.momentuminternet.my/assets/images/logo.png" alt="Company logo" title="Company ogo" style="display:block; width: 100%; max-width: 300px" />
 								</td>
 
-								<td>
+								<td align="right">
 									Created: {{$current_date}}<br />
 								</td>
 							</tr>
@@ -147,8 +147,8 @@
                                     Johor
 								</td>
 
-								<td>
-								{{$student->first_name}}&nbsp;{{$student->last_name}}<br />
+								<td align="right">
+									{{$student->first_name}}&nbsp;{{$student->last_name}}<br />
 								</td>
 							</tr>
 						</table>
@@ -157,25 +157,31 @@
 				<tr class="heading">
 					<td>Membership</td>
 
-					<td>Price</td>
+					<td align="right">Price</td>
 				</tr>
 
 				<tr class="item">
 					<td>{{$content->name}}</td>
 
-					<td>{{$content->price}}</td>
+					<td align="right">{{$content->price}}</td>
 				</tr>
 
 				<tr class="total">
 					<td></td>
 
-					<td>
-              <h5>Total Price: {{$content->price}}</h5>
-          </td>
+					<td align="right">
+						<h5>Total Price: {{$content->price}}</h5>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="center" colspan=2>
+						<a href="{{ route('student.linkBill', ['level' => $content->level_id, 'invoice' => $invoice->invoice_id, 'student' => $student->stud_id]) }}">Pay Here</a>
+					</td>
 				</tr>
 			</table>
 
-			<a href="{{ route('student.linkBill', ['level' => $content->level_id, 'invoice' => $invoice->invoice_id]) }}">Pay Here</a>
+			
 		</div>
 	</body>
 </html>
