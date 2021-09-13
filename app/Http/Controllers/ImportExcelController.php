@@ -10,6 +10,7 @@ use App\Email;
 use App\Exports\StudentExport;
 use App\Imports\StudentImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Offer;
 
 class ImportExcelController extends Controller
 {
@@ -22,10 +23,13 @@ class ImportExcelController extends Controller
     {
         $product = Product::where('product_id', $product_id)->first();
         $package = Package::where('package_id', $package_id)->first();
+		$offer = Offer::orderBy('id','asc')->get();
         $data = Student::orderBy('id','desc')->paginate(15);
+		$emails = Email::all();
+        $count = 1;
         
 
-        return view('admin.reports.importexcel', compact('data', 'product', 'package'));
+        return view('admin.reports.importexcel', compact('data', 'product', 'package', 'offer', 'count', 'emails'));
     }
 
     public function import(Request $request, $product_id, $package_id )

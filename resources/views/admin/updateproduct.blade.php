@@ -33,7 +33,9 @@
         <div class="col-md-6">
             <label class="form-label">Offer Provided</label>
             <input name="offer_id" type="text" class="form-control" value="{{ $product->offer_id }}">
-            <em><b>OFF001</b> = No Offer; <b>OFF002</b> = Buy 1 Get 1 (Same Ticket); <b>OFF003</b> = Bulk Ticket</em>
+            @foreach($offers as $offer)
+            <em><b>{{ $offer->offer_id }}</b> = {{ $offer->name }}; </em>
+            @endforeach
             {{-- <select class="form-select" aria-label="Default select example" name="offer_id" required>
                 <option disabled selected>-- Please Select --</option>
                 @foreach($offers as $offer)
@@ -60,17 +62,17 @@
             <input type="time" name="time2" class="form-control" value="{{ $product->time_to }}" required/>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-4">
             <label class="form-label">Certificate Image</label>
             <input class="form-control" type="file" id="formFile" name="cert_image">
             <em>*Please ignore this part if there is no certificate provided for the event</em>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label class="form-label">Survey Form Link</label>
             <input name="survey_form" type="text" class="form-control" value="{{ $product->survey_form }}">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
             <label class="form-label">BillPlz Collection ID</label>
             <input name="collection_id" type="text" class="form-control" value="{{ $product->collection_id }}">
             {{-- <select class="form-select" name="collection_id">
@@ -80,13 +82,17 @@
                 @endforeach
             </select> --}}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-6">
             <label class="form-label">Dashboard Report</label>
             <select class="form-select" name="status" required>
                 <option disabled selected>-- {{ $product->status }} --</option>
                 <option value="active">Active</option>
                 <option value="deactive">Deactive</option>
             </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Zoom Link</label>
+            <input class="form-control" type="text" name="zoom_link" value="{{ $product->zoom_link}}">
         </div>
 
         <div class="col-12">

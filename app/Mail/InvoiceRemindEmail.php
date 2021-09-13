@@ -13,32 +13,31 @@ use Carbon\Carbon;
 class InvoiceRemindEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $student_id, $student;
+    protected $lvl, $student, $invoice;
 
     // public $data;
 
-    public function __construct($student_id, $student)
+    public function __construct($lvl, $student, $invoice)
     {
-        $this->student_id = $student_id;
+        $this->lvl = $lvl;
         $this->student = $student;
+        $this->invoice = $invoice;
     }
 
     public function build()
     {
-        $payment = $this->student_id;
+        $payment = $this->lvl;
 
         $currentDate = Carbon::now()->toFormattedDateString();
-
-        $product = Product::where('product_id', $payment['product_id'])->first();
 
         //content->payment
 
         return $this->view('invoice.invoice')
                     ->with([ 
-                        'contents' => $this->student_id, 
+                        'content' => $payment, 
                         'student' => $this->student, 
-                        'product' => $product,
-                        'current_date' => $currentDate
+                        'current_date' => $currentDate,
+                        'invoice' => $this->invoice
                     ]);
     }
 }

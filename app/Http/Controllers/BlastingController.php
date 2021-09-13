@@ -208,8 +208,8 @@ class BlastingController extends Controller
             $payment = Payment::where('id', $paymentIds[$i])->first();
 
             if($reqEmails[$i] != (null || "")){
-                $payment->email_status = 'Sent';
-                $payment->save();
+                // $payment->email_status = 'Sent';
+                // $payment->save();
             }
             $payment->save();
         }
@@ -218,10 +218,6 @@ class BlastingController extends Controller
 
         return redirect('view-event/'.$product_id.'/'.$package_id)->with('success', 'List email has been qued for sending with template.');
 
-        // return redirect('view-buyer/'.$product_id.'/'.$package_id)->with('importsuccess', 'The file has been inserted to queue, it may take a while to successfully import.');
-        
-
-        // dispatch(new TestJobMail($request->all(), $regex_content));
         
     }
     

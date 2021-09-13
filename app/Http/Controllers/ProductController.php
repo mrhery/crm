@@ -64,7 +64,8 @@ class ProductController extends Controller
                 'offer_id' => $request->offer_id,
                 'collection_id' => $request->collection_id,
                 'survey_form' => $request->survey_form,
-                'status' => $request->status
+                'status' => $request->status,
+                'zoom_link' => $request->zoom_link
             ]);
 
         } else {
@@ -85,7 +86,8 @@ class ProductController extends Controller
                 'offer_id' => $request->offer_id,
                 'collection_id' => $request->collection_id,
                 'survey_form' => $request->survey_form,
-                'status' => $request->status
+                'status' => $request->status,
+                'zoom_link' => $request->zoom_link
             ]);
         }
 
@@ -95,8 +97,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::where('product_id', $id)->first();
+        $offers = Offer::orderBy('id','asc')->get();
 
-        return view('admin/updateproduct', compact('product'));        
+        return view('admin/updateproduct', compact('product', 'offers'));        
     }
 
     public function update($id, Request $request)

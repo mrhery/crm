@@ -125,12 +125,11 @@
 						<table>
 							<tr>
 								<td class="title">
-									<img src="/assets/images/logo.png" alt="Company logo" style="width: 100%; max-width: 300px" />
+									<img src="https://mims.momentuminternet.my/assets/images/logo.png" alt="Company logo" title="Company ogo" style="display:block; width: 100%; max-width: 300px" />
 								</td>
 
 								<td>
 									Created: {{$current_date}}<br />
-									Due: February 1, 2015
 								</td>
 							</tr>
 						</table>
@@ -149,45 +148,34 @@
 								</td>
 
 								<td>
-									{{$student->last_name}}<br />
+								{{$student->first_name}}&nbsp;{{$student->last_name}}<br />
 								</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
-
 				<tr class="heading">
-					<td>Payment Method</td>
-
-					<td>Check #</td>
-				</tr>
-
-				<tr class="details">
-					<td>Check</td>
-
-					<td>1000</td>
-				</tr>
-
-				<tr class="heading">
-					<td>Class</td>
+					<td>Membership</td>
 
 					<td>Price</td>
 				</tr>
 
 				<tr class="item">
-					<td>{{$product->name}}</td>
+					<td>{{$content->name}}</td>
 
-					<td>{{$contents->pay_price}}</td>
+					<td>{{$content->price}}</td>
 				</tr>
 
 				<tr class="total">
 					<td></td>
 
 					<td>
-                        <h6>Total Price</h6>: {{$contents->totalprice}}
-                    </td>
+              <h5>Total Price: {{$content->price}}</h5>
+          </td>
 				</tr>
 			</table>
+
+			<a href="{{ route('student.linkBill', ['level' => $content->level_id, 'invoice' => $invoice->invoice_id]) }}">Pay Here</a>
 		</div>
 	</body>
 </html>
