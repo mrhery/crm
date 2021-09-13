@@ -373,7 +373,7 @@ Route::prefix('student')->group(function() {
 	Route::get('/event-link', 'StudentPortal@showLink')->name('student.link');
 	Route::get('/link-detail/{product_id}', 'StudentPortal@linkDetail')->name('student.link_detail');
 	Route::get('/list-invoice/search', 'StudentPortal@searchInvoice')->name('student.searchInvoice');
-	Route::get('/list-bill/{level}/{invoice}', 'StudentPortal@linkBill')->name('student.linkBill');
+	Route::get('/list-bill/{level}/{invoice}/{student}', 'StudentPortal@linkBill')->name('student.linkBill');
 	Route::get('/receive-payment/{stud}/{level}/{invoice}', 'StudentPortal@receivepayment')->name('student.receivePayment');
 	Route::get('/success_payment', 'InvoiceController@success');
 	Route::get('/fail_payment', 'InvoiceController@fail');
