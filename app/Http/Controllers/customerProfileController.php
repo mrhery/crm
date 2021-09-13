@@ -25,7 +25,6 @@ class customerProfileController extends Controller
     {
         $this->middleware('auth');
     }
-    
 
     public function customerDetails(Request $request) {
         $search = (is_null($request->query('search')) ? "" : $request->query('search'));
@@ -217,6 +216,35 @@ class customerProfileController extends Controller
         }
         
         return view('customer.customer_profile', compact('customer', 'payment', 'data', 'total_paid', 'total_event', 'member_lvl', 'total_paid_month', 'payment_data', 'ncomment'));
+    }
+
+    public function customerInvite() {
+        $staff = User::where('role_id', 'ROD005')->get(); // get staff
+        $user_list = [];
+        foreach($staff as $s) {
+            
+            $payment = Payment::where('user_invite', $s->user_id)->get();
+            $s->total = count($payment);
+            $s->role = 'Staff';
+
+            $user_list[] = $s;
+        }
+
+        $student = Student::whereNotNull('membership_id')->get();
+
+        foreach($student as $st) {
+            
+            $payment = Payment::where('user_invite', $st->user_id)->get();
+            $st->name =  $st->first_name . ' ' . $st->last_name;
+            $st->total = count($payment);
+            $st->role = 'Student';
+
+            $user_list[] = $st;
+        }
+        $data = $this->paginate($user_list, 10);
+        $data->setPath('customer-invite');
+
+        return view('customer.business_invite', compact('data'));
     }
     
     /**

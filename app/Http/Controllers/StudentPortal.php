@@ -461,7 +461,7 @@ class StudentPortal extends Controller
         }
         
         $data = $this->paginate($payment_detail, 10);
-        $data->setPath('dashboard');
+        $data->setPath('inviteList');
         $data_count = count($data);
         // dd($data);
         return view('studentportal.inviteList', compact('data', 'data_count'));
