@@ -209,6 +209,7 @@ Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile'
 Route::post('update_cust/{id}', 'customerProfileController@customerUpdate');
 Route::post('add_comment/{id}', 'customerProfileController@customerAddComment');
 Route::get('customer_details', 'customerProfileController@customerDetails');
+Route::get('customer-invite', 'customerProfileController@customerInvite')->name('staff.customer-invite');;
 
 // Newstudent
 Route::get('maklumat-pembeli/{product_id}/{package_id}/{get_ic}', 'NewCustomerController@createStepOne');
@@ -379,6 +380,12 @@ Route::prefix('student')->group(function() {
 	Route::get('/bussiness-event-details', 'StudentPortal@registerForm')->name('student.regForm');
 	Route::post('/bussiness-form', 'StudentPortal@bussinessForm');
 	Route::get('/list-invoice', 'StudentPortal@listInvoice')->name('student.listInvoice');
+
+	// shauqi add new routes
+	
+	Route::get('/invite-list', 'StudentPortal@showList')->name('student.invite_list');
+	Route::get('/event-link', 'StudentPortal@showLink')->name('student.link');
+	Route::get('/link-detail/{product_id}', 'StudentPortal@linkDetail')->name('student.link_detail');
 	Route::get('/list-invoice/search', 'StudentPortal@searchInvoice')->name('student.searchInvoice');
 	Route::get('/list-bill/{level}/{invoice}/{student}', 'StudentPortal@linkBill')->name('student.linkBill');
 	Route::get('/receive-payment/{stud}/{level}/{invoice}', 'StudentPortal@receivepayment')->name('student.receivePayment');
@@ -426,6 +433,8 @@ Route::get('next-details/{ticket_id}', 'HomeController@businessForm');
 Route::post('save-business-details/{ticket_id}', 'HomeController@saveBusinessDetails');
 Route::get('pendaftaran-berjaya-ticket','HomeController@thankyouTicket');
 
+Route::get('user-details/{ticket_id}', 'HomeController@userDetails');
+Route::post('save-user-details/{ticket_id}', 'HomeController@saveUserDetails');
 //check invoice template email
 Route::get('check_invoice', 'InvoiceController@show');
 
