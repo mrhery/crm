@@ -176,7 +176,7 @@
 
 				<tr>
 					<td align="center" colspan=2>
-						<a href="{{ route('student.linkBill', ['level' => $content->level_id, 'invoice' => $invoice->invoice_id, 'student' => $student->stud_id]) }}">Pay Here</a>
+						<a href="https://mims.momentuminternet.my/list-bill/{{$content->level_id}}/{{$invoice->invoice_id}}/{{$student->stud_id}}">Pay Here</a>
 					</td>
 				</tr>
 			</table>

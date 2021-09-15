@@ -50,9 +50,9 @@ class InvoiceCron extends Command
         $students = Student::all()->whereNotNull('level_id')->unique('email');
 
         //testing purpose
-        $students = Student::whereIn('stud_id',['M1981113016705iqbal1', 'M1981113016705iqbal2'])->whereNotNull('level_id')->get()->unique('email');
+        // $students = Student::whereIn('stud_id',['M1981113016705iqbal1', 'M1981113016705iqbal2'])->whereNotNull('level_id')->get()->unique('email');
 
-        // dispatch(new CreateInvoice($students));
+        dispatch(new CreateInvoice($students));
 
         dispatch(new InvoiceJobMail($students));
     }

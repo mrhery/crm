@@ -353,6 +353,7 @@ Route::get("/smsblast/delete/{id}", 'SmsBulk@del');
 Route::delete("/smsblast/delete/{id}", 'SmsBulk@remove');
 
 Route::prefix('student')->group(function() {
+	Route::get('/','StudentPortal@redirectLogin');
 	Route::get('/login','StudentPortal@loginForm')->name('student.login');
 	Route::post('/login', 'StudentPortal@login')->name('student.login.submit');
 	Route::get('/logout', 'StudentPortal@logout')->name('student.logout');

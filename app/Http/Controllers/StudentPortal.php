@@ -37,6 +37,17 @@ class StudentPortal extends Controller
 		}
     }
 
+    public function redirectLogin()
+    {
+        $student_authenticated = session('student_login_id');
+
+        if($student_authenticated == (null||"")){
+            return redirect(route("student.login"));
+        }else{
+            return redirect(route("student.dashboard"));
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
