@@ -25,11 +25,11 @@ Pendaftaran Pembeli
     </div>
 
     <div class="col-md-6 offset-md-3 pb-5">
-        <form action="{{ url('save1') }}/{{ $product->product_id }}/{{ $package->package_id }}/{{ $student->stud_id }}" method="POST">
+        <form action="{{ url('save-user-details') }}/{{ $ticket_id }}" method="POST">
             @csrf
 
             <div class="card px-4 py-4 shadow">
-                <div class="bg-dark text-white px-2 py-2">Langkah 1/5: Maklumat Pembeli</div>
+                <div class="bg-dark text-white px-2 py-2">Langkah 1/2: Maklumat Pembeli</div>
 
                 <div class="card-body">
 
@@ -54,11 +54,11 @@ Pendaftaran Pembeli
 
                         <div class="col-md-6 pb-2">
                             <label for="title">Nama Pertama:</label>
-                            <input type="text" value="{{ $student->first_name ?? '' }}" class="form-control" placeholder="Mohammad"  name="first_name">
+                            <input type="text" value="{{ $student->first_name ?? '' }}" class="form-control" placeholder="Mohammad"  name="first_name" style="text-transform:uppercase">
                         </div>
                         <div class="col-md-6 pb-2">
                             <label for="title">Nama Akhir:</label>
-                            <input type="text" value="{{ $student->last_name ?? '' }}" class="form-control" placeholder="Ali"  name="last_name">
+                            <input type="text" value="{{ $student->last_name ?? '' }}" class="form-control" placeholder="Ali"  name="last_name" style="text-transform:uppercase">
                         </div>
 
                         <div class="col-md-6 pb-2">
