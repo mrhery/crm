@@ -183,22 +183,21 @@ class HomeController extends Controller
     }
 
     public function thankyouTicket() {
+        // $product_link = Product::where('product_id', Session::get('product_id_session'))->first();
+        // Session::forget('product_id_session');
+        
+        // if(!is_null($product_link)) {
+        //     $product_link = $product_link->zoom_link;
+        // }else {
+        //     $product_link = "";
+        // }
+
         return view('ticket.thankyou');
     }
 
     public function thankyou() 
     {
-        $product_link = Product::where('product_id', Session::get('product_id_session'))->first();
-        Session::forget('product_id_session');
-        
-        if(!is_null($product_link)) {
-            $product_link = $product_link->zoom_link;
-        }else {
-            $product_link = "";
-        }
-        
-        
-        return view('customer/thankyou', compact('product_link'));
+        return view('customer/thankyou');
     }
 
     public function failed_payment() 
