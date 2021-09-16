@@ -16,6 +16,7 @@ use App\Comment;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\User;
+use App\StudentStaff;
 use App\BussinessDetail;
 use Illuminate\Support\Facades\Hash;
 use Session;
@@ -453,30 +454,13 @@ class StudentPortal extends Controller
     // }
 
     public function showList() {
-        $payment = Payment::where('user_invite', Session::get('student_login_id'))->get();
-        $payment_detail = [];
+        $payment = StudentStaff::where('student_invite_id', Session::get('student_login_id'))->paginate(10);
+        $count = count($payment);
 
-        if(count($payment) != 0) {
-            foreach($payment as $p) {
-                $user = Student::where('stud_id', $p->stud_id);
-
-                if($user->count() > 0) {
-                    $user = $user->first();
-                    $name = $user->first_name . " " . $user->last_name;
-                    $p->name = $name;
-                }else {
-                    $p->name = "";
-                }
-
-                $payment_detail[] = $p;
-            }
-        }
-        
-        $data = $this->paginate($payment_detail, 10);
-        $data->setPath('inviteList');
-        $data_count = count($data);
-        
-        return view('studentportal.inviteList', compact('data', 'data_count'));
+        // if($count === 0) {
+        //     dd('zero');
+        // }
+        return view('studentportal.inviteList', compact('payment', 'count'));
     }
 
     public function paginate($items, $perPage, $page = null, $options = []){

@@ -76,7 +76,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Total Invite</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data_count }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $count }}</div>
                         </div>
                         <div class="col-auto">
                           <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -127,24 +127,24 @@
           <tr>
               <th scope="col">#</th>
               <th scope="col">Name</th>
-              <th scope="col">Price</th>
-              <th scope="col">Date</th>
-              <th scope="col">Action</th>
+              <th scope="col">IC</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
           </tr>
         </thead>
         <tbody>
           @php
-            $no = (10 * ($data->currentPage() - 1));
+            $no = (10 * ($payment->currentPage() - 1));
 
           @endphp
           
-          @forelse ($data as $key => $p)
+          @forelse ($payment as $key => $p)
               <tr>
                 <th scope="row">{{ ++$no }}</th>
-                <td>{{ $p->name }}</td>
-                <td>RM{{ $p->pay_price }}.00</td>
-                <td>{{ date('d/m/Y', strtotime($p->created_at)) }}</td>
-                <td>lor3m</td>
+                <td>{{ $p->first_name }} {{ $p->last_name }}</td>
+                <td>{{ $p->ic }}</td>
+                <td>{{ $p->email }}</td>
+                <td>{{ $p->no_phone }}</td>
               </tr>
           @empty
             <tr>
@@ -153,7 +153,7 @@
           @endforelse
         </tbody>
       </table>
-      {{ $data->links() }}
+      {{ $payment->links() }}
     </div>
 
     <script>

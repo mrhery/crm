@@ -18,6 +18,7 @@ class CreateStudentstaffTable extends Migration
             $table->string('user_id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('ic')->unique();
             $table->string('email')->unique();
             $table->string('no_phone');
             $table->string('student_invite_id');

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Jobs\TiketJob;
 use App\Product;
 use App\Feature;
+use App\StudentStaff;
 use App\Package;
 use App\Payment;
 use App\Student;
@@ -35,7 +36,37 @@ class HomeController extends Controller
     }
 
     public function saveinviteCustomer(Request $request) {
-        dd($request);
+        
+        $validatedData = $request->validate([
+            'ic' => 'required|numeric',
+            'first_name'=> 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'phoneno' => 'required'
+        ]);
+
+        $studstaff_id = 'ST'.uniqid();
+
+        $studentstaff_insert = StudentStaff::create([
+            'user_id' => $studstaff_id,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'ic' => $request->ic,
+            'email' => $request->email,
+            'no_phone' => $request->phoneno,
+            'student_invite_id' => Session::get('student')
+        ]);
+
+        if($studentstaff_insert) {
+            // succcess
+            Session::forget('student');
+            return redirect('invite-customer-thankyou');
+        }
+        
+    }
+
+    public function inviteCustomerThankyou() {
+        return view('studentportal.thankyou');
     }
 
     // Business Details
