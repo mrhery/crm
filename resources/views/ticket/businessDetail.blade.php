@@ -28,7 +28,13 @@
                     <div class="pb-3 row">
                         <div class="form-group col-md-6">
                             <label for="formGroupExampleInput2">Monthly income</label>
-                            <input type="number" name="income" class="form-control" min="0" id="formGroupExampleInput2" placeholder="0" onkeypress="return isNumber(event)" required>
+                            {{-- <input type="number" name="income" class="form-control" min="0" id="formGroupExampleInput2" placeholder="0" onkeypress="return isNumber(event)" required> --}}
+                            <select id="inputState" class="form-control" name='income' required>
+                                <option value=''>Choose...</option>
+                                @foreach ($incomeOptions as $i)
+                                    <option value="{{ $i->range }}">{{ $i->range }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputState">Business Role</label>

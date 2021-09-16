@@ -46,6 +46,7 @@
         <div class="py-3" style="font-size: 24px; color: green;">
           <i class="far fa-check-circle fa-8x text-center"></i>
         </div>
+        <a class="btn btn-primary" href="{{ $product_link }}" role="button">Zoom Link</a>
         
         {{-- <div class="mx-auto py-4"> --}}
           {{-- <div class="text-center mx-auto py-1">
