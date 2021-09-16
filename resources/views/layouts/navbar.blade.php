@@ -34,10 +34,11 @@
 
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/emailblast"><i class="bi bi-envelope pr-2"></i>Email Blasting</a></li>
-						<li><a class="dropdown-item" href="/emailtemplate"><i class="bi bi-envelope pr-2"></i>Email Template</a></li>
+						<li><a class="dropdown-item" href="/emailtemplate"><i class="bi bi-palette pr-2"></i>Email Template</a></li>
                         
                         @if(Auth::user()->role_id == 'ROD003' || Auth::user()->role_id == 'ROD004')
                         @else   
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/smsblast"><i class="bi bi-chat-left-text pr-2"></i>SMS Blasting</a></li>
 						<li><a class="dropdown-item" href="/smstemplate"><i class="bi bi-chat-left-text pr-2"></i>SMS Template</a></li>
 						<li><a class="dropdown-item" href="/zoom"><i class="bi bi-camera-reels pr-2"></i>Zoom Meeting</a></li>
@@ -64,6 +65,8 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                       <li><a class="dropdown-item" href="/product"><i class="bi bi-calendar4-event pr-2"></i>Manage Event</a></li>
                       <li><a class="dropdown-item" href="/view-offer"><i class="bi bi-tags pr-2"></i>Manage Offer</a></li>
+                      <li><hr class="dropdown-divider"></li>                      
+                      <li><a class="dropdown-item" href="/collection-id"><i class="bi bi-cash-stack pr-2"></i>Collection ID</a></li>
                     </ul>
                 </li>
                 

@@ -7,7 +7,6 @@ use App\Student;
 use App\Product;
 use App\Package;
 use App\Payment;
-use App\Offer;
 use App\Ticket;
 use App\Inovice;
 use App\Membership;
@@ -40,6 +39,17 @@ class StudentPortal extends Controller
 		}else{
 			return view("studentportal.login");
 		}
+    }
+
+    public function redirectLogin()
+    {
+        $student_authenticated = session('student_login_id');
+
+        if($student_authenticated == (null||"")){
+            return redirect(route("student.login"));
+        }else{
+            return redirect(route("student.dashboard"));
+        }
     }
 
     /**
