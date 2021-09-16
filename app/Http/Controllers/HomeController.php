@@ -28,6 +28,16 @@ class HomeController extends Controller
     | 
     */
 
+    public function inviteCustomerForm($user_id) {
+        Session::put('student', $user_id);
+        
+        return view('studentportal.inviteCustomer');
+    }
+
+    public function saveinviteCustomer(Request $request) {
+        dd($request);
+    }
+
     // Business Details
     public function saveBusinessDetails(Request $request, $ticket_id) {
         

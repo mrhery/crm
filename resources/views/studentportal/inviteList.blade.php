@@ -58,21 +58,33 @@
         </div> --}}
 
         <div class="col-xl-6 col-md-6 mb-4">
-          <div class="card border-left-primary shadow h-100 py-2">
-              <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                              Total Invite</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data_count }}</div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-users fa-2x text-gray-300"></i>
-                      </div>
-                  </div>
+          <div class="card">
+            <div class="card-header"><strong>Get Staff URL link</strong></div>
+            <div class="card-body">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Link" aria-label="Recipient's username" aria-describedby="button-addon2" id="input" value="{{ Request::root() }}/invite-customer/{{ Session::get('student_login_id') }}">
+                <button class="btn btn-outline-secondary" type="button" id="clipboardCopy" data-clipboard-target="#post-shortlink">Copy</button>
               </div>
+            </div>
           </div>
-      </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Invite</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data_count }}</div>
+                        </div>
+                        <div class="col-auto">
+                          <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       {{-- <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-primary shadow h-100 py-2">
@@ -144,13 +156,13 @@
       {{ $data->links() }}
     </div>
 
-    {{-- <script>
+    <script>
       document.getElementById('clipboardCopy').addEventListener('click', clipboardCopy);
       async function clipboardCopy() {
         let text = document.querySelector("#input").value;
         await navigator.clipboard.writeText(text);
       }
-    </script> --}}
+    </script>
     
   </div>
   @endsection

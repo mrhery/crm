@@ -13,6 +13,7 @@
     
     <div class="col-md-6 offset-md-3">
         <div class="card px-4 py-4 shadow">
+            <div class="bg-dark text-white px-2 py-2">Langkah 2/2: Maklumat Bisnes</div>
             <div class="card-body">
                 <form action="{{ url('save-business-details') }}/{{ $ticket_id }}" method="POST" class="col-md-12">
                     @csrf

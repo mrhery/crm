@@ -26,6 +26,8 @@ class customerProfileController extends Controller
         $this->middleware('auth');
     }
 
+    
+
     public function customerDetails(Request $request) {
         $search = (is_null($request->query('search')) ? "" : $request->query('search'));
         $price = (is_null($request->query('price')) ? "" : $request->query('price'));
