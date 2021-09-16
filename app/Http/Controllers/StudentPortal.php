@@ -95,8 +95,6 @@ class StudentPortal extends Controller
             'password' => 'required',
         ]);
 
-        // dd(Hash::make('password'));
-
         $student_detail = Student::where('email', '=',$validatedData['email'])->first();
 
         if($student_detail == (null || "")){
@@ -109,20 +107,26 @@ class StudentPortal extends Controller
             $stud_id = $student_detail->stud_id;
 
             if (Hash::check($validatedData['password'], $student_detail->student_password)) {
+                
+                if($student_detail->status == 'Deactive'){
+                    Session::put("student_block", "fail");
 
-                if($student_detail->status != 'Deactive'){
+                    return view("studentportal.login");
                     
+                    
+                }elseif($student_detail->level_id == null || ""){
+                    Session::put("student_block", "not membership");
+
+                    return view("studentportal.login");
+                }else{
                     Session::put('student_login_id', $stud_id);
                     Session::put('student_detail', $student_detail);
 
                     Session::forget('student_login');
+                    Session::forget('student_block');
                     Session::save();
                     
                     return redirect('/student/dashboard');
-                }else{
-                    Session::put("student_block", "fail");
-
-                    return view("studentportal.login");
                 }
 
             }else{
