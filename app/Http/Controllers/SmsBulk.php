@@ -87,7 +87,7 @@ class SmsBulk extends Controller
 			}else{
 				$m = [];
 			}
-			
+            
 			$x = Excel::import(new SMSBulkImport($t->id, $m), request()->file('file'));
 			
 			return redirect("smsblast")->with('success', 'Messages has been qued for sending with template '. $t->title .'.');

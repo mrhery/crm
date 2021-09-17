@@ -49,8 +49,8 @@ class SMSBulkSender implements ShouldQueue
 			}
 			
 			if(isset($row["phone_no"])){
-				$phone_no = $row["phone_no"];
-			
+                $phone_no = $row["phone_no"];
+                
 				Http::get('http://cloudsms.trio-mobile.com/index.php/api/bulk_mt?api_key='. env("TRIO_KEY") .'&action=send&to='. $phone_no .'&msg='. $message .'&sender_id=CLOUDSMS&content_type=1&mode=shortcode');
 				
 				SMSBulkModel::create([

@@ -415,12 +415,12 @@ Route::get('/zoom', 'ZoomController@index');
 Route::get('/zoom/search', 'ZoomController@search')->name('zoomSearch');
 Route::get('/zoom/add', 'ZoomController@create');
 Route::post('/zoom/add', 'ZoomController@store');
-Route::get('/zoom/{zoom}/{webinar}', 'ZoomController@showParticipants');
-Route::get('/zoom/participantSearch/{zoom}/{webinar}', 'ZoomController@participantSearch')->name('participantSearch');
 Route::get('/zoom/edit/{zoom}', 'ZoomController@edit');
 Route::put('/zoom/edit/{zoom}', 'ZoomController@update');
 Route::get('/zoom/delete/{zoom}', 'ZoomController@del');
 Route::delete('/zoom/delete/{zoom}', 'ZoomController@destroy');
+Route::get('/zoom/{zoom}/{webinar}', 'ZoomController@showParticipants');
+Route::get('/zoom/participantSearch/{zoom}/{webinar}', 'ZoomController@participantSearch')->name('participantSearch');
 
 Route::post("/ajax", 'ChatAPI@index');
 

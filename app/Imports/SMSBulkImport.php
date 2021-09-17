@@ -22,7 +22,7 @@ class SMSBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
     }
 
     public function collection(Collection $rows)
-    {	
+    {
         dispatch(new SMSBulkSender($rows, $this->_templateId, $this->_regexData));
     }
 
