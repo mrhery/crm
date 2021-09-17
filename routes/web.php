@@ -177,7 +177,7 @@ Route::post('updaterole/{id}', 'AdminController@updaterole');
 Route::get('deleterole/{id}', 'AdminController@deleterole');
 Route::get('create', 'AdminController@create');
 Route::post('adduser', 'AdminController@adduser');
-Route::get('update/{id}', 'AdminController@update');
+Route::get('update/{id}', 'AdminController@update')->name('updateUser');
 Route::post('updateuser/{id}', 'AdminController@updateuser');
 Route::get('deleteuser/{id}', 'AdminController@destroy');
 
@@ -209,7 +209,7 @@ Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile'
 Route::post('update_cust/{id}', 'customerProfileController@customerUpdate');
 Route::post('add_comment/{id}', 'customerProfileController@customerAddComment');
 Route::get('customer_details', 'customerProfileController@customerDetails');
-Route::get('customer-invite', 'customerProfileController@customerInvite')->name('staff.customer-invite');;
+// Route::get('customer-invite', 'customerProfileController@customerInvite')->name('staff.customer-invite');
 
 // Newstudent
 Route::get('maklumat-pembeli/{product_id}/{package_id}/{get_ic}', 'NewCustomerController@createStepOne');
@@ -438,6 +438,10 @@ Route::post('save-user-details/{ticket_id}', 'HomeController@saveUserDetails');
 //check invoice template email
 Route::get('check_invoice', 'InvoiceController@show');
 
+// shauqi add for student invite customer
+Route::get('invite-customer/{user_id}', 'HomeController@inviteCustomerForm');
+Route::post('save-customer', 'HomeController@saveinviteCustomer');
+Route::get('invite-customer-thankyou', 'HomeController@inviteCustomerThankyou');
 
 
 
