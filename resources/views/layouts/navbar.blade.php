@@ -121,7 +121,7 @@
 </nav>
 
 <script>
-var wsn = new WebSocket("ws://{{ env('CS_WS_Server') }}/notify");
+var wsn = new WebSocket("{{ env('CS_WS_Server') }}notify");
 
 wsn.onopen = function(){
 	console.log("Server Open");

@@ -443,6 +443,8 @@ Route::get('invite-customer/{user_id}', 'HomeController@inviteCustomerForm');
 Route::post('save-customer', 'HomeController@saveinviteCustomer');
 Route::get('invite-customer-thankyou', 'HomeController@inviteCustomerThankyou');
 
+Route::get('/sample-customer', 'SampleCustomer@index');
+
 
 
 
