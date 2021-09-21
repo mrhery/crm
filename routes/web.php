@@ -209,7 +209,7 @@ Route::get('customer_profiles/{id}', 'customerProfileController@customerProfile'
 Route::post('update_cust/{id}', 'customerProfileController@customerUpdate');
 Route::post('add_comment/{id}', 'customerProfileController@customerAddComment');
 Route::get('customer_details', 'customerProfileController@customerDetails');
-// Route::get('customer-invite', 'customerProfileController@customerInvite')->name('staff.customer-invite');
+//Route::get('customer-invite', 'customerProfileController@customerInvite')->name('staff.customer-invite');;
 
 // Newstudent
 Route::get('maklumat-pembeli/{product_id}/{package_id}/{get_ic}', 'NewCustomerController@createStepOne');
@@ -444,7 +444,6 @@ Route::post('save-customer', 'HomeController@saveinviteCustomer');
 Route::get('invite-customer-thankyou', 'HomeController@inviteCustomerThankyou');
 
 Route::get('/sample-customer', 'SampleCustomer@index');
-
 
 
 
