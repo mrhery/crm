@@ -101,7 +101,7 @@ class MyChat implements MessageComponentInterface {
 							case "subject":
 								switch($msg->option){
 									case "list":
-										$cts = chat_topic::list(["order" => "id DESC"]);
+										$cts = chat_topic::list(["order" => "id,status DESC"]);
 										
 										$data = [];
 										
@@ -137,8 +137,32 @@ class MyChat implements MessageComponentInterface {
 										$from->send($r);
 									break;
 									
-									case "create":
-									
+									case "close":
+										$ct = chat_topic::getBy(["ukey" => $msg->ct]);
+										
+										if(count($ct)){
+											$ct = $ct[0];
+											
+											chat_topic::updateBy(["id" => $ct->id], [
+												"status" => 1, 
+												"updated_at" => date("Y-m-d H:i:s\ ")
+											]);
+											
+											$from->send(json_encode([
+												"action"	=> "subject",
+												"option"	=> "close",
+												"data"		=> [
+													"ct"	=> $msg->ct
+												]
+											]));
+											
+											if(isset($this->users[$ct->user_chat])){
+												$this->users[$ct->user_chat]->send(json_encode([
+													"action"	=> "subject",
+													"option"	=> "close"
+												]));
+											}
+										}										
 									break;
 									
 									case "update":
@@ -249,6 +273,62 @@ class MyChat implements MessageComponentInterface {
 				default:
 					if(isset($this->users[$us[2]])){
 						switch($msg->action){
+							case "register-student":
+								$uc = user_chat::getBy(["channel" => $msg->data->key]);
+								
+								if(count($uc)){
+									$uc = $uc[0];
+									$d = $mdg->data;
+									$ukey = F::UniqKey();
+									
+									chat_topic::insertInto([
+										"created_at"=> date("Y-m-d H:i:s\ "),
+										"updated_at"=> date("Y-m-d H:i:s\ "),
+										"title"		=> $d->subject,
+										"status"	=> 0,
+										"user_chat"	=> $uc->channel,
+										"ukey"		=> $ukey
+									]);
+									
+									$ct = chat_topic::getBy(["ukey" => $ukey]);
+									
+									if(count($ct)){
+										$ct = $ct[0];
+										
+										chat::insertInto([
+											"created_at"=> date("Y-m-d H:i:s\ "),
+											"updated_at"=> date("Y-m-d H:i:s\ "),
+											"topic_id"	=> $ct->id,
+											"user_chat"	=> $uc->channel,
+											"user_id"	=> 0,
+											"stud_id"	=> 0,
+											"message"	=> $d->subject,
+											"status"	=> 0
+										]);
+										
+										$from->send(json_encode([
+											"status"	=> "success",
+											"action"	=> "register",
+											"message"	=> "Chat service is ready!",
+											"data"		=> [
+												"ct"	=> $ukey
+											]
+										]));
+										
+										foreach($this->admin as $ad){
+											$ad->send(json_encode([
+												"action"	=> "subject",
+												"option"	=> "create",
+												"data"		=> [
+													"ct"	=> $ct,
+													"uc"	=> $uc
+												]
+											]));
+										}
+									}
+								}
+							break;
+							
 							case "register":
 								$d = $msg->data;
 								
