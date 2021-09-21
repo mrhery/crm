@@ -10,13 +10,11 @@ use App\Payment;
 use App\Ticket;
 use App\Inovice;
 use App\Membership;
-use App\Offer;
 use App\Membership_Level;
 use App\Comment;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\User;
-use App\StudentStaff;
 use App\BussinessDetail;
 use Illuminate\Support\Facades\Hash;
 use Session;
@@ -97,6 +95,8 @@ class StudentPortal extends Controller
             'password' => 'required',
         ]);
 
+        // dd(Hash::make('password'));
+
         $student_detail = Student::where('email', '=',$validatedData['email'])->first();
 
         if($student_detail == (null || "")){
@@ -109,8 +109,7 @@ class StudentPortal extends Controller
             $stud_id = $student_detail->stud_id;
 
             if (Hash::check($validatedData['password'], $student_detail->student_password)) {
-                
-                if($student_detail->status == 'Deactive'){
+				if($student_detail->status == 'Deactive'){
                     Session::put("student_block", "fail");
 
                     return view("studentportal.login");
@@ -130,7 +129,6 @@ class StudentPortal extends Controller
                     
                     return redirect('/student/dashboard');
                 }
-
             }else{
                 Session::put("student_login", "fail");
 
@@ -438,29 +436,26 @@ class StudentPortal extends Controller
 
     // shauqi edit
     // public function showLink() {
-    //     $offers = Offer::orderBy('id','desc')->get();
-    //     $product = Product::orderBy('id','desc')->paginate(15);
+        // $offers = Offer::orderBy('id','desc')->get();
+        // $product = Product::orderBy('id','desc')->paginate(15);
         
-    //     return view('studentportal.event_links', compact('offers', 'product'));
+        // return view('studentportal.event_links', compact('offers', 'product'));
     // }
 
     // public function linkDetail(Request $request, $product_id) {
-    //     $product = Product::where('product_id', $product_id)->first();
-    //     $package = Package::where('product_id', $product_id)->paginate(15);
+        // $product = Product::where('product_id', $product_id)->first();
+        // $package = Package::where('product_id', $product_id)->paginate(15);
         
-    //     $link = request()->getSchemeAndHttpHost().'/pendaftaran/'. $product->product_id . '/';
+        // $link = request()->getSchemeAndHttpHost().'/pendaftaran/'. $product->product_id . '/';
 
-    //     return view('studentportal.link_detail', compact('product', 'package', 'link'));   
+        // return view('studentportal.link_detail', compact('product', 'package', 'link'));   
     // }
 
     public function showList() {
-        $payment = StudentStaff::where('student_invite_id', Session::get('student_login_id'))->paginate(10);
+		$payment = StudentStaff::where('student_invite_id', Session::get('student_login_id'))->paginate(10);
         $count = count($payment);
-
-        // if($count === 0) {
-        //     dd('zero');
-        // }
-        return view('studentportal.inviteList', compact('payment', 'count'));
+		
+		return view('studentportal.inviteList', compact('payment', 'count'));
     }
 
     public function paginate($items, $perPage, $page = null, $options = []){

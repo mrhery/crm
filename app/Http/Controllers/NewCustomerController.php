@@ -453,9 +453,9 @@ class NewCustomerController extends Controller
     {
         $student = $request->session()->get('student');
         $payment = $request->session()->get('payment');
-
-        Session::put('product_id_session', $product_id);
-        
+		
+		Session::put('product_id_session', $product_id);
+		
         $addDataPassword = array(
             'student_password' => ""
         );
@@ -528,6 +528,14 @@ class NewCustomerController extends Controller
                 $student_id = $student->stud_id;
                 $ticket_id = $ticket->ticket_id;
                 $survey_form = $product->survey_form;
+
+                //update participant form to database
+                $updateform = array(
+                    'update_count' => 1
+                );
+
+                $payment->fill($updateform);
+                $request->session()->put('payment', $payment);
     
                 $student->save();
                 $payment->save();
@@ -626,7 +634,15 @@ class NewCustomerController extends Controller
                 $student_id = $student->stud_id;
                 $ticket_id = $ticket->ticket_id;
                 $survey_form = $product->survey_form;
-    
+                
+                //update participant form to database
+                $updateform = array(
+                    'update_count' => 1
+                );
+
+                $payment->fill($updateform);
+                $request->session()->put('payment', $payment);
+
                 $student->save();
                 $payment->save();
                 $ticket->save();
