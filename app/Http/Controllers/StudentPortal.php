@@ -109,7 +109,10 @@ class StudentPortal extends Controller
             Session::put("student_login", "fail");
 
             return redirect('/student/login');
-        }else{
+        }elseif(Session::has('student_login_id')){
+            return redirect(route('student.dashboard'));
+        }
+        else{
 
             $stud_id = $student_detail->stud_id;
 
@@ -121,13 +124,14 @@ class StudentPortal extends Controller
                     
                     
                 }elseif($student_detail->level_id == null || ""){
+                    Session::forget("student_block", "success");
                     Session::put("student_block", "not membership");
 
                     return view("studentportal.login");
                 }else{
 
                     if($student_chat == null){
-                        
+
                         $userChat = new UserChatModel();
 
                         $userChat->name = $student_detail->first_name.$student_detail->last_name;
@@ -150,10 +154,11 @@ class StudentPortal extends Controller
 
                     Session::put('student_login_id', $stud_id);
                     Session::put('student_detail', $student_detail);
+                    Session::put("student_block", "success");
+                    Session::save();
 
                     Session::forget('student_login');
                     Session::forget('student_block');
-                    Session::save();
                     
                     return redirect('/student/dashboard');
                 }
