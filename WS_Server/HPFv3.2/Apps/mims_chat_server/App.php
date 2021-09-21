@@ -236,7 +236,7 @@ class MyChat implements MessageComponentInterface {
 												"user_chat"		=> $us[2],
 												"stud_id"		=> 0,
 												"user_id"		=> $us[2],
-												"message"		=> $msg->message,
+												"message"		=> F::Encode64(htmlspecialchars(F::Decode64($msg->message))),
 												"topic_id"		=> $ct->id,
 												"status"		=> 0
 											]);
@@ -246,7 +246,7 @@ class MyChat implements MessageComponentInterface {
 													"action"	=> "chat",
 													"option"	=> "chat",
 													"data"		=> [
-														"message"	=> $msg->message
+														"message"	=> F::Encode64(htmlspecialchars(F::Decode64($msg->message)))
 													]
 												]));
 											}
@@ -284,7 +284,7 @@ class MyChat implements MessageComponentInterface {
 									chat_topic::insertInto([
 										"created_at"=> date("Y-m-d H:i:s\ "),
 										"updated_at"=> date("Y-m-d H:i:s\ "),
-										"title"		=> $d->subject,
+										"title"		=> F::Encode64(htmlspecialchars(F::Decode64($d->subject))),
 										"status"	=> 0,
 										"user_chat"	=> $uc->channel,
 										"ukey"		=> $ukey
@@ -302,7 +302,7 @@ class MyChat implements MessageComponentInterface {
 											"user_chat"	=> $uc->channel,
 											"user_id"	=> 0,
 											"stud_id"	=> 0,
-											"message"	=> $d->subject,
+											"message"	=> F::Encode64(htmlspecialchars(F::Decode64($d->subject))),
 											"status"	=> 0
 										]);
 										
@@ -333,9 +333,9 @@ class MyChat implements MessageComponentInterface {
 								$d = $msg->data;
 								
 								user_chat::insertInto([
-									"name"		=> $d->name,
-									"phone"		=> $d->phone,
-									"email"		=> $d->email,
+									"name"		=> htmlspecialchars($d->name),
+									"phone"		=> htmlspecialchars($d->phone),
+									"email"		=> htmlspecialchars($d->email),
 									"channel"	=> $us[2],
 									"stud_id"	=> 0,
 									"topic_id"	=> 0,
@@ -354,7 +354,7 @@ class MyChat implements MessageComponentInterface {
 									chat_topic::insertInto([
 										"created_at"=> date("Y-m-d H:i:s\ "),
 										"updated_at"=> date("Y-m-d H:i:s\ "),
-										"title"		=> $d->subject,
+										"title"		=> F::Encode64(htmlspecialchars(F::Decode64($d->subject))),
 										"status"	=> 0,
 										"user_chat"	=> $us[2],
 										"ukey"		=> $ukey
@@ -372,7 +372,7 @@ class MyChat implements MessageComponentInterface {
 											"user_chat"	=> $uc->channel,
 											"user_id"	=> 0,
 											"stud_id"	=> 0,
-											"message"	=> $d->subject,
+											"message"	=> F::Encode64(htmlspecialchars(F::Decode64($d->subject))),
 											"status"	=> 0
 										]);
 										
@@ -458,7 +458,7 @@ class MyChat implements MessageComponentInterface {
 												"user_chat"		=> $us[2],
 												"stud_id"		=> 0,
 												"user_id"		=> 0,
-												"message"		=> $msg->message,
+												"message"		=> F::Encode64(htmlspecialchars(F::Decode64($msg->message))),
 												"topic_id"		=> $ct->id,
 												"status"		=> 0
 											]);
@@ -468,7 +468,7 @@ class MyChat implements MessageComponentInterface {
 													"action"	=> "chat",
 													"option"	=> "chat",
 													"data"		=> [
-														"message"	=> $msg->message,
+														"message"	=> F::Encode64(htmlspecialchars(F::Decode64($msg->message))),
 														"ct"		=> $ct->ukey
 													]
 												]));
